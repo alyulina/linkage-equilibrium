@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amsfonts,amssymb,mathtools,nicefrac,cases,empheq, enumitem}
+\usepackage{xcolor,tikz,graphicx}
+
+% Formatting
+\usepackage[utf8]{inputenc}
+\usepackage[top=1in, bottom=1in, right=1in, left=1in]{geometry} % page margins
+\setlength{\parindent}{0 pt} % paragraph left indentation
+\setlength{\parskip}{36 pt} % before paragraph spacing
+\renewcommand{\baselinestretch}{1.25} % between-line spacing
+\usepackage{titlesec,float} % sections spacing + indent first paragraph in section, placing figures
+\titlespacing*{\section}{0 pt}{0 pt}{0 pt} % title spacing
+\titlespacing*{\subsection}{0 pt}{0 pt}{0 pt}
+\setlength{\abovecaptionskip}{6 pt} % moving figure captures up
+%\setlength{\abovecaptionskip}{-12 pt} % reducing space below figures
+\allowdisplaybreaks
+
+
+\title{\vspace{-36 pt} \Large Perturbative solution of the $z(\tau')$ characteristic in the limit that $\rho$ is small \vspace{-36 pt}}
+\date{}
+
+\begin{document}
+%\maketitle
+We are interested in the linkage equilibrium statistic $\Lambda(f_0)$, defined as
+\begin{align}
+    \Lambda(f_0) \equiv \frac{\left\langle f_{ab}f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}.
+\end{align}
+In the limit that $f_{Ab}$, $f_{aB}$, $f_{AB} \ll1$, 
+\begin{align}
+    \Lambda(f_0) \approx \frac{\left\langle f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}.
+\end{align}
+The moments follows from 
+\begin{align}
+    \left\langle f_{Ab}f_{aB}f_{AB}\right\rangle
+    = f_0^{m} \frac{(-1)^{m}\partial^{m}}{\partial x^i \partial y^j \partial z^k} H(x, y, z, t) \bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}},
+\end{align}
+where $m = i+j+k$ and 
+\begin{align}
+    H(x, y, z, t) \equiv \left\langle e^{-x\frac{f_{Ab}(t)}{f_0}-y\frac{f_{aB}(t)}{f_0}-z\frac{f_{AB}(t)}{f_0}} \right\rangle 
+\end{align}
+is the joint moment generating function. The weighted moments can be obtained as
+\begin{align}\label{eq:lambda_numerator}
+    \left\langle f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+    = -f_0^3 \frac{\partial^3}{\partial x \partial y \partial z} \lim_{t\to\infty} H(x+1, y+1, z+2, t)
+\end{align}
+and 
+\begin{align}\label{eq:lambda_denominator}
+    \left\langle f_{A}f_{B} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &=
+    %\left\langle f_{Ab}f_{aB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle 
+    %+ \left\langle f_{Ab}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \\
+    %&\quad + \left\langle f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle 
+    %+ \left\langle f_{AB}^2 \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \\
+    %& \quad = 
+    f_0^2 \left[\frac{\partial^2}{\partial x \partial y} + \frac{\partial^2}{\partial x \partial z} + \frac{\partial^2}{\partial y \partial z} + \frac{\partial^2}{\partial z^2}\right] \lim_{t\to\infty} H(x+1, y+1, z+2, t).
+\end{align}
+
+
+In the limit that $\theta = 2N\mu$ and $f_0$ are both small compared to one, 
+\begin{align}\label{eq:h_expansion}
+    H(x, y, z, \tau) &\approx 1 -\theta (H_A + H_B)
+    + \frac{\theta^2}{2}\left(H_A + H_B\right)^2 \\
+    &\quad + \theta^2f_0\Upsilon + \theta^2f_0\int_0^{\tau}d \tau' z(\tau') \left[\Phi_x(\tau')+\Phi_y(\tau')-\rho\Phi_x(\tau')\Phi_y(\tau')\right] \\
+    &\quad + \mathcal{O}(f_0^2) +\mathcal{O}(\theta^3),
+\end{align}
+where $\tau = \nicefrac{t}{2Nf_0}$, $\gamma_A = 2Ns_Af_0$, $\gamma_B = 2Ns_Bf_0$, $\rho = 2NRf_0$, and 
+\begin{align}
+    H_A(x, \tau) &\equiv \ln \left[1 + \frac{x(1-e^{-\gamma_A\tau})}{\gamma_A}\right], \\
+    H_B(y, \tau) &\equiv \ln \left[1 + \frac{y(1-e^{-\gamma_B\tau})}{\gamma_B}\right], \\\nonumber\\
+    \Phi_x(\tau, \tau') &\equiv -\frac{[ 1-e^{-\gamma_A (\tau-\tau')} ][\gamma_A+x(1-e^{-\gamma_A \tau'})]}{\gamma_A \left[ \gamma_A+x(1-e^{-\gamma_A \tau}) \right]}, \\
+    \Phi_y(\tau,\tau') &\equiv -\frac{[1-e^{-\gamma_B (\tau-\tau')}][\gamma_B+y(1-e^{-\gamma_B \tau'})]}{\gamma_A \left[ \gamma_B+y(1-e^{-\gamma_B \tau}) \right]}, \\\nonumber\\
+    \Upsilon(x, y, \tau) &= \int_0^{\tau} d\tau' \rho \left[x(\tau') + y(\tau')\right]\Phi_x(\tau')\Phi_y(\tau').
+\end{align}
+
+The characteristic $z(\tau')$ is defined by 
+\begin{align}\label{eq:z_general_eq}
+    \partial_{\tau'} z(\tau') = -(\gamma_{AB} + \rho) z(\tau') - z^2(\tau') + \rho \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \rho \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}
+\end{align}
+with the initial condition $z(0)=z$, where $\gamma_{AB} = \gamma_A + \gamma_B + \gamma_{\epsilon}$. In the absence of recombination, the equation above has an exact solution, 
+\begin{align}
+    z_0(\tau') = \frac{\gamma_{AB}ze^{-\gamma_{AB}\tau'}}{\gamma_{AB}+z(1-e^{-\gamma_{AB}\tau'})}.
+\end{align}
+In the limit that $\rho \ll 1$, corrections to the zeroth-order solution can be found by perturbatively expanding $z(\tau')$ as
+\begin{align}\label{eq:z_series}
+    z(\tau') \approx z_0 + \sum_{i=1}^{\infty} z_i\rho^{i}.
+\end{align}
+Plugging the series expansion in the equation for $z(\tau')$ and matching the coefficients in front powers of $\rho$, we obtain 
+\begin{align}
+        \partial_{\tau'}z_1(\tau') \approx -\gamma_{AB}z_1(\tau') -2z_0(\tau')z_1(\tau') - z_0(\tau') + \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}.
+\end{align}
+
+
+In the limit that $\gamma_A$, $\gamma_B$, and $\gamma_{\epsilon}$ are small compared to both $\rho$ and 1, the equation above reduces to
+\begin{align}\label{eq:z_neutral_eq}
+    \partial_{\tau'}z_1(\tau') &\approx - \frac{2z}{1+z\tau'}z_1(\tau') - \frac{z}{1+z\tau'} + \frac{x}{1+x\tau'} + \frac{y}{1+y\tau'}.
+\end{align}
+This inhomogeneous linear ordinary differential equation can be solved by the method of variation of constants. The corresponding homogeneous equation 
+\begin{align}
+    \partial_{\tau'}z_1(\tau') &\approx - \frac{2z}{1+z\tau'}z_1(\tau')
+\end{align}
+has solution in the form
+\begin{align}\label{eq:z_1_homogeneous_u}
+    z_1(\tau') \approx \frac{u(\tau')}{(1+z\tau')^2},
+\end{align}
+where $u(\tau')$ is some function of $\tau'$. Plugging Eq. (\ref{eq:z_1_homogeneous_u}) into Eq. (\ref{eq:z_neutral_eq}), we obtain
+\begin{align}
+    \partial_{\tau'} u(\tau') \approx - z(1+z\tau') + \frac{x(1+z\tau')^2}{1+x\tau'} + \frac{y(1+z\tau')^2}{1+y\tau'},
+\end{align}
+from where
+\begin{align}
+    u(\tau') &\approx - \int z(1+z\tau') \,d\tau'\
+    + \int \frac{x(1+z\tau')^2}{1+x\tau'} \,d\tau'\
+    + \int \frac{y(1+z\tau')^2}{1+y\tau'} \,d\tau'\, \\
+    &= - \frac{1}{2} (1+z\tau')^2 
+    + \left(\frac{x-z}{x}\right)^2\ln(1+x\tau')
+    + \left(\frac{y-z}{y}\right)^2\ln(1+y\tau') \\
+    % I am not sure if the next two terms are correct
+    &\quad + \frac{1}{2}\frac{z^2}{x^2}(1+x\tau')^2
+    + \frac{1}{2}\frac{z^2}{y^2}(1+y\tau')^2
+    + 4z\tau' + C,
+\end{align}
+where 
+\begin{align}
+    C = 1 - \frac{1}{2}z^2\left(\frac{1}{x^2} + \frac{1}{y^2}\right)
+\end{align} is a constant determined by the initial condition $u(0)=0$. Then, 
+\begin{align}\label{eq:z_1}
+    z_1(\tau') &\approx - \frac{1}{2} 
+    + \frac{(x-z)^2}{x^2(1+z\tau')^2}\ln(1+x\tau')
+    + \frac{(y-z)^2}{y^2(1+z\tau')^2}\ln(1+y\tau') \\
+    % I am not sure if the next two terms are correct
+    &\quad + \frac{1}{2}\frac{z^2}{x^2}\frac{(1+x\tau')^2-1}{(1+z\tau')^2}
+    + \frac{1}{2}\frac{z^2}{y^2}\frac{(1+y\tau')^2-1}{(1+z\tau')^2}
+    + \frac{1+4z\tau'}{(1+z\tau')^2}.
+\end{align}
+Substituting Eq. (\ref{eq:z_1}) into Eq. (\ref{eq:z_series}), we find
+\begin{align}
+    z(\tau') &\approx \frac{z}{1+z\tau'} 
+    - \frac{\rho}{2}
+    + \rho\frac{(x-z)^2}{x^2(1+z\tau')^2}\ln(1+x\tau')
+    + \rho\frac{(y-z)^2}{y^2(1+z\tau')^2}\ln(1+y\tau') \\
+    % I am not sure if the next two terms are correct
+    &\quad + \frac{\rho}{2}\frac{z^2}{x^2}\frac{(1+x\tau')^2-1}{(1+z\tau')^2}
+    + \frac{\rho}{2}\frac{z^2}{y^2}\frac{(1+y\tau')^2-1}{(1+z\tau')^2}
+    + \rho\frac{1+4z\tau'}{(1+z\tau')^2} + \mathcal{O}(\rho^2).
+\end{align}
+
+Thus, the terms in Eq. (\ref{eq:h_expansion}) that will contribute to Eq. (\ref{eq:lambda_numerator}) are 
+\begin{align}
+    \quad & \quad \theta^2\rho f_0 (y-z)^2 \int_0^{\tau} \frac{\ln(1+y\tau')}{y^2(1+z\tau')^2} \Phi_x(\tau') \,d\tau'
+    + \theta^2\rho f_0 (x-z)^2\int_0^{\tau} \frac{\ln(1+x\tau')}{x^2(1+z\tau')^2} \Phi_y(\tau') \,d\tau' \\\nonumber\\
+    \quad &+ \theta^2\rho f_0\frac{1}{2}\frac{z^2}{y^2}\int_0^{\tau}  \frac{(1+y\tau')^2-1}{(1+z\tau')^2}\Phi_x(\tau') \,d\tau'
+    + \theta^2\rho f_0\frac{1}{2}\frac{z^2}{x^2}\int_0^{\tau} \frac{(1+x\tau')^2-1}{(1+z\tau')^2}\Phi_y(\tau') \,d\tau'\\\nonumber\\
+    \quad &-\theta^2\rho f_0 z\int_0^{\tau} \frac{1}{1+z\tau'} \Phi_x(\tau')\Phi_y(\tau') \,d\tau'.
+\end{align}
+
+
+\end{document}
