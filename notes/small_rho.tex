@@ -156,21 +156,36 @@ Thus, the terms in Eq. (\ref{eq:h_expansion}) that will contribute to Eq. (\ref{
     &+ \left. \left(\frac{x-z}{x}\right)^2 \int_0^{\tau} \frac{\ln(1+x\tau')}{(1+z\tau')^2} \Phi_y(\tau') \,d\tau' \right. \\\nonumber
     &+ \left. \frac{1}{2} \left(\frac{z}{y}\right)^2 \int_0^{\tau}  \frac{(1+y\tau')^2-1}{(1+z\tau')^2}\Phi_x(\tau') \,d\tau' \right. \\\nonumber
     &+ \left. \frac{1}{2} \left(\frac{z}{x}\right)^2 \int_0^{\tau} \frac{(1+x\tau')^2-1}{(1+z\tau')^2}\Phi_y(\tau') \,d\tau' \right. \\\nonumber
-    &- \left.  z\int_0^{\tau} \frac{1}{1+z\tau'} \Phi_x(\tau')\Phi_y(\tau') \,d\tau'\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}} \\\nonumber
+    &- \left.  z\int_0^{\tau} \frac{1}{1+z\tau'} \Phi_x(\tau')\Phi_y(\tau') \,d\tau'\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}}.
     %=&- \theta^2\rho f_0 \left(\frac{y-z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau} \frac{(\tau-\tau')(1+x\tau')}{(1+z\tau')^2} \ln(1+y\tau') \,d\tau' \\\nonumber
     %&- \theta^2\rho f_0 \left(\frac{x-z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(\tau-\tau')(1+y\tau')}{(1+z\tau')^2} \ln(1+x\tau') \,d\tau' \\\nonumber
     %&+ \theta^2\rho f_0\frac{1}{2} \left(\frac{z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau}  \frac{(1+y\tau')^2-1}{(1+z\tau')^2} (\tau-\tau')(1+x\tau') \,d\tau' \\\nonumber
     %&+ \theta^2\rho f_0\frac{1}{2} \left(\frac{z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(1+x\tau')^2-1}{(1+z\tau')^2} (\tau-\tau')(1+y\tau') \,d\tau'\\\nonumber
     %&- \theta^2\rho f_0 z\int_0^{\tau} \frac{1}{1+z\tau'} \Phi_x(\tau')\Phi_y(\tau') \,d\tau'
     %x and y are symmetric!
-    =&\rho \theta^2 f_0^4 \frac{\partial^3}{\partial x \partial y \partial z} \left[ \left(\frac{y-z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau} \frac{1+x\tau'}{(1+z\tau')^2} \ln(1+y\tau') (\tau-\tau') \,d\tau' \right. \\\nonumber
-    &+ \left. \left(\frac{x-z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{1+y\tau'}{(1+z\tau')^2} \ln(1+x\tau') (\tau-\tau') \,d\tau' \right. \\\nonumber
-    &- \left. \frac{1}{2} \left(\frac{z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau}  \frac{(1+y\tau')^2(1+x\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
-    &+ \left. \frac{1}{2} \left(\frac{z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau}  \frac{1+x\tau'}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
-    &- \left. \frac{1}{2} \left(\frac{z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(1+x\tau')^2(1+y\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
-    &+ \left. \frac{1}{2} \left(\frac{z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(1+y\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
-    &+ \left. \frac{z}{(1+x\tau)(1+y\tau)}\int_0^{\tau} \frac{(1+x\tau')(1+y\tau')}{(1+z\tau')} (\tau-\tau')^2 \,d\tau' \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}}
+    %=&\rho \theta^2 f_0^4 \frac{\partial^3}{\partial x \partial y \partial z} \left[ \left(\frac{y-z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau} \frac{1+x\tau'}{(1+z\tau')^2} \ln(1+y\tau') (\tau-\tau') \,d\tau' \right. \\\nonumber
+    %&+ \left. \left(\frac{x-z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{1+y\tau'}{(1+z\tau')^2} \ln(1+x\tau') (\tau-\tau') \,d\tau' \right. \\\nonumber
+    %&- \left. \frac{1}{2} \left(\frac{z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau}  \frac{(1+y\tau')^2(1+x\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
+    %&+ \left. \frac{1}{2} \left(\frac{z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau}  \frac{1+x\tau'}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
+    %&- \left. \frac{1}{2} \left(\frac{z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(1+x\tau')^2(1+y\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
+    %&+ \left. \frac{1}{2} \left(\frac{z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(1+y\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
+    %&+ \left. \frac{z}{(1+x\tau)(1+y\tau)}\int_0^{\tau} \frac{(1+x\tau')(1+y\tau')}{(1+z\tau')} (\tau-\tau')^2 \,d\tau' \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}}
 \end{align}
-
+The first integral evaluates to 
+\begin{align}
+    \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau'
+    =&{} -\frac{1}{1+x\tau} \int_0^{\tau} \frac{(1+x\tau')}{(1+z\tau')^2} \ln(1+y\tau')(\tau-\tau') \,d\tau' \\\nonumber
+    =& -\frac{\tau}{1+x\tau}\int_0^{\tau} \frac{1}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau'\\\nonumber
+    &+ \frac{1-x\tau}{1+x\tau}\int_0^{\tau} \frac{\tau'}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau'\\\nonumber
+    &+ \frac{x}{1+x\tau}\int_0^{\tau} \frac{\tau'^2}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau'\\\nonumber
+    =&{} -\frac{y}{z(z-y)}\frac{\ln(1+z\tau)}{1+x\tau} + \frac{1}{z-y}\frac{(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}
+\end{align}
+which gives
+\begin{align}
+    \quad& -\frac{\partial^3}{\partial x \partial y \partial z} \left(\frac{y-z}{y}\right)^2 \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau' \\\nonumber
+    =&{} \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{z-y}{yz}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{z-y}{y^2}\frac{\tau(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)} \right] \\\nonumber
+    =&{} \frac{1}{y^2}\frac{\tau^3}{(1+x\tau)^2(1+z\tau)} + \frac{1}{y^2}\frac{\tau^3(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}
+    - \frac{1}{y^2}\frac{\tau^2(1+y\tau)\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}
+\end{align}
 
 \end{document}
