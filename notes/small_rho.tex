@@ -175,12 +175,17 @@ The first integral evaluates to
 \begin{align}
     \quad& \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau' 
     = -\frac{1}{1+x\tau} \int_0^{\tau} \frac{(1+x\tau')}{(1+z\tau')^2} \ln(1+y\tau')(\tau-\tau') \,d\tau' \\\nonumber
+    % splitting into three integrals
     =& -\frac{\tau}{1+x\tau}\int_0^{\tau} \frac{1}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau' \\\nonumber
     &+ \frac{1-x\tau}{1+x\tau}\int_0^{\tau} \frac{\tau'}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau' \\\nonumber
     &+ \frac{x}{1+x\tau}\int_0^{\tau} \frac{\tau'^2}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau' \\\nonumber
-    =&{} -\left[\frac{y}{z(z-y)}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{1}{z-y}\frac{(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right] \\\nonumber
+    % each one of them is in brackets
+    % first
+    =&{} \left[\frac{y}{z(y-z)}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{1}{y-z}\frac{(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right] \\\nonumber
+    % second
     &+ \left[\frac{1}{z^2}\frac{1-x\tau}{1+x\tau}\ln(1+y\tau)\ln(1+z\tau) + \frac{1}{z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)} \right. \\\nonumber
-    &- \left. \frac{y}{z^2(z-y)}\frac{1-x\tau}{1+x\tau}\ln\left(\frac{1+z\tau}{1+y\tau}\right)-\frac{y}{z^2}\frac{1-x\tau}{1+x\tau}\int_0^{\tau}\frac{\ln(1+z\tau')}{1+y\tau'} \,d\tau' \right] \\\nonumber
+    % third
+    &+ \left. \frac{y}{z^2(y-z)}\frac{1-x\tau}{1+x\tau}\ln\left(\frac{1+z\tau}{1+y\tau}\right)-\frac{y}{z^2}\frac{1-x\tau}{1+x\tau}\int_0^{\tau}\frac{\ln(1+z\tau')}{1+y\tau'} \,d\tau' \right] \\\nonumber
     &+\textrm{ therms from the third integral}
 \end{align}
 which gives
@@ -188,10 +193,11 @@ which gives
     \quad& -\frac{\partial^3}{\partial x \partial y \partial z} \left(\frac{y-z}{y}\right)^2 \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau'\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
     % plugging in the integral form above and multiplying by the prefactor
     % first integral out of the three above
-    =&{} \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{z-y}{yz}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{z-y}{y^2}\frac{\tau(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    =&{} -\frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{y-z}{yz}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{y-z}{y^2}\frac{\tau(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
     % second integral, be careful w/ signs!
     &- \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{(y-z)^2}{y^2z^2}\frac{1-x\tau}{1+x\tau}\ln(1+y\tau)\ln(1+z\tau)
-    + \frac{(y-z)^2}{y^2z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+y\tau)} + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    + \frac{(y-z)^2}{y^2z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+y\tau)} \right. \\\nonumber
+    &+ \left. \frac{y-z}{yz^2}\frac{1-x\tau}{1+x\tau} \ln\left(\frac{1+z\tau}{1+y\tau}\right)  + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
     % third integral
     &+ \frac{\partial^3}{\partial x \partial y \partial  z} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
     % taking derivatives
@@ -207,7 +213,9 @@ which gives
     - \frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)} 
     - \frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2} \right. \\\nonumber
     &- \left. \frac{4(y-z)}{yz^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} 
-    - \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)^2}
+    - \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)^2} \right. \\\nonumber
+    &+ \left. \frac{2}{y^2z^2}\frac{\tau}{(1+x\tau)^2}\ln\left(\frac{1+y\tau}{1+z\tau}\right) -\frac{2(y-z)}{y^2z^2}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} \right. \\\nonumber
+    &+ \left. \frac{4}{z^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)}
     + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
     % third
     &+ \lim_{\tau\to\infty} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
