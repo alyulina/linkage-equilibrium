@@ -192,38 +192,39 @@ which gives
 \begin{align}
     \quad& -\frac{\partial^3}{\partial x \partial y \partial z} \left(\frac{y-z}{y}\right)^2 \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau'\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
     % plugging in the integral form above and multiplying by the prefactor
-    % first integral out of the three above
-    =&{} -\frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{y-z}{yz}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{y-z}{y^2}\frac{\tau(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    % I got too lazy - terms from the last integral of the second integral are missing below; also might need to be double-checked
+    % first integral out of the three above; all other terms in the second integral did not contribute in the infinite time limit
+    %=&{} -\frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{y-z}{yz}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{y-z}{y^2}\frac{\tau(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
     % second integral, be careful w/ signs!
-    &- \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{(y-z)^2}{y^2z^2}\frac{1-x\tau}{1+x\tau}\ln(1+y\tau)\ln(1+z\tau)
-    + \frac{(y-z)^2}{y^2z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+y\tau)} \right. \\\nonumber
-    &+ \left. \frac{y-z}{yz^2}\frac{1-x\tau}{1+x\tau} \ln\left(\frac{1+z\tau}{1+y\tau}\right)  + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    %&- \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{(y-z)^2}{y^2z^2}\frac{1-x\tau}{1+x\tau}\ln(1+y\tau)\ln(1+z\tau)
+    %+ \frac{(y-z)^2}{y^2z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+y\tau)} \right. \\\nonumber
+    %&+ \left. \frac{y-z}{yz^2}\frac{1-x\tau}{1+x\tau} \ln\left(\frac{1+z\tau}{1+y\tau}\right)  + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
     % third integral
-    &+ \frac{\partial^3}{\partial x \partial y \partial  z} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    %&+ \frac{\partial^3}{\partial x \partial y \partial  z} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
     % taking derivatives
     % from the first integral
-    =&{} \lim_{\tau\to\infty} \left[\frac{1}{y^2}\frac{\tau^3}{(1+x\tau)^2(1+z\tau)} + \frac{1}{y^2}\frac{\tau^3(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}
-    - \frac{1}{y^2}\frac{\tau^2(1+y\tau)\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    %=&{} \lim_{\tau\to\infty} \left[\frac{1}{y^2}\frac{\tau^3}{(1+x\tau)^2(1+z\tau)} + \frac{1}{y^2}\frac{\tau^3(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}
+    %- \frac{1}{y^2}\frac{\tau^2(1+y\tau)\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
     % second
-    &+ \lim_{\tau\to\infty} \left[
-    \frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)}
-    -\frac{4(y-z)}{yz^3}\frac{\tau^2\ln(1+zt)}{(1+x\tau)^2(1+y\tau)}
-    -\frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)(1+z\tau)}{(1+x\tau)^2} \right. \\\nonumber
-    &+\left. \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)}
-    - \frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)} 
-    - \frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2} \right. \\\nonumber
-    &- \left. \frac{4(y-z)}{yz^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} 
-    - \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)^2} \right. \\\nonumber
-    &+ \left. \frac{2}{y^2z^2}\frac{\tau}{(1+x\tau)^2}\ln\left(\frac{1+y\tau}{1+z\tau}\right) -\frac{2(y-z)}{y^2z^2}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} \right. \\\nonumber
-    &+ \left. \frac{4}{z^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)}
-    + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    %&+ \lim_{\tau\to\infty} \left[
+    %\frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)}
+    %-\frac{4(y-z)}{yz^3}\frac{\tau^2\ln(1+zt)}{(1+x\tau)^2(1+y\tau)}
+    %-\frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)(1+z\tau)}{(1+x\tau)^2} \right. \\\nonumber
+    %&+\left. \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)}
+    %- \frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)} 
+    %- \frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2} \right. \\\nonumber
+    %&- \left. \frac{4(y-z)}{yz^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} 
+    %- \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)^2} \right. \\\nonumber
+    %&+ \left. \frac{2}{y^2z^2}\frac{\tau}{(1+x\tau)^2}\ln\left(\frac{1+y\tau}{1+z\tau}\right) -\frac{2(y-z)}{y^2z^2}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} \right. \\\nonumber
+    %&+ \left. \frac{4}{z^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)}
+    %+ ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
     % third
-    &+ \lim_{\tau\to\infty} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    %&+ \lim_{\tau\to\infty} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
     % taking the limit
     % first
-    =&{}\left[\frac{1}{x^2y^2z}+\frac{1}{x^2yz^2}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    =&{}\left[\frac{1}{x^2y^2z}+\frac{1}{x^2yz^2}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} 
     % second
-    &+\left[0+...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    -\frac{4}{y^2z}\lim_{\tau\to\infty}\frac{\tau}{(1+x\tau)^2} \int_0^{\tau} \frac{\ln(1+y\tau')}{1+z\tau'} \,d\tau' \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
     % third
     &+ \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
     % evaluating at (x, y, z) = (1, 1, 2)
