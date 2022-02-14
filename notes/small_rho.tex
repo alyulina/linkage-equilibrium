@@ -88,7 +88,7 @@ with the initial condition $z(0)=z$, where $\gamma_{AB} = \gamma_A + \gamma_B + 
 \end{align}
 In the limit that $\rho \ll 1$, corrections to the zeroth-order solution can be found by perturbatively expanding $z(\tau')$ as
 \begin{align}\label{eq:z_series}
-    z(\tau') \approx z_0 + \sum_{i=1}^{\infty} z_i\rho^{i}.
+    z(\tau') \approx z_0 + \sum_{i=1}^{\infty} \rho^{i}z_i.
 \end{align}
 Plugging the series expansion in the equation for $z(\tau')$ and matching the coefficients in front powers of $\rho$, we obtain 
 \begin{align}
@@ -173,21 +173,52 @@ Thus, the terms in Eq. (\ref{eq:h_expansion}) that will contribute to Eq. (\ref{
 \end{align}
 The first integral evaluates to 
 \begin{align}
-    \quad &\int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau'
+    \quad& \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau' 
     = -\frac{1}{1+x\tau} \int_0^{\tau} \frac{(1+x\tau')}{(1+z\tau')^2} \ln(1+y\tau')(\tau-\tau') \,d\tau' \\\nonumber
-    =& -\frac{\tau}{1+x\tau}\int_0^{\tau} \frac{1}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau'
-    + \frac{1-x\tau}{1+x\tau}\int_0^{\tau} \frac{\tau'}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau'\\\nonumber
-    &+ \frac{x}{1+x\tau}\int_0^{\tau} \frac{\tau'^2}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau'\\\nonumber
-    =&{} -\frac{y}{z(z-y)}\frac{\ln(1+z\tau)}{1+x\tau} + \frac{1}{z-y}\frac{(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}
-    +\textrm{terms from the two other integrals}
+    =& -\frac{\tau}{1+x\tau}\int_0^{\tau} \frac{1}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau' \\\nonumber
+    &+ \frac{1-x\tau}{1+x\tau}\int_0^{\tau} \frac{\tau'}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau' \\\nonumber
+    &+ \frac{x}{1+x\tau}\int_0^{\tau} \frac{\tau'^2}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau' \\\nonumber
+    =&{} -\left[\frac{y}{z(z-y)}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{1}{z-y}\frac{(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right] \\\nonumber
+    &+ \left[\frac{1}{z^2}\frac{1-x\tau}{1+x\tau}\ln(1+y\tau)\ln(1+z\tau) + \frac{1}{z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)} \right. \\\nonumber
+    &- \left. \frac{y}{z^2(z-y)}\frac{1-x\tau}{1+x\tau}\ln\left(\frac{1+z\tau}{1+y\tau}\right)-\frac{y}{z^2}\frac{1-x\tau}{1+x\tau}\int_0^{\tau}\frac{\ln(1+z\tau')}{1+y\tau'} \,d\tau' \right] \\\nonumber
+    &+\textrm{ therms from the third integral}
 \end{align}
 which gives
 \begin{align}
     \quad& -\frac{\partial^3}{\partial x \partial y \partial z} \left(\frac{y-z}{y}\right)^2 \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau'\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
-    =&{} \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{z-y}{yz}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{z-y}{y^2}\frac{\tau(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)} +\textrm{terms from the two other integrals}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    % plugging in the integral form above and multiplying by the prefactor
+    % first integral out of the three above
+    =&{} \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{z-y}{yz}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{z-y}{y^2}\frac{\tau(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    % second integral, be careful w/ signs!
+    &- \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{(y-z)^2}{y^2z^2}\frac{1-x\tau}{1+x\tau}\ln(1+y\tau)\ln(1+z\tau)
+    + \frac{(y-z)^2}{y^2z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+y\tau)} + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    % third integral
+    &+ \frac{\partial^3}{\partial x \partial y \partial  z} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    % taking derivatives
+    % from the first integral
     =&{} \lim_{\tau\to\infty} \left[\frac{1}{y^2}\frac{\tau^3}{(1+x\tau)^2(1+z\tau)} + \frac{1}{y^2}\frac{\tau^3(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}
-    - \frac{1}{y^2}\frac{\tau^2(1+y\tau)\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}+\textrm{terms from the two other integrals}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
-    =&{}\left[\frac{1}{x^2y^2z}+\frac{1}{x^2yz^2}+\textrm{terms from the two other integrals}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    - \frac{1}{y^2}\frac{\tau^2(1+y\tau)\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    % second
+    &+ \lim_{\tau\to\infty} \left[
+    \frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)}
+    -\frac{4(y-z)}{yz^3}\frac{\tau^2\ln(1+zt)}{(1+x\tau)^2(1+y\tau)}
+    -\frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)(1+z\tau)}{(1+x\tau)^2} \right. \\\nonumber
+    &+\left. \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)}
+    - \frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)} 
+    - \frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2} \right. \\\nonumber
+    &- \left. \frac{4(y-z)}{yz^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} 
+    - \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)^2}
+    + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    % third
+    &+ \lim_{\tau\to\infty} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    % taking the limit
+    % first
+    =&{}\left[\frac{1}{x^2y^2z}+\frac{1}{x^2yz^2}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    % second
+    &+\left[0+...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    % third
+    &+ \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
+    % evaluating at (x, y, z) = (1, 1, 2)
     =&{}\frac{1}{2}+\frac{1}{4}+\textrm{terms from the two other integrals}
 \end{align}
 \end{document}
