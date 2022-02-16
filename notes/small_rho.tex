@@ -179,7 +179,7 @@ where
 
 All the integrals in Eq. (\ref{eq:lambda_num_contribution}) diverge as $\tau \rightarrow \infty$. Does the difference between them diverge as well?
 
-The first integral evaluates to 
+I tried looking at the first term in Eq. (\ref{eq:lambda_num_contribution}). The integral evaluates to 
 \begin{align}\label{eq:log_phi_int}
     \quad& \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau' 
     = -\frac{1}{1+x\tau} \int_0^{\tau} \frac{(1+x\tau')}{(1+z\tau')^2} \ln(1+y\tau')(\tau-\tau') \,d\tau' \\\nonumber
@@ -200,7 +200,7 @@ The first integral evaluates to
     %+ \frac{2xy}{z^3}\frac{1}{1+x\tau} \int_0^{\tau} \frac{\ln(1+z\tau')}{1+y\tau'} \,d\tau',
 \end{align}
 % for the integral that evaluates to polylogarithm, I decided to take the derivatives first
-which gives
+which gives, after solving each of the integrals, differentiating, and taking the appropriate limits,
 \begin{align}\label{eq:first_term}
     \quad& -\frac{\partial^3}{\partial x \partial y \partial z} \left(\frac{y-z}{y}\right)^2 \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau'\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} %\\\nonumber
     % plugging in the integral form above and multiplying by the prefactor
@@ -243,5 +243,9 @@ which gives
     % evaluating at (x, y, z) = (1, 1, 2)
     %=&{}\frac{1}{2}+\frac{1}{4} %+\textrm{more terms}.
 \end{align}
-The last two terms from Eq. (\ref{eq:log_phi_int}) turned out to not contribute to Eq. (\ref{eq:first_term}), even though the integrals that they contain diverge as $\tau \rightarrow \infty$. Is there an algebra mistake?
+The last two terms from Eq. (\ref{eq:log_phi_int}) turned out to not contribute to Eq. (\ref{eq:first_term}), even though the integrals that they contain diverge as $\tau \rightarrow \infty$. Is there an algebra mistake? I also tried flipping the order of taking the derivatives and the integral, and that seemed to diverge. One difficulty is that the integrals of the shape 
+\begin{align}
+    \int_0^{\tau} \frac{\ln(1+z\tau')}{1+y\tau'} \,d\tau'
+\end{align}
+pop up and I do not know how to solve them.
 \end{document}
