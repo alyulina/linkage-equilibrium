@@ -25,18 +25,19 @@
 %\maketitle
 We are interested in the linkage equilibrium statistic $\Lambda(f_0)$, defined as
 \begin{align}
-    \Lambda(f_0) \equiv \frac{\left\langle f_{ab}f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}.
+    \Lambda(f_0) \equiv \frac{\left\langle f_{ab}f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle},
 \end{align}
+where $f_A \equiv f_{Ab} + f_{aB}$ and $f_B \equiv f_{aB} + f_{AB}$.
 In the limit that $f_{Ab}$, $f_{aB}$, $f_{AB} \ll1$, 
 \begin{align}\label{eq:lambda_small_f}
     \Lambda(f_0) \approx \frac{\left\langle f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}.
 \end{align}
 The moments follows from 
 \begin{align}\label{eq:lambda_numerator}
-    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
-    = f_0^{m} \frac{(-1)^{m}\partial^{m}}{\partial x^i \partial y^j \partial z^k} H(x, y, z, t) \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}},
+    \left\langle f_{Ab}^if_{aB}^jf_{AB}^k\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+    = -f_0^{(i+j+k)} \partial_x^i \partial_y^j \partial_z^k H(x, y, z, t) \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}},
 \end{align}
-where $m = i+j+k$ and 
+where %$m = i+j+k$ and 
 \begin{align}
     H(x, y, z, t) \equiv \left\langle e^{-x\frac{f_{Ab}(t)}{f_0}-y\frac{f_{aB}(t)}{f_0}-z\frac{f_{AB}(t)}{f_0}} \right\rangle 
 \end{align}
@@ -95,7 +96,7 @@ Plugging the series expansion in the equation for $z(\tau')$ and matching the co
         \partial_{\tau'}z_1(\tau') \approx -\gamma_{AB}z_1(\tau') -2z_0(\tau')z_1(\tau') - z_0(\tau') + \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}.
 \end{align}
 
-
+%\section*{Perturbative solution of $\Lambda(f_0)$ in the neutral limit for small $\rho$}
 In the neutral limit, the equation above reduces to
 \begin{align}\label{eq:z_neutral_eq}
     \partial_{\tau'}z_1(\tau') &\approx - \frac{2z}{1+z\tau'}z_1(\tau') - \frac{z}{1+z\tau'} + \frac{x}{1+x\tau'} + \frac{y}{1+y\tau'}.
@@ -145,9 +146,9 @@ Substituting Eq. (\ref{eq:z_1}) into Eq. (\ref{eq:z_series}), we find
     + \rho\left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2}.
 \end{align}
 
-Thus, to the lowest order in $\rho$, we find
+Thus, to the lowest order in $\rho$, the numerator of $\Lambda(f_0)$ follows as
 \begin{align}\label{eq:lambda_num_contribution}
-    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle =&{} -\rho \theta^2 f_0^4 \left[
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} -\rho \theta^2 f_0^4 \left[
     -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'} \right. \\\nonumber
     &- \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
     &- \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_x \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
@@ -167,20 +168,33 @@ where
     -\frac{(\tau-\tau')^2}{(1+y\tau)^2} \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = 1.
 \end{align}\end{subequations}
 
-The first integral in Eq. (\ref{eq:lambda_num_contribution}) thus evaluates to
-\begin{align}
-    -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'}\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} & = -\int_0^{\tau} \frac{1}{(1+z\tau')^2}\,d\tau'\Bigg\vert_{\substack{z=2 \\ \tau=\infty}} = -\frac{1}{2}.
+The first integral in Eq. (\ref{eq:lambda_num_contribution}) evaluates to
+\begin{align}\label{eq:small_rho_num_1}
+    -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'}\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} & = -\int_0^{\infty} \frac{1}{(1+2\tau')^2}\,d\tau = -\frac{1}{2}.
 \end{align}
 
-The second and third integrals in Eq. (\ref{eq:lambda_num_contribution}) can be evaluated as \begin{align}
-    & -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} = -\int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
-    &= \int_0^{\tau} \frac{2z\tau'}{(1+z\tau')^3} \,d\tau'\Bigg\vert_{\substack{z=2 \\ \tau=\infty}} = \frac{1}{2}.
+The second (and third) integral in Eq. (\ref{eq:lambda_num_contribution}) can be evaluated as \begin{align}\label{eq:small_rho_num_2}
+    & -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} 
+    %= -\int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} 
+    %= \int_0^{\infty} \frac{2z\tau'}{(1+z\tau')^3} \,d\tau'
+    = \int_0^{\infty} \frac{4\tau'}{(1+2\tau')^3} \,d\tau' = \frac{1}{2}.
 \end{align}
 
 Finally, we find the last (and the second to last) integral in Eq. (\ref{eq:lambda_num_contribution}) as
-\begin{align}
-    \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} &= \textrm{need to do!} 
+\begin{align}\label{eq:small_rho_num_3}
+    \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} &= %\int_0^{\tau} \left[-\frac{2\tau'(x-z)}{x^2(1+z\tau')^3}-\frac{2\ln(1+x\tau')}{x^3(1+z\tau')^3}\left[z(1+x\tau')-(x-z)\right]\right]d\tau'\,  \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}}
+    \int_0^{\tau} \frac{2\tau'-2(3+2\tau')\ln(1+\tau')}{(1+2\tau')^3} d\tau'\, = -\frac{3}{4}.
 \end{align}
 
+Substituting Eq. (\ref{eq:small_rho_num_1}), Eq. (\ref{eq:small_rho_num_2}), and Eq. (\ref{eq:small_rho_num_3}) into Eq. (\ref{eq:lambda_num_contribution}), we obtain
+\begin{align}\label{eq:lambda_num_contribution_solved}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} -\rho \theta^2 f_0^4 \left[-\frac{1}{2} + \frac{1}{2} + \frac{1}{2} - \frac{3}{4} - \frac{3}{4}\right] = \rho \theta^2 f_0^4.
+\end{align}
 
+To the lowest order in $\theta$, $f_0$, and $\rho$, the denominator of $\Lambda(f_0)$ can be found as 
+\begin{align}
+    \left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \theta^2 f_0^4 \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \theta^2 f_0^4.
+\end{align}
+
+Thus, in the neutral limit for small $\rho$, $\Lambda(f_0) \approx \rho$.
 \end{document}
