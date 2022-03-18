@@ -71,8 +71,8 @@ where $\tau = \nicefrac{t}{2Nf_0}$, $\gamma_A = 2Ns_Af_0$, $\gamma_B = 2Ns_Bf_0$
     H_B(y, \tau) &\equiv \ln \left[1 + \frac{y(1-e^{-\gamma_B\tau})}{\gamma_B}\right],
 \end{align}\end{subequations}
 \begin{subequations}\begin{align}
-    \Phi_x(\tau, \tau') &\equiv -\frac{[ 1-e^{-\gamma_A (\tau-\tau')} ][\gamma_A+x(1-e^{-\gamma_A \tau'})]}{\gamma_A \left[ \gamma_A+x(1-e^{-\gamma_A \tau}) \right]}, \\
-    \Phi_y(\tau,\tau') &\equiv -\frac{[1-e^{-\gamma_B (\tau-\tau')}][\gamma_B+y(1-e^{-\gamma_B \tau'})]}{\gamma_A \left[ \gamma_B+y(1-e^{-\gamma_B \tau}) \right]},
+    \Phi_x(\tau') &\equiv -\frac{[ 1-e^{-\gamma_A (\tau-\tau')} ][\gamma_A+x(1-e^{-\gamma_A \tau'})]}{\gamma_A \left[ \gamma_A+x(1-e^{-\gamma_A \tau}) \right]}, \\
+    \Phi_y(\tau') &\equiv -\frac{[1-e^{-\gamma_B (\tau-\tau')}][\gamma_B+y(1-e^{-\gamma_B \tau'})]}{\gamma_A \left[ \gamma_B+y(1-e^{-\gamma_B \tau}) \right]},
 \end{align}\end{subequations}
 \begin{align}
     \Upsilon(x, y, \tau) &= \int_0^{\tau} d\tau' \rho \left[x(\tau') + y(\tau')\right]\Phi_x(\tau')\Phi_y(\tau').
@@ -117,135 +117,70 @@ from where
     u(\tau') &\approx - \int z(1+z\tau') \,d\tau'\
     + \int \frac{x(1+z\tau')^2}{1+x\tau'} \,d\tau'\
     + \int \frac{y(1+z\tau')^2}{1+y\tau'} \,d\tau'\, \\\nonumber
-    &= - \frac{1}{2} (1+z\tau')^2 
-    + \left(\frac{x-z}{x}\right)^2\ln(1+x\tau')
-    + \left(\frac{y-z}{y}\right)^2\ln(1+y\tau') \\\nonumber
-    % I am not sure if the next two terms are correct
-    &\quad + \frac{1}{2}\frac{z^2}{x^2}(1+x\tau')^2
-    + \frac{1}{2}\frac{z^2}{y^2}(1+y\tau')^2
-    + 4z\tau' + C,
+    &= \frac{1}{2} (1+z\tau')^2 + z\tau'\left(1 - \frac{z}{x}\right) + z\tau'\left(1 - \frac{z}{y}\right)
+     \\\nonumber
+    &\quad + \left(1-\frac{z}{x}\right)^2\ln(1+x\tau')
+    + \left(1-\frac{z}{y}\right)^2\ln(1+y\tau') + C,
 \end{align}
 where 
 \begin{align}
-    C = 1 - \frac{1}{2}z^2\left(\frac{1}{x^2} + \frac{1}{y^2}\right)
+    C = \frac{1}{2}
 \end{align} is a constant determined by the initial condition $u(0)=0$. Then, 
 \begin{align}\label{eq:z_1}
-    z_1(\tau') &\approx - \frac{1}{2} 
-    + \frac{(x-z)^2}{x^2(1+z\tau')^2}\ln(1+x\tau')
-    + \frac{(y-z)^2}{y^2(1+z\tau')^2}\ln(1+y\tau') \\\nonumber
-    % I am not sure if the next two terms are correct
-    &\quad + \frac{1}{2}\frac{z^2}{x^2}\frac{(1+x\tau')^2-1}{(1+z\tau')^2}
-    + \frac{1}{2}\frac{z^2}{y^2}\frac{(1+y\tau')^2-1}{(1+z\tau')^2}
-    + \frac{1+4z\tau'}{(1+z\tau')^2}.
+    z_1(\tau') &\approx \frac{1}{2} 
+    + \frac{1}{2}\frac{1}{(1+z\tau')^2} + \left(1-\frac{z}{x}\right)\frac{z\tau'}{(1+z\tau')^2} + \left(1-\frac{z}{y}\right)\frac{z\tau'}{(1+z\tau')^2}
+         \\\nonumber
+    &\quad + \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2}
+    + \left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2}.
 \end{align}
 Substituting Eq. (\ref{eq:z_1}) into Eq. (\ref{eq:z_series}), we find
 \begin{align}
     z(\tau') &\approx \frac{z}{1+z\tau'} 
-    - \frac{\rho}{2}
-    + \rho\frac{(x-z)^2}{x^2(1+z\tau')^2}\ln(1+x\tau')
-    + \rho\frac{(y-z)^2}{y^2(1+z\tau')^2}\ln(1+y\tau') \\\nonumber
-    % I am not sure if the next two terms are correct
-    &\quad + \frac{\rho}{2}\frac{z^2}{x^2}\frac{(1+x\tau')^2-1}{(1+z\tau')^2}
-    + \frac{\rho}{2}\frac{z^2}{y^2}\frac{(1+y\tau')^2-1}{(1+z\tau')^2}
-    + \rho\frac{1+4z\tau'}{(1+z\tau')^2} + \mathcal{O}(\rho^2).
+    + \frac{\rho}{2}
+    + \frac{\rho}{2}\frac{1}{(1+z\tau')^2} 
+    \\\nonumber
+    &\quad + \rho\left(1-\frac{z}{x}\right)\frac{z\tau'}{(1+z\tau')^2} + \rho\left(1-\frac{z}{y}\right)\frac{z\tau'}{(1+z\tau')^2}
+    \\\nonumber
+    &\quad + \rho\left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2}
+    + \rho\left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2}.
 \end{align}
 
-Thus, the terms in Eq. (\ref{eq:h_expansion}) that will contribute to Eq. (\ref{eq:lambda_numerator}) are 
+Thus, to the lowest order in $\rho$, we find
 \begin{align}\label{eq:lambda_num_contribution}
-    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle =&{} -\rho \theta^2 f_0^4 \frac{\partial^3}{\partial x \partial y \partial z} \left[ \left(\frac{y-z}{y}\right)^2 \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau' \right. \\\nonumber
-    &+ \left. \left(\frac{x-z}{x}\right)^2 \int_0^{\tau} \frac{\ln(1+x\tau')}{(1+z\tau')^2} \Phi_y(\tau') \,d\tau' \right. \\\nonumber
-    &+ \left. \frac{1}{2} \left(\frac{z}{y}\right)^2 \int_0^{\tau}  \frac{(1+y\tau')^2-1}{(1+z\tau')^2}\Phi_x(\tau') \,d\tau' \right. \\\nonumber
-    &+ \left. \frac{1}{2} \left(\frac{z}{x}\right)^2 \int_0^{\tau} \frac{(1+x\tau')^2-1}{(1+z\tau')^2}\Phi_y(\tau') \,d\tau' \right. \\\nonumber
-    &- \left.  z\int_0^{\tau} \frac{1}{1+z\tau'} \Phi_x(\tau')\Phi_y(\tau') \,d\tau'\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}},
-    %=&- \theta^2\rho f_0 \left(\frac{y-z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau} \frac{(\tau-\tau')(1+x\tau')}{(1+z\tau')^2} \ln(1+y\tau') \,d\tau' \\\nonumber
-    %&- \theta^2\rho f_0 \left(\frac{x-z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(\tau-\tau')(1+y\tau')}{(1+z\tau')^2} \ln(1+x\tau') \,d\tau' \\\nonumber
-    %&+ \theta^2\rho f_0\frac{1}{2} \left(\frac{z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau}  \frac{(1+y\tau')^2-1}{(1+z\tau')^2} (\tau-\tau')(1+x\tau') \,d\tau' \\\nonumber
-    %&+ \theta^2\rho f_0\frac{1}{2} \left(\frac{z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(1+x\tau')^2-1}{(1+z\tau')^2} (\tau-\tau')(1+y\tau') \,d\tau'\\\nonumber
-    %&- \theta^2\rho f_0 z\int_0^{\tau} \frac{1}{1+z\tau'} \Phi_x(\tau')\Phi_y(\tau') \,d\tau'
-    %x and y are symmetric!
-    %=&\rho \theta^2 f_0^4 \frac{\partial^3}{\partial x \partial y \partial z} \left[ \left(\frac{y-z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau} \frac{1+x\tau'}{(1+z\tau')^2} \ln(1+y\tau') (\tau-\tau') \,d\tau' \right. \\\nonumber
-    %&+ \left. \left(\frac{x-z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{1+y\tau'}{(1+z\tau')^2} \ln(1+x\tau') (\tau-\tau') \,d\tau' \right. \\\nonumber
-    %&- \left. \frac{1}{2} \left(\frac{z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau}  \frac{(1+y\tau')^2(1+x\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
-    %&+ \left. \frac{1}{2} \left(\frac{z}{y}\right)^2 \frac{1}{1+x\tau} \int_0^{\tau}  \frac{1+x\tau'}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
-    %&- \left. \frac{1}{2} \left(\frac{z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(1+x\tau')^2(1+y\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
-    %&+ \left. \frac{1}{2} \left(\frac{z}{x}\right)^2 \frac{1}{1+y\tau} \int_0^{\tau} \frac{(1+y\tau')}{(1+z\tau')^2} (\tau-\tau') \,d\tau' \right. \\\nonumber
-    %&+ \left. \frac{z}{(1+x\tau)(1+y\tau)}\int_0^{\tau} \frac{(1+x\tau')(1+y\tau')}{(1+z\tau')} (\tau-\tau')^2 \,d\tau' \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle =&{} -\rho \theta^2 f_0^4 \left[
+    -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'} \right. \\\nonumber
+    &- \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
+    &- \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_x \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
+    &+ \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2} \right. \\\nonumber
+    &+ \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2} 
+    \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}},
 \end{align}
 where 
 \begin{subequations}\begin{align}
-    \Phi_x(\tau, \tau') &= -\frac{(\tau-\tau')(1+x\tau')}{1+x\tau}, \\
-    \Phi_y(\tau,\tau') &= -\frac{(\tau-\tau')(1+y\tau')}{1+y\tau}.
+    %\Phi_x(\tau') &= -\frac{(\tau-\tau')(1+x\tau')}{1+x\tau}
+    \partial_x \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = 
+    %-(\tau-\tau') \partial_x \frac{1+x\tau'}{1+x\tau} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} =
+    -\frac{(\tau-\tau')^2}{(1+x\tau)^2} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = 1, \\
+    %\Phi_y(\tau') &= -\frac{(\tau-\tau')(1+y\tau')}{1+y\tau}.
+    \partial_y \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} =
+    %-(\tau-\tau') \partial_x \frac{1+x\tau'}{1+x\tau} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} =
+    -\frac{(\tau-\tau')^2}{(1+y\tau)^2} \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = 1.
 \end{align}\end{subequations}
 
-All the integrals in Eq. (\ref{eq:lambda_num_contribution}) diverge as $\tau \rightarrow \infty$. Does the difference between them diverge as well?
-
-I tried looking at the first term in Eq. (\ref{eq:lambda_num_contribution}). The integral evaluates to 
-\begin{align}\label{eq:log_phi_int}
-    \quad& \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau' 
-    = -\frac{1}{1+x\tau} \int_0^{\tau} \frac{(1+x\tau')}{(1+z\tau')^2} \ln(1+y\tau')(\tau-\tau') \,d\tau' \\\nonumber
-    % splitting into three integrals
-    =& -\frac{\tau}{1+x\tau}\int_0^{\tau} \frac{1}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau' 
-    + \frac{1-x\tau}{1+x\tau}\int_0^{\tau} \frac{\tau'}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau' \\\nonumber
-    &+ \frac{x}{1+x\tau}\int_0^{\tau} \frac{\tau'^2}{(1+z\tau')^2} \ln(1+y\tau')\,d\tau', % \\\nonumber
-    % each one of them is in brackets
-    % first
-    %=&{} \frac{y}{z(y-z)}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{1}{y-z}\frac{(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)} \\\nonumber
-    % second
-    %&+ \frac{1}{z^2}\frac{1-x\tau}{1+x\tau}\ln(1+y\tau)\ln(1+z\tau) + \frac{1}{z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)} \\\nonumber
-    % third
-    %&+ \frac{y}{z^2(y-z)}\frac{1-x\tau}{1+x\tau}\ln\left(\frac{1+z\tau}{1+y\tau}\right)-\frac{y}{z^2}\frac{1-x\tau}{1+x\tau}\int_0^{\tau}\frac{\ln(1+z\tau')}{1+y\tau'} \,d\tau' \\\nonumber
-    %&+ \frac{x}{z^2}\frac{\tau\ln(1+y\tau)}{1+x\tau} -\frac{x}{z^3}\frac{\ln(1+y\tau)}{(1+x\tau)(1+z\tau)} -\frac{2x}{z^3}\ln(1+y\tau)\ln(1+z\tau)-\frac{x}{z^2}\frac{\tau}{1+x\tau} \\\nonumber
-    %&+ \frac{x}{yz^2}\frac{\ln(1+y\tau)}{1+x\tau} 
-    %+ \frac{xy}{z^3(y-z)}\frac{1}{1+x\tau}\ln\left(\frac{1+y\tau}{1+z\tau}\right)
-    %+ \frac{2xy}{z^3}\frac{1}{1+x\tau} \int_0^{\tau} \frac{\ln(1+z\tau')}{1+y\tau'} \,d\tau',
-\end{align}
-% for the integral that evaluates to polylogarithm, I decided to take the derivatives first
-which gives, after solving each of the integrals, differentiating, and taking the appropriate limits,
-\begin{align}\label{eq:first_term}
-    \quad& -\frac{\partial^3}{\partial x \partial y \partial z} \left(\frac{y-z}{y}\right)^2 \int_0^{\tau} \frac{\ln(1+y\tau')}{(1+z\tau')^2} \Phi_x(\tau') \,d\tau'\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} %\\\nonumber
-    % plugging in the integral form above and multiplying by the prefactor
-    % I got too lazy - terms from the last integral of the second integral are missing below; also might need to be double-checked
-    % first integral out of the three above; all other terms in the second integral did not contribute in the infinite time limit
-    %=&{} -\frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{y-z}{yz}\frac{\ln(1+z\tau)}{1+x\tau} - \frac{y-z}{y^2}\frac{\tau(1+y\tau)\ln(1+y\tau)}{(1+x\tau)(1+z\tau)}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
-    % second integral, be careful w/ signs!
-    %&- \frac{\partial^3}{\partial x \partial y \partial  z} \left[\frac{(y-z)^2}{y^2z^2}\frac{1-x\tau}{1+x\tau}\ln(1+y\tau)\ln(1+z\tau)
-    %+ \frac{(y-z)^2}{y^2z^2}\frac{(1-x\tau)\ln(1+y\tau)}{(1+x\tau)(1+y\tau)} \right. \\\nonumber
-    %&+ \left. \frac{y-z}{yz^2}\frac{1-x\tau}{1+x\tau} \ln\left(\frac{1+z\tau}{1+y\tau}\right)  + ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
-    % third integral
-    %&+ \frac{\partial^3}{\partial x \partial y \partial  z} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
-    % taking derivatives
-    % from the first integral
-    %=&{} \lim_{\tau\to\infty} \left[\frac{1}{y^2}\frac{\tau^3}{(1+x\tau)^2(1+z\tau)} + \frac{1}{y^2}\frac{\tau^3(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}
-    %- \frac{1}{y^2}\frac{\tau^2(1+y\tau)\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
-    % second
-    %&+ \lim_{\tau\to\infty} \left[
-    %\frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)}
-    %-\frac{4(y-z)}{yz^3}\frac{\tau^2\ln(1+zt)}{(1+x\tau)^2(1+y\tau)}
-    %-\frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)(1+z\tau)}{(1+x\tau)^2} \right. \\\nonumber
-    %&+\left. \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)}
-    %- \frac{4}{y^2z^2}\frac{\tau\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)} 
-    %- \frac{4(y-z)}{y^3z}\frac{\tau^2\ln(1+y\tau)}{(1+x\tau)^2(1+z\tau)^2} \right. \\\nonumber
-    %&- \left. \frac{4(y-z)}{yz^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} 
-    %- \frac{2(y-z)^2}{y^2z^2}\frac{\tau^3}{(1+x\tau)^2(1+y\tau)(1+z\tau)^2} \right. \\\nonumber
-    %&+ \left. \frac{2}{y^2z^2}\frac{\tau}{(1+x\tau)^2}\ln\left(\frac{1+y\tau}{1+z\tau}\right) -\frac{2(y-z)}{y^2z^2}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)(1+z\tau)} \right. \\\nonumber
-    %&+ \left. \frac{4}{z^3}\frac{\tau^2}{(1+x\tau)^2(1+y\tau)}
-    %+ ...\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
-    % third
-    %&+ \lim_{\tau\to\infty} \left[\textrm{terms from the third integral}\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} \\\nonumber
-    % taking the limit
-    % first
-    =\left[ \frac{1}{x^2y^2z}+\frac{1}{x^2yz^2}
-    % second
-    %-\frac{4}{y^2z}\lim_{\tau\to\infty}\frac{\tau}{(1+x\tau)^2} \int_0^{\tau} \frac{\ln(1+y\tau')}{1+z\tau'} \,d\tau' + \textrm{more terms} 
-    \right] \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2}} = \frac{3}{4}.
-    % \\\nonumber
-    % third
-    % evaluating at (x, y, z) = (1, 1, 2)
-    %=&{}\frac{1}{2}+\frac{1}{4} %+\textrm{more terms}.
-\end{align}
-The last two terms from Eq. (\ref{eq:log_phi_int}) turned out to not contribute to Eq. (\ref{eq:first_term}), even though the integrals that they contain diverge as $\tau \rightarrow \infty$. Is there an algebra mistake? I also tried flipping the order of taking the derivatives and the integral, and that seemed to diverge. One difficulty is that the integrals of the shape 
+The first integral in Eq. (\ref{eq:lambda_num_contribution}) thus evaluates to
 \begin{align}
-    \int_0^{\tau} \frac{\ln(1+z\tau')}{1+y\tau'} \,d\tau'
+    -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'}\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} & = -\int_0^{\tau} \frac{1}{(1+z\tau')^2}\,d\tau'\Bigg\vert_{\substack{z=2 \\ \tau=\infty}} = -\frac{1}{2}.
 \end{align}
-pop up and I do not know how to solve them.
+
+The second and third integrals in Eq. (\ref{eq:lambda_num_contribution}) can be evaluated as \begin{align}
+    & -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} = -\int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    &= \int_0^{\tau} \frac{2z\tau'}{(1+z\tau')^3} \,d\tau'\Bigg\vert_{\substack{z=2 \\ \tau=\infty}} = \frac{1}{2}.
+\end{align}
+
+Finally, we find the last (and the second to last) integral in Eq. (\ref{eq:lambda_num_contribution}) as
+\begin{align}
+    \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} &= \textrm{need to do!} 
+\end{align}
+
+
 \end{document}
