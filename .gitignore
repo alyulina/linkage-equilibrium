@@ -1,3 +1,6 @@
 .DS_Store
 .ipynb_checkpoints
 /notes/Ben's project ideas 11.07.21.pdf
+
+# ignoring the simulation output
+/code/output
