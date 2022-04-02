@@ -2,5 +2,11 @@
 .ipynb_checkpoints
 /notes/Ben's project ideas 11.07.21.pdf
 
-# ignoring the simulation output
-/code/output
+# ignoring all subfolders (w/ output) but not files in code
+/code/*/
+
+# ignoring modifications of plot_le.py for different regimes
+/code/plot_le_*
+
+# ignoring output plots
+/code/*.png

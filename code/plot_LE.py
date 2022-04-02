@@ -1,3 +1,5 @@
+# Zhiru modified plot_neutral_selection_comparison_figure.py 
+
 import sys
 import numpy
 import pylab
@@ -7,12 +9,12 @@ from math import log10,log
 import ld_theory
 from numpy.random import multinomial
 
+import matplotlib
 import matplotlib.colors as colors
 import matplotlib.cm as cmx
 import matplotlib as mpl
 import matplotlib.gridspec as gridspec
 from numpy.random import randint, shuffle, poisson, binomial, choice, hypergeometric
-import matplotlib.colors as mcolors
 import matplotlib.patheffects as pe
 
 mpl.rcParams['font.size'] = 8
@@ -20,24 +22,24 @@ mpl.rcParams['lines.linewidth'] = 1
 mpl.rcParams['legend.frameon']  = False
 mpl.rcParams['legend.fontsize']  = 'small'
 
-theory_xs = numpy.logspace(-3,3.5,50)
+theory_xs = numpy.logspace(-6,5,50)
 
 # Set up figure
-pylab.figure(1,figsize=(3.42,2.5))
+pylab.figure(1,figsize=(6,4.5))
 f = pylab.gcf()
 
 eta_axis = pylab.gca()
 eta_axis.set_ylabel("$\\Lambda(f_0)$")
 eta_axis.set_xlabel("$2 N R f_0$")
-eta_axis.loglog(theory_xs,numpy.ones_like(theory_xs),'k:')
+# eta_axis.loglog(theory_xs,numpy.ones_like(theory_xs),'k:')
 # eta_axis.set_xlim([theory_xs[0],theory_xs[-1]])
 
-theory_xs = numpy.logspace(-3,0,25)
-eta_axis.loglog(theory_xs, theory_xs, 'k--', label='y=x')
+theory_xs = numpy.logspace(-6,5,25)
+eta_axis.loglog(theory_xs, theory_xs, color="#d1d1d1", label='$\\Lambda(f_0)=2 N R f_0$')
 
 vmin=-3
 vmax=-1
-cmap='jet_r'
+cmap='viridis'
 
 jet = cm = pylab.get_cmap(cmap) 
 cNorm  = colors.Normalize(vmin=vmin, vmax=vmax)
@@ -47,7 +49,7 @@ scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
 
 n=1e05 # actual population size
 #fstars = numpy.logspace(-3,-1,20)
-fstars = numpy.array([0.001,0.01,0.03,0.1])
+fstars = numpy.array([0.001,0.003,0.01,0.03,0.1])
 params = parameters.params
 for type,symbol,counts_symbol in zip(['r'],['o'],['s']):
     LEs = {fstar:[] for fstar in fstars}
@@ -151,16 +153,28 @@ for type,symbol,counts_symbol in zip(['r'],['o'],['s']):
         collapse_ys = LEs[fstar]
         
         colorVal = scalarMap.to_rgba(log10(fstar))
-        
-        line, = eta_axis.loglog(collapse_xs,collapse_ys,symbol,markersize=3,color=colorVal)
+
+        l = '$f_0=$' + str(fstar)
+        line, = eta_axis.loglog(collapse_xs,collapse_ys,symbol,markersize=5,color=colorVal,alpha=0.7,markeredgewidth=0,label=l)
 
     # theory_ys = (1 - 1 / theory_xs) / (1 + 8 / theory_xs)
     # eta_axis.semilogx(theory_xs,theory_ys,'-',color='k',zorder=0)
 
+eta_axis.set_xticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4])
+eta_axis.set_xticklabels(['$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$', '$10^{2}$', '$10^{3}$', '$10^{4}$'])
+eta_axis.set_yticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0])
+eta_axis.set_yticklabels(['$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
+eta_axis.set_ylim([5e-6,2])
+eta_axis.set_xlim([5e-6,2e4])
+eta_axis.minorticks_off()
 
-eta_axis.set_ylim([1e-4,2])
-eta_axis.set_xlim([1e-4,3e03])
+# this is not working
+#cax = f.add_axes([0.95, 0.95, 0.62, 0.02])
+#cbar = f.colorbar(line,cax=cax,orientation='vertical',ticks=[-3,-2,-1])
+#cbar.ax.tick_params(labelsize=8) 
+#f.text(0.94,0.94,'$\log_{10} f_0$')
 
-eta_axis.legend(frameon=False,loc='lower left',numpoints=1,scatterpoints=1)
+#eta_axis.legend(frameon=False,loc='upper right',numpoints=1,scatterpoints=1)
+eta_axis.legend(frameon=False,loc='lower right')
 
-pylab.savefig('LE.pdf',bbox_inches='tight')
+pylab.savefig('LE_r.png',dpi=600,bbox_inches='tight')
