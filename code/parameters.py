@@ -4,6 +4,7 @@ import sys
 params = {}
 
 num_runs = 10000000
+# num_runs = 100000000
 N = 1e05
 dt = 100
 s1 = 0
@@ -29,15 +30,6 @@ s2 = 1e-03/8
 eps = 0 
 rs = numpy.hstack([[0],numpy.logspace(-6,-2,17)])
 params['r_selA'] = [(num_runs,dt,N,s1,s2,eps,r) for r in rs]
-
-N = 3e03
-num_runs = 1000000
-dt = 10
-s1 = 0
-s2 = 0
-eps = 0
-rs = numpy.hstack([[0],numpy.logspace(-5,-1,15)])
-params['smallr'] = [(num_runs,dt,N,s1,s2,eps,r) for r in rs]
 
 
 if __name__=='__main__':

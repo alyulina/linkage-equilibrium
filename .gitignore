@@ -6,7 +6,7 @@
 /code/*/
 
 # ignoring modifications of plot_le.py for different regimes
-/code/plot_le_*
+/code/plot_neutral_le_*
 
 # ignoring output plots
 /code/*.png

@@ -1,4 +1,4 @@
-# Zhiru modified plot_neutral_selection_comparison_figure.py 
+# Zhiru probably modified plot_neutral_selection_comparison_figure.py
 
 import sys
 import numpy
