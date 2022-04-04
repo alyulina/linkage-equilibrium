@@ -6,6 +6,7 @@ import parameters
 from math import log10,log
 import ld_theory
 from numpy.random import multinomial
+from scipy.special import gammaln
 
 import matplotlib.colors as colors
 import matplotlib.cm as cmx
@@ -15,12 +16,14 @@ from numpy.random import randint, shuffle, poisson, binomial, choice, hypergeome
 import matplotlib.colors as mcolors
 import matplotlib.patheffects as pe
 
+debug = True
+
 mpl.rcParams['font.size'] = 8
 mpl.rcParams['lines.linewidth'] = 1
 mpl.rcParams['legend.frameon']  = False
 mpl.rcParams['legend.fontsize']  = 'small'
 
-theory_xs = numpy.logspace(-1,3,50)
+theory_xs = numpy.logspace(-3,2.5,50)
 
 # Set up figure
 f, axes = pylab.subplots(2,1,sharex=True,squeeze=False)
@@ -29,56 +32,80 @@ f.set_size_inches(3.42,5)
 k1_axis = axes[0][0]
 k1_axis.set_ylabel("$\\sigma_d^1$")
 k1_axis.semilogx(theory_xs,numpy.zeros_like(theory_xs),'k:')
+k1_axis.set_xlim([theory_xs[0],theory_xs[-1]])
 
 k2_axis = axes[1][0]
-k2_axis.set_ylabel("$\\sigma_d^2$")
-k2_axis.set_xlabel("$2 N R$")
+k2_axis.set_ylabel("$\\sigma_d^2 / f_0$")
+k2_axis.set_xlabel("$2 N R f_0$")
+k2_axis.set_xlim([theory_xs[0],theory_xs[-1]])
+
+vmin=-3
+vmax=-1
+cmap='jet_r'
+
+jet = cm = pylab.get_cmap(cmap) 
+cNorm  = colors.Normalize(vmin=vmin, vmax=vmax)
+scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
+
+pylab.figure(2) # new fig for LE!
+le_axis = pylab.gca()
+le_axis.set_xlabel("$2 N R f_0$")
+le_axis.set_ylabel("Linkage equilibrium, $E(f_0)$")
+le_axis.set_xlim([theory_xs[0],theory_xs[-1]])
+
+
+
+pylab.figure(3)
+denom_axis = pylab.gca()
+denom_axis.set_xlabel("$2 N R f_0$")
+denom_axis.set_ylabel("Denominator")
+denom_axis.set_xlim([theory_xs[0],theory_xs[-1]])
+
+pylab.figure(4) # new fig for LE!
+small_ld_axis = pylab.gca()
+small_ld_axis.set_xlabel("$2 N R f_0$")
+small_ld_axis.set_ylabel("Small LD")
+small_ld_axis.set_xlim([theory_xs[0],1e04])
 
 # Plot DATA
 
 n=1e05 # actual population size
+fstars = numpy.logspace(-3,-1,20)
+nstars = numpy.power(2,numpy.arange(3,11))
+ 
 params = parameters.params
-
-selection_gammaA = 2*params['r_selA'][0][2]*params['r_selA'][0][3]
-selection_gammaB = 2*params['r_selA'][0][2]*params['r_selA'][0][4]
-selection_eps = 0
-selection_fstar = 1.0/selection_gammaA
-
-print "Effective f0 =", selection_fstar
-
-for type,symbol,counts_symbol,color in zip(['r','r_selA'],['o','s'],['.','.'],['k','r']):
-    
-    
-    if type=='r':
-        fstars = numpy.array([selection_fstar,100])
-    elif type=='r_selA':
-        fstars = numpy.array([100])
-    else:
-        print "type=", type
+for type,symbol,counts_symbol in zip(['r'],['o'],['s']):
     
     sigmas = {fstar:[] for fstar in fstars}
     sigmasquareds = {fstar:[] for fstar in fstars}
     sigmafourths = {fstar:[] for fstar in fstars}
+    les = {fstar:[] for fstar in fstars}
+    small_lds = {fstar:[] for fstar in fstars}
+    smaller_lds = {fstar:[] for fstar in fstars}
     denominatorsquareds = {fstar:[] for fstar in fstars}
     bare_numeratorsquareds = {fstar:[] for fstar in fstars}
+    
+    denominatorfourths = {fstar:[] for fstar in fstars}
     
     sigmasquareds_counts = {fstar:[] for fstar in fstars}
     
     gammas = []
     
-    
-    for param_idx in xrange(0,len(params[type])):
+    if debug:
+        param_range = [10,20]
+    else:
+        param_range = range(0,len(params[type]))
+    for param_idx in param_range:
     
         N = params[type][param_idx][2]
-        eps = params[type][param_idx][5]
         r = params[type][param_idx][6]
-        gamma = 2*(N*eps+N*r)
+        gamma = 2*N*r
         theta = 1.0/log(N)
-    
+        print "2Nr =", gamma
         if gamma<5:
             #print gamma
             pass
-            #continue
+            continue
         
         gammas.append(gamma)
     
@@ -93,6 +120,7 @@ for type,symbol,counts_symbol,color in zip(['r','r_selA'],['o','s'],['.','.'],['
         n10s = []
         n01s = []
         print "Loading %s" % filename
+        
         for line in file:
     
             if line.startswith('//'):
@@ -125,11 +153,57 @@ for type,symbol,counts_symbol,color in zip(['r','r_selA'],['o','s'],['.','.'],['
         fAs = f11s+f10s
         fBs = f11s+f01s
 
-        n11s = numpy.array(n11s)
-        n10s = numpy.array(n10s)
-        n01s = numpy.array(n01s)
+        n11s = numpy.array(n11s)*1.0
+        n10s = numpy.array(n10s)*1.0
+        n01s = numpy.array(n01s)*1.0
         ns = numpy.ones_like(n11s)*n
         n00s = ns-n10s-n11s-n01s
+        
+        smaller_lds = []
+        smallerer_lds = []
+        for m in nstars:
+        
+            fstar = 1.0/m
+    
+            print m
+            good_200s = (n11s>1.5)*(n00s>(m-2.5))
+            good_022s = (n10s>1.5)*(n01s>1.5)*(n00s>(m-4.5))
+            good_111s = (n10s>0.5)*(n10s>0.5)*(n01s>0.5)*(n00s>(m-3.5))
+    
+            weights_200 = good_200s*n11s*(n11s-1)/2.0*numpy.exp(good_200s*(gammaln(n00s+1)-gammaln((n00s-(m-2))*good_200s+1)-gammaln(m-2+1)-gammaln(ns+1)+gammaln(ns-m+1)+gammaln(m+1)))
+    
+            print n11s[0:5]
+            print n00s[0:5]
+            print n10s[0:5]
+            print n01s[0:5]
+            print good_200s[0:5]
+
+            print weights_200[0:5]
+            
+            weights_022 = good_022s*n10s*(n10s-1)/2.0*n01s*(n01s-1)/2.0*numpy.exp(good_022s*(gammaln(n00s+1)-gammaln((n00s-(m-4))*good_022s+1)-gammaln(m-4+1)-gammaln(ns+1)+gammaln(ns-m+1)+gammaln(m+1)))
+    
+            weights_111 = good_111s*n11s*n10s*n01s*numpy.exp(good_111s*(gammaln(n00s+1)-gammaln((n00s-(m-3))*good_111s+1)-gammaln(m-3+1)-gammaln(ns+1)+gammaln(ns-m+1)+gammaln(m+1)))
+    
+            P200 = weights_200.sum()
+            P022 = weights_022.sum()
+            P111 = weights_111.sum()
+    
+    
+            smaller_ld = (m*m/2.0*P200-m/2.0*P111+P022)/(P022)/m
+            
+            smaller_lds.append(smaller_ld)
+            
+            small_ld_numerator = (numpy.square(f11s*f00s-f10s*f01s)*numpy.exp(-f11s/fstar-f10s/fstar-f01s/fstar)).mean()
+            small_ld_denominator = (fAs*(1-fAs)*fBs*(1-fBs)*numpy.exp(-f11s/fstar-f10s/fstar-f01s/fstar)).mean()
+            small_ld = small_ld_numerator*1.0/small_ld_denominator
+            smallerer_lds.append(small_ld*m)
+            
+        collapse_xs = gamma/nstars
+        collapse_ys = smaller_lds
+        small_ld_axis.semilogx(collapse_xs, collapse_ys,'^', color='k',markersize=3)
+        collapse_ys = smallerer_lds
+        small_ld_axis.semilogx(collapse_xs, collapse_ys,'v', color='k',markersize=3)
+        
         
         for fstar in fstars:
         
@@ -159,6 +233,17 @@ for type,symbol,counts_symbol,color in zip(['r','r_selA'],['o','s'],['.','.'],['
             sigmafourths[fstar].append(sigmafourth)
             
             denominatorsquareds[fstar].append(sigmasquared_denominator/theta**2)
+            denominatorfourths[fstar].append(sigmafourth_denominator/theta**2)
+            LE_numerator = (f11s*f10s*f01s*f00s*Hs).mean()
+            LE_denominator = sigmafourth_denominator
+            
+            LE = LE_numerator/LE_denominator
+            les[fstar].append(LE)
+            
+            small_ld_numerator = (f11s*f11s*numpy.exp(-f11s/fstar-f10s/fstar-f01s/fstar)).mean()
+            small_ld_denominator = (f10s*f10s*f01s*f01s*numpy.exp(-f11s/fstar-f10s/fstar-f01s/fstar)).mean()
+            small_ld = fstar*fstar*small_ld_numerator*1.0/small_ld_denominator
+            small_lds[fstar].append(small_ld)
             
             if False:
                 # Now do version based on counts
@@ -220,22 +305,23 @@ for type,symbol,counts_symbol,color in zip(['r','r_selA'],['o','s'],['.','.'],['
         sigmas[fstar] = numpy.array(sigmas[fstar])
         sigmasquareds[fstar] = numpy.array(sigmasquareds[fstar])
         sigmafourths[fstar] = numpy.array(sigmafourths[fstar])
+        les[fstar] = numpy.array(les[fstar])
         denominatorsquareds[fstar] = numpy.array(denominatorsquareds[fstar])
         bare_numeratorsquareds[fstar] = numpy.array(bare_numeratorsquareds[fstar])
         
         sigmasquareds_counts[fstar] = numpy.array(sigmasquareds_counts[fstar])
         
+        denominatorfourths[fstar] = numpy.array(denominatorfourths[fstar])
+        
+        small_lds[fstar] = numpy.array(small_lds[fstar])
         
     for fstar in fstars:
 
-        pylab.figure(1)
-        collapse_xs = gammas
-        collapse_ys = sigmasquareds[fstar]
+        collapse_xs = gammas*fstar
+        collapse_ys = sigmasquareds[fstar]/fstar
         
-        if fstar<1:
-            colorVal='0.7'
-        else:
-            colorVal=color  
+        colorVal = scalarMap.to_rgba(log10(fstar))
+        
         
         line, = k2_axis.loglog(collapse_xs,collapse_ys,symbol,markersize=3,color=colorVal)
         
@@ -247,6 +333,15 @@ for type,symbol,counts_symbol,color in zip(['r','r_selA'],['o','s'],['.','.'],['
         collapse_ys = sigmas[fstar]
         k1_axis.semilogx(collapse_xs, collapse_ys,symbol, color=colorVal,markersize=3)
         
+        collapse_ys = les[fstar]
+        le_axis.semilogx(collapse_xs, collapse_ys,symbol, color=colorVal,markersize=3)
+        
+        capped_fstar = min([fstar,1])
+        collapse_ys = denominatorfourths[fstar]/capped_fstar/capped_fstar/capped_fstar/capped_fstar
+        denom_axis.semilogx(collapse_xs, collapse_ys,symbol, color=colorVal,markersize=3)
+        
+        collapse_ys = small_lds[fstar]/fstar
+        small_ld_axis.semilogx(collapse_xs, collapse_ys,symbol, color=colorVal,markersize=3)
         
         #pylab.figure(2)
         #collapse_ys = sigmafourths[fstar]/sigmasquareds[fstar]
@@ -261,29 +356,59 @@ for type,symbol,counts_symbol,color in zip(['r','r_selA'],['o','s'],['.','.'],['
         #pylab.loglog(collapse_xs,collapse_ys,symbol,color=color,markersize=3)
         
         
+
 theory_ys = numpy.array([ld_theory.ohta_sigmasquared(x) for x in theory_xs])
-k2_axis.semilogx(theory_xs,theory_ys,'k-')
+k2_axis.semilogx(theory_xs,theory_ys,'k:')
 
-theory_ys = numpy.array([ld_theory.scaled_neutral_ld(max([x,1])*selection_fstar)*selection_fstar for x in theory_xs])
-k2_axis.loglog(theory_xs, theory_ys,'-',color='0.7')
+    
+theory_ys = numpy.array([ld_theory.scaled_neutral_ld(x) for x in theory_xs])
+k2_axis.loglog(theory_xs, theory_ys,'k-',linewidth=1)
 
-theory_ys = numpy.array([ld_theory.unscaled_selection_ld(x,selection_gammaA,selection_gammaB,selection_eps) for x in theory_xs])
-k2_axis.loglog(theory_xs, theory_ys,'-',color='r')
+theory_ys = numpy.array([ld_theory.scaled_neutral_ld(x,k=1) for x in theory_xs])
+k1_axis.semilogx(theory_xs, theory_ys,'k-',linewidth=1)
 
-theory_ys = numpy.array([ld_theory.scaled_neutral_ld(max([x,1])*selection_fstar,k=1) for x in theory_xs])
-k1_axis.semilogx(theory_xs, theory_ys,'-',color='0.7')
+theory_ys = theory_xs
+le_axis.semilogx(theory_xs, theory_ys,'k:')
+le_axis.semilogx(theory_xs, numpy.ones_like(theory_ys),'k:')
+le_axis.semilogx(theory_xs, numpy.zeros_like(theory_ys),'k:')
+
+theory_ys = 1-2/theory_xs
+le_axis.semilogx(theory_xs, theory_ys,'k:')
+
+theory_ys = numpy.array([ld_theory.scaled_neutral_small_ld(x) for x in theory_xs])
+small_ld_axis.loglog(theory_xs, theory_ys,'k-',linewidth=1)
 
 
-k2_axis.set_ylim([1e-03,1])
-k2_axis.set_xlim([1e-01,1e03])
+k2_axis.set_ylim([3e-03,5])
+k2_axis.set_xlim([3e-03,3e02])
+k1_axis.set_xlim([3e-03,3e02])
+k1_axis.set_ylim([-1,3])
+k1_axis.set_yticks([-1,0,1,2,3])
 
-k1_axis.set_xlim([1e-01,1e03])
-k1_axis.set_ylim([-1,2])
+m = k2_axis.scatter([1e-05],[1],c=[-2], vmin=vmin, vmax=vmax, cmap=cmap, marker='^')
 
-k1_axis.plot([1e-05],[1],'o',color='k',label='Neutral, $f_0=\infty$',markersize=3)
-k1_axis.plot([1e-05],[1],'o',color='r',label='$2Ns=25$, $f_0=\infty$',markersize=3)
-k1_axis.plot([1e-05],[1],'o',color='0.7',label='Neutral, $f_0=1/2Ns$',markersize=3)
+f.subplots_adjust(top=0.89, hspace=0.05)
+cax = f.add_axes([0.25, 0.95, 0.62, 0.02])
+cbar = f.colorbar(m,cax=cax,orientation='horizontal',ticks=[-3,-2,-1])
+#cbar.set_ticklabels(['$30$','$300$','$3000$'])
+cbar.ax.tick_params(labelsize=8) 
+f.text(0.115,0.94,'$\log_{10} f_0$')
+#cbar.set_label('$U_d/U_b$')
 
-k1_axis.legend(frameon=False,loc='upper right',numpoints=1,scatterpoints=1)
+le_axis.set_ylim([-0.1,1.2])
+pylab.figure(1)
+pylab.savefig('neutral_collapse.pdf',bbox_inches='tight')
+pylab.figure(2)
+if debug:
+    filename = 'debug_neutral_le.pdf'
+else:
+    filename = 'neutral_le.pdf'
+pylab.savefig(filename,bbox_inches='tight')
 
-pylab.savefig('neutral_selection_comparison.pdf',bbox_inches='tight')
+pylab.figure(3)
+denom_axis.set_ylim([0,1.1])
+pylab.savefig('neutral_denomiantor.pdf',bbox_inches='tight')
+
+pylab.figure(4)
+pylab.savefig('neutral_small_ld.pdf',bbox_inches='tight')
+
