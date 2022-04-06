@@ -1,4 +1,4 @@
-# Zhiru probably modified plot_recombination_figure.py
+# modifying plot_selection_figure.py
 
 import sys
 import numpy
@@ -31,7 +31,7 @@ f = pylab.gcf()
 eta_axis = pylab.gca()
 eta_axis.set_ylabel("$\\Lambda(f_0)$")
 eta_axis.set_xlabel("$2 N R f_0$")
-# eta_axis.loglog(theory_xs,numpy.ones_like(theory_xs),'k:')
+eta_axis.loglog(theory_xs,numpy.ones_like(theory_xs),color="#d1d1d1")
 # eta_axis.set_xlim([theory_xs[0],theory_xs[-1]])
 
 theory_xs = numpy.logspace(-6,5,25)
@@ -51,7 +51,7 @@ n=1e05 # actual population size
 #fstars = numpy.logspace(-3,-1,20)
 fstars = numpy.array([0.001,0.003,0.01,0.03,0.1])
 params = parameters.params
-for type,symbol,counts_symbol in zip(['r'],['o'],['s']):
+for type,symbol,counts_symbol in zip(['r_eps=1e-5'],['o'],['s']):
     LEs = {fstar:[] for fstar in fstars}
     denominatorsquareds = {fstar:[] for fstar in fstars}
     bare_numeratorsquareds = {fstar:[] for fstar in fstars}
@@ -177,4 +177,4 @@ eta_axis.minorticks_off()
 #eta_axis.legend(frameon=False,loc='upper right',numpoints=1,scatterpoints=1)
 eta_axis.legend(frameon=False,loc='lower right')
 
-pylab.savefig('LE_r.png',dpi=600,bbox_inches='tight')
+pylab.savefig('LE_%s.png'%type,dpi=600,bbox_inches='tight') 
