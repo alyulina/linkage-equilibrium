@@ -1,11 +1,10 @@
-
 #!/bin/bash
 #
-#This is a job array to run Ben's code 10 times for a set of parameters from parameters.py
+#This is a job array to run Ben's code for a set of parameters from parameters.py
 #
 #Give your job a name
-#SBATCH --job-name=LE_r
-#SBATCH --output=/scratch/users/alyulina/recombination/output/slurm-%A_%a.out
+#SBATCH --job-name=LE
+#SBATCH --output=/home/users/alyulina/recombination/output/slurm-%A_%a.out
 #
 #Specify time limit; days-hours:minutes:seconds or hours:minutes:seconds
 #SBATCH --time=2-00:00:00
@@ -24,7 +23,8 @@
 #SBATCH --no-requeue
 #
 #Submit a job array of N jobs (N is limited to 1000)
-#SBATCH --array=1-10
+#Use the first and the last indices form $(python2 parameters.py idxs ${type})
+#SBATCH --array=0-21
 #
 #Do not export the local environment to the compute nodes
 #SBATCH --export=NONE
@@ -34,13 +34,11 @@ unset SLURM_EXPORT_ENV
 export OMP_NUM_THREADS=1
 #
 #Load the software module you intend to use
-module load python/python/2.7.13
+module load python/2.7.13
 module load py-numpy/1.14.3_py27
-module load py-scipy/1.1.0_py27 # need 0.17.0 or higher
+module load py-scipy/1.1.0_py27
 #
-export type=$1
-for idx in $(python2 parameters.py idxs ${type}); do
-    export params=$(python2 parameters.py get_params ${type} ${idx})
-    echo ${params}
-    ./simulate_twolocus ${params} | gzip -c > output/output_${type}_${idx}_%a.txt.gz
-done
+#Read type from parameters.py and print out parameters, then run simulation
+type=$1
+echo $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID)
+srun --cpu_bind=verbose ./simulate_twolocus $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID) | gzip -c > /scratch/users/alyulina/recombination/output/output_${type}_$SLURM_ARRAY_TASK_ID.txt.gz
