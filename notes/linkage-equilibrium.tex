@@ -11,23 +11,25 @@
 \setlength{\jot}{12pt} % between-line spacing in multi-line equations
 \renewcommand{\baselinestretch}{1.25} % between-line spacing
 \usepackage{titlesec,float} % sections spacing + indent first paragraph in section, placing figures
-\titlespacing*{\section}{0 pt}{0 pt}{0 pt} % title spacing
+\titleformat*{\section}{\large\bfseries}
+\titlespacing*{\section}{0 pt}{0 pt}{-24 pt} % title spacing
 \titlespacing*{\subsection}{0 pt}{0 pt}{0 pt}
 \setlength{\abovecaptionskip}{6 pt} % moving figure captures up
 %\setlength{\abovecaptionskip}{-12 pt} % reducing space below figures
 \allowdisplaybreaks
 
 
-\title{\vspace{-36 pt} \Large Perturbative solution of the $z(\tau')$ characteristic in the limit that $\rho$ is small \vspace{-36 pt}}
+\title{\vspace{-36 pt} \Large Perturbative solution for $\Lambda(f_0)$ in the limit that $\rho$ is small \vspace{-36 pt}}
 \date{}
 
 \begin{document}
-%\maketitle
+% \maketitle
+\section*{Perturbative solution of the generating function for small $f_0$}
 We are interested in the linkage equilibrium statistic $\Lambda(f_0)$, defined as
 \begin{align}
     \Lambda(f_0) \equiv \frac{\left\langle f_{ab}f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle},
 \end{align}
-where $f_A \equiv f_{Ab} + f_{aB}$ and $f_B \equiv f_{aB} + f_{AB}$.
+where $f_A \equiv f_{Ab} + f_{aB}$, $f_B \equiv f_{aB} + f_{AB}$ and $f_A, f_B \lesssim f_0$.
 In the limit that $f_{Ab}$, $f_{aB}$, $f_{AB} \ll1$, 
 \begin{align}\label{eq:lambda_small_f}
     \Lambda(f_0) \approx \frac{\left\langle f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}.
@@ -83,20 +85,22 @@ The characteristic $z(\tau')$ is defined by
 \begin{align}\label{eq:z_general_eq}
     \partial_{\tau'} z(\tau') = -(\gamma_{AB} + \rho) z(\tau') - z^2(\tau') + \rho \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \rho \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}
 \end{align}
-with the initial condition $z(0)=z$, where $\gamma_{AB} = \gamma_A + \gamma_B + \gamma_{\epsilon}$. In the absence of recombination, the equation above has an exact solution, 
+with the initial condition $z(0)=z$, where $\gamma_{AB}$ is the rescaled fitness of the double mutant.
+
+\section*{Perturbative solution for $\Lambda(f_0)$ for neutral loci and weak recombination}
+In the absence of recombination, the equation above has an exact solution, 
 \begin{align}
     z_0(\tau') = \frac{\gamma_{AB}ze^{-\gamma_{AB}\tau'}}{\gamma_{AB}+z(1-e^{-\gamma_{AB}\tau'})}.
 \end{align}
 In the limit that $\rho \ll 1$, corrections to the zeroth-order solution can be found by perturbatively expanding $z(\tau')$ as
 \begin{align}\label{eq:z_series}
-    z(\tau') \approx z_0 + \sum_{i=1}^{\infty} \rho^{i}z_i.
+    z(\tau') \approx z_0(\tau') + \sum_{i=1}^{\infty} \rho^{i}z_i(\tau').
 \end{align}
-Plugging the series expansion in the equation for $z(\tau')$ and matching the coefficients in front powers of $\rho$, we obtain 
+Plugging the series expansion in the equation for $z(\tau')$ and matching the coefficients in front powers of $\rho$, we obtain for the first-order correction
 \begin{align}
         \partial_{\tau'}z_1(\tau') \approx -\gamma_{AB}z_1(\tau') -2z_0(\tau')z_1(\tau') - z_0(\tau') + \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}.
 \end{align}
 
-%\section*{Perturbative solution of $\Lambda(f_0)$ in the neutral limit for small $\rho$}
 In the neutral limit, the equation above reduces to
 \begin{align}\label{eq:z_neutral_eq}
     \partial_{\tau'}z_1(\tau') &\approx - \frac{2z}{1+z\tau'}z_1(\tau') - \frac{z}{1+z\tau'} + \frac{x}{1+x\tau'} + \frac{y}{1+y\tau'}.
@@ -107,15 +111,15 @@ This inhomogeneous linear ordinary differential equation can be solved by the me
 \end{align}
 has solution in the form
 \begin{align}\label{eq:z_1_homogeneous_u}
-    z_1(\tau') \approx \frac{u(\tau')}{(1+z\tau')^2},
+    z_1(\tau') \approx \frac{\phi(\tau')}{(1+z\tau')^2},
 \end{align}
-where $u(\tau')$ is some function of $\tau'$. Plugging Eq. (\ref{eq:z_1_homogeneous_u}) into Eq. (\ref{eq:z_neutral_eq}), we obtain
+where $\phi(\tau')$ is some function of $\tau'$. Plugging Eq. (\ref{eq:z_1_homogeneous_u}) into Eq. (\ref{eq:z_neutral_eq}), we obtain
 \begin{align}
-    \partial_{\tau'} u(\tau') \approx - z(1+z\tau') + \frac{x(1+z\tau')^2}{1+x\tau'} + \frac{y(1+z\tau')^2}{1+y\tau'},
+    \partial_{\tau'} \phi(\tau') \approx - z(1+z\tau') + \frac{x(1+z\tau')^2}{1+x\tau'} + \frac{y(1+z\tau')^2}{1+y\tau'},
 \end{align}
 from where
 \begin{align}
-    u(\tau') &\approx - \int z(1+z\tau') \,d\tau'\
+    \phi(\tau') &\approx - \int z(1+z\tau') \,d\tau'\
     + \int \frac{x(1+z\tau')^2}{1+x\tau'} \,d\tau'\
     + \int \frac{y(1+z\tau')^2}{1+y\tau'} \,d\tau'\, \\\nonumber
     &= \frac{1}{2} (1+z\tau')^2 + z\tau'\left(1 - \frac{z}{x}\right) + z\tau'\left(1 - \frac{z}{y}\right)
@@ -126,7 +130,7 @@ from where
 where 
 \begin{align}
     C = \frac{1}{2}
-\end{align} is a constant determined by the initial condition $u(0)=0$. Then, 
+\end{align} is a constant determined by the initial condition $\phi(0)=0$. Then, 
 \begin{align}\label{eq:z_1}
     z_1(\tau') &\approx \frac{1}{2} 
     + \frac{1}{2}\frac{1}{(1+z\tau')^2} + \left(1-\frac{z}{x}\right)\frac{z\tau'}{(1+z\tau')^2} + \left(1-\frac{z}{y}\right)\frac{z\tau'}{(1+z\tau')^2}
@@ -197,4 +201,72 @@ To the lowest order in $\theta$, $f_0$, and $\rho$, the denominator of $\Lambda(
 \end{align}
 
 Thus, in the neutral limit for small $\rho$, $\Lambda(f_0) \approx \rho$.
+
+\section*{Perturbative solution for $\Lambda(f_0)$ for strong selection or recombination}
+
+In the limit that $\gamma_{AB}$ or $\rho$ are large compared to one, we can rescale time in Eq. (\ref{eq:z_general_eq}) so that
+\begin{align}\label{eq:z_strong_s}
+    \partial_{u} z(u) = -z(u) - \epsilon z^2(u) + \alpha f(u)
+\end{align}
+with the initial condition $z(0) = z$, where $u= \nicefrac{\tau'}{\epsilon}$ is the rescaled time, $\epsilon = \nicefrac{1}{(\gamma_{AB}+\rho)}$, $\alpha = \epsilon \rho$, $\beta_A = \epsilon \gamma_A$, $\beta_B = \epsilon \gamma_B$, and 
+\begin{align}
+    f(u) = \frac{\beta_Axe^{-\beta_A u}}{\beta_A + \epsilon x(1-e^{-\beta_A u})} + \frac{\beta_B ye^{-\beta_B u}}{\beta_B + \epsilon y(1-e^{-\beta_B u})}.
+\end{align}
+
+We can solve Eq. (\ref{eq:z_strong_s}) using a perturbation expansion in $\epsilon$, defining 
+\begin{subequations}\begin{align}
+    z (u) &\approx \sum_{i=0}^\infty \epsilon^i z_i (u) \\
+    \intertext{and}
+    f (u) &\approx \sum_{i=0}^\infty \epsilon^i f_i (u).\label{eq:f(u)_series}
+\end{align}\end{subequations}
+At zeroth order,
+\begin{align}
+    \partial_u z_0(u) = -z_0(u) + \alpha f_0(u)  
+\end{align}
+with the initial condition $z_0(0) = z$ and hence 
+% can be solved w/ the method of variation of constants
+\begin{align}
+    z_0(u) = ze^{-u} + \alpha e^{-u} \int_0^u e^{u'} f_0(u') du'.
+\end{align}
+At first order in $\epsilon$,
+\begin{align}
+    \partial_u z_1(u) = -z_1(u) -z_0^2(u) + \alpha f_1(u) 
+\end{align}
+with the initial condition $z_1(0) = 0$ and hence 
+\begin{align}
+    z_1(u) = \alpha e^{-u} \int_0^u e^{u'} f_1(u') du' - e^{-u} \int_0^u e^{u'} z_0^2 (u') du'.
+\end{align}
+
+
+%If $\gamma_A, \gamma_B \ll 1$, then
+%to the second order in $\epsilon$ \begin{align}
+%    f(u) \approx \frac{x}{1+\epsilon u x} + \frac{y}{1 + \epsilon u y}
+%    % I am not sure about this??
+%    \approx x + y - \epsilon u (x^2 + y^2) + \epsilon^2 u^2 (x^3 + y^3).
+%\end{align}
+If $\gamma_A, \gamma_B \gg 1$, then the first two terms in Eq. (\ref{eq:f(u)_series}) can be found as 
+% by Taylor expanding the denominators
+\begin{align}
+    f_0(u) &= x e^{-\beta_A u} + y e^{-\beta_B u}
+\end{align}
+and
+\begin{align}
+    f_1(u) &= -x^2 \frac{1}{\beta_A}e^{-\beta_A u} \left(1-e^{-\beta_Au}\right)
+    -y^2 \frac{1}{\beta_B}e^{-\beta_B u} \left(1-e^{-\beta_Bu}\right).
+\end{align}
+Hence
+\begin{align}
+    z_0(u) &= z e^{-u} - \frac{\alpha x}{1-\beta_A}\left(e^{-u}-e^{-\beta_A u}\right) - \frac{\alpha y}{1-\beta_B}\left(e^{-u}-e^{-\beta_B u}\right)
+\end{align}
+and 
+\begin{align}
+    z_1(u) &= \frac{\alpha x^2}{\beta_A (1-\beta_A)}\left(e^{-u}-e^{-\beta_A u}\right)
+    - \frac{\alpha x^2}{\beta_A (1-2\beta_A)}\left(e^{-u}-e^{-2\beta_A u}\right) \\ \nonumber
+    &+ \frac{\alpha y^2}{\beta_B (1-\beta_B)}\left(e^{-u}-e^{-\beta_B u}\right)
+    - \frac{\alpha y^2}{\beta_B (1-2\beta_B)}\left(e^{-u}-e^{-2\beta_B u}\right) \\ \nonumber
+    &+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]^2\left(e^{-2u}-e^{-u}\right) \\ \nonumber
+    &+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]\left[\frac{2\alpha x}{\beta_A(1-\beta_A)}\left(e^{-u(1+\beta_A)}-e^{-u}\right) + \frac{2\alpha y}{\beta_B(1-\beta_B)}\left(e^{-u(1+\beta_B)}-e^{-u}\right)\right] \\ \nonumber
+    &- \frac{\alpha^2x^2}{(1-\beta_A)^2(1-2\beta_A)}\left(e^{-2\beta_A u} -e^{-u}\right) - \frac{\alpha^2y^2}{(1-\beta_B)^2(1-2\beta_B)}\left(e^{-2\beta_B u} -e^{-u}\right) \\ \nonumber
+    & -\frac{2\alpha^2 xy}{(1-\beta_A)(1-\beta_B)(1-\beta_A-\beta_B)}\left(e^{-(\beta_A+\beta_B)u}-e^{-u}\right).
+\end{align}
 \end{document}

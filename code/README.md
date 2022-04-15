@@ -4,7 +4,7 @@ First, compile the C++ code: `g++ -o simulate_twolocus twolocus.cpp`.  Do not ch
 
 Create the outpute folder: `mkdir output`. The name can be changed in the bash script. If running from /home on the cluster, make sure that the output is stored in /scratch.    
   
-Then run the bash script that will run simulations: `bash run_simulation.sh r`. Or, on the cluster, `sbatch run_simulations_cluster.sh r`. Specify parameters in the parameters.py file. The python code needs python 2, so be sure to load it if running on the cluster or change python to python2 in the bash script if running locally.  
+Then run the bash script that will run simulations: `bash run_simulation.sh r`, where r specifies the parameter regime from parameters.py. Or, on the cluster, `sbatch rsun_simulations.sh r`. The python code needs python 2, so be sure to load it if running on the cluster or change python to python2 in the bash script if running locally.  
   
-To plot the linkage equilibrium statistic, use plot_le.py (or a version of it, plot_le_*.py). This script uses ld_theory.py, which requires scipy version 0.17.0 or higher. If running locally, switch to the conda environment named ben: `conda activate ben`.
+To plot the linkage equilibrium statistic locally, use `python2 plot_le_recombination.py -p r`. If running on the cluster, use `sbatch srun_plot_le_recombination.sh r`. This script uses ld_theory.py, which requires scipy version 0.17.0 or higher. If running locally, switch to the conda environment named ben: `conda activate ben`. If running on the cluster, make sure to locally install all dependencies.  
   

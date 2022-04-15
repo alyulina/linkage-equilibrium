@@ -1,21 +1,15 @@
 # modifying plot_recombination_figure.py
 
-import sys
-import numpy
-import pylab
-import gzip
 import parameters
-from math import log10,log
 import ld_theory
-from numpy.random import multinomial
+
+import gzip
+import numpy as np
+from math import log10
 
 import matplotlib
-import matplotlib.colors as colors
-import matplotlib.cm as cmx
-import matplotlib as mpl
-import matplotlib.gridspec as gridspec
-from numpy.random import randint, shuffle, poisson, binomial, choice, hypergeometric
-import matplotlib.patheffects as pe
+# matplotlib.use('Agg') # uncomment if running on the cluster
+matplotlib.use('Agg')
 
 from optparse import OptionParser
 
@@ -28,34 +22,27 @@ parser.add_option("-p", "--parameters", type="string",
 (options, args) = parser.parse_args()
 regime = options.regime
 
-mpl.rcParams['font.size'] = 8
-mpl.rcParams['lines.linewidth'] = 1
-mpl.rcParams['legend.frameon']  = False
-mpl.rcParams['legend.fontsize']  = 'small'
+plt.figure(1,figsize=(6,4.5))
+f = plt.gcf()
 
+eta_axis = plt.gca()
+eta_axis.set_ylabel("$\\Lambda(f_0)$", fontsize='small')
+eta_axis.set_xlabel("$2 N R f_0$", fontsize='small')
 
-pylab.figure(1,figsize=(6,4.5))
-f = pylab.gcf()
-
-eta_axis = pylab.gca()
-eta_axis.set_ylabel("$\\Lambda(f_0)$")
-eta_axis.set_xlabel("$2 N R f_0$")
-
-theory_xs = numpy.logspace(-6,5,25)
+theory_xs = np.logspace(-6,5,25)
 eta_axis.loglog(theory_xs, theory_xs, color="#d1d1d1", label='$\\Lambda(f_0)=2 N R f_0$')
-eta_axis.loglog(theory_xs, numpy.ones_like(theory_xs), color="#d1d1d1")
+eta_axis.loglog(theory_xs, np.ones_like(theory_xs), color="#d1d1d1")
 
 vmin=-3
 vmax=-1
 cmap='viridis'
 
-jet = cm = pylab.get_cmap(cmap) 
-cNorm  = colors.Normalize(vmin=vmin, vmax=vmax)
-scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=jet)
+jet = cm = plt.get_cmap(cmap) 
+cNorm  = matplotlib.colors.Normalize(vmin=vmin, vmax=vmax)
+scalarMap = matplotlib.cm.ScalarMappable(norm=cNorm, cmap=jet)
 
 n=1e05 # actual population size
-#fstars = numpy.logspace(-3,-1,20)
-fstars = numpy.array([0.001,0.003,0.01,0.03,0.1])
+fstars = np.array([0.001,0.003,0.01,0.03,0.1])
 params = parameters.params
 for type,symbol,counts_symbol in zip([regime],['o'],['s']):
     LEs = {fstar:[] for fstar in fstars}
@@ -73,6 +60,7 @@ for type,symbol,counts_symbol in zip([regime],['o'],['s']):
         gammas.append(gamma)
     
         filename = 'output/output_%s_%d.txt.gz' % (type,param_idx)
+        # filename = '/scratch/users/alyulina/recombination/output/output_%s_%d.txt.gz' % (type,param_idx) # uncomment if running on the cluster
         file = gzip.GzipFile(filename,"r")
         f11s = []
         f10s = []
@@ -108,17 +96,17 @@ for type,symbol,counts_symbol in zip([regime],['o'],['s']):
             
         file.close()
    
-        f11s = numpy.array(f11s)
-        f10s = numpy.array(f10s)
-        f01s = numpy.array(f01s)
+        f11s = np.array(f11s)
+        f10s = np.array(f10s)
+        f01s = np.array(f01s)
         f00s = 1-f11s-f10s-f01s
         fAs = f11s+f10s
         fBs = f11s+f01s
 
-        n11s = numpy.array(n11s)
-        n10s = numpy.array(n10s)
-        n01s = numpy.array(n01s)
-        ns = numpy.ones_like(n11s)*n
+        n11s = np.array(n11s)
+        n10s = np.array(n10s)
+        n01s = np.array(n01s)
+        ns = np.ones_like(n11s)*n
         n00s = ns-n10s-n11s-n01s
         
         for fstar in fstars:
@@ -126,21 +114,21 @@ for type,symbol,counts_symbol in zip([regime],['o'],['s']):
             numerator = f11s*f00s*f10s*f01s
             sampling_variances = (fAs*(1-fAs)*fBs*(1-fBs))**2
 
-            Hs = numpy.exp(-fAs/fstar-fBs/fstar)
+            Hs = np.exp(-fAs/fstar-fBs/fstar)
     
             LE_numerator = (numerator*Hs).mean()
             LE_denominator = (sampling_variances*Hs).mean()
             LE = LE_numerator/LE_denominator
             LEs[fstar].append(LE)
 
-    gammas = numpy.array(gammas)
+    gammas = np.array(gammas)
     for fstar in fstars:
-        LEs[fstar] = numpy.array(LEs[fstar])
-        denominatorsquareds[fstar] = numpy.array(denominatorsquareds[fstar])
-        bare_numeratorsquareds[fstar] = numpy.array(bare_numeratorsquareds[fstar])
+        LEs[fstar] = np.array(LEs[fstar])
+        denominatorsquareds[fstar] = np.array(denominatorsquareds[fstar])
+        bare_numeratorsquareds[fstar] = np.array(bare_numeratorsquareds[fstar])
         
     for fstar in fstars:
-        pylab.figure(1)
+        plt.figure(1)
         collapse_xs = gammas *fstar
         collapse_ys = LEs[fstar]
         
@@ -156,8 +144,8 @@ eta_axis.set_yticklabels(['$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$
 eta_axis.set_ylim([5e-6,2])
 eta_axis.set_xlim([5e-6,2e4])
 eta_axis.minorticks_off()
+eta_axis.tick_params(axis='both', labelsize=8)
 
-#eta_axis.legend(frameon=False,loc='upper right',numpoints=1,scatterpoints=1)
-eta_axis.legend(frameon=False,loc='lower right')
+eta_axis.legend(frameon=False,fontsize=8,loc='lower right')
 
-pylab.savefig('LE_%s.png'%regime,dpi=600,bbox_inches='tight') 
+plt.savefig('LE_%s.png'%regime,dpi=600,bbox_inches='tight') 

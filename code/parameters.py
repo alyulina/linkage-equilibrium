@@ -11,6 +11,8 @@ s2 = 0
 eps = 0
 rs = numpy.hstack([[0],numpy.logspace(-8,-1,21)])
 
+params['test'] = [(100000,dt,N,s1,s2,eps,r) for r in rs]
+
 # type == 'r'
 params['r'] = [(num_runs,dt,N,s1,s2,eps,r) for r in rs]
 
