@@ -210,8 +210,9 @@ In the limit that $\gamma_{AB}$ or $\rho$ are large compared to one, we can resc
 \end{align}
 with the initial condition $z(0) = z$, where $u= \nicefrac{\tau'}{\epsilon}$ is the rescaled time, $\epsilon = \nicefrac{1}{(\gamma_{AB}+\rho)}$, $\alpha = \epsilon \rho$, $\beta_A = \epsilon \gamma_A$, $\beta_B = \epsilon \gamma_B$, and 
 \begin{align}
-    f(u) = \frac{\beta_Axe^{-\beta_A u}}{\beta_A + \epsilon x(1-e^{-\beta_A u})} + \frac{\beta_B ye^{-\beta_B u}}{\beta_B + \epsilon y(1-e^{-\beta_B u})}.
+    f(u) = \frac{\beta_Axe^{-\beta_A u}}{\beta_A + \epsilon x(1-e^{-\beta_A u})} + \frac{\beta_B ye^{-\beta_B u}}{\beta_B + \epsilon y(1-e^{-\beta_B u})}
 \end{align}
+is a function independent of $z$.
 
 We can solve Eq. (\ref{eq:z_strong_s}) using a perturbation expansion in $\epsilon$, defining 
 \begin{subequations}\begin{align}
@@ -268,5 +269,57 @@ and
     &+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]\left[\frac{2\alpha x}{\beta_A(1-\beta_A)}\left(e^{-u(1+\beta_A)}-e^{-u}\right) + \frac{2\alpha y}{\beta_B(1-\beta_B)}\left(e^{-u(1+\beta_B)}-e^{-u}\right)\right] \\ \nonumber
     &- \frac{\alpha^2x^2}{(1-\beta_A)^2(1-2\beta_A)}\left(e^{-2\beta_A u} -e^{-u}\right) - \frac{\alpha^2y^2}{(1-\beta_B)^2(1-2\beta_B)}\left(e^{-2\beta_B u} -e^{-u}\right) \\ \nonumber
     & -\frac{2\alpha^2 xy}{(1-\beta_A)(1-\beta_B)(1-\beta_A-\beta_B)}\left(e^{-(\beta_A+\beta_B)u}-e^{-u}\right).
+\end{align}
+
+To the first order in $\epsilon$, the the numerator of $\Lambda(f_0)$, then follows as
+\begin{align}\label{eq:lambda_num_large_rho}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx -\epsilon \theta^2 f_0^4
+    \int_0^{\nicefrac{\tau}{\epsilon}} du\, \partial_x \partial_y \partial_z (z_0 + \epsilon z_1) \left(\Phi_x + \Phi_y - \nicefrac{\alpha}{\epsilon}\Phi_x\Phi_y\right)\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+    &=\alpha \theta^2 f_0^4\left[
+    \int_0^{\nicefrac{\tau}{\epsilon}} e^{-u} du \, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z z \right. \\\nonumber
+    &+\left.\frac{2\epsilon^2}{1-\beta_A}
+    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_A} du\, \partial_y \Phi_y \, \partial_x \partial_z xz \right. \\\nonumber
+    &+\left.\frac{2\epsilon^2}{1-\beta_B}
+    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_B} du\, \partial_x \Phi_x \, \partial_y \partial_z yz \right. \\\nonumber
+    &- \left.\epsilon 
+    \int_0^{\nicefrac{\tau}{\epsilon}} (e^{-2u} - e^{-u}) du\, \partial_x \Phi_x \partial_y \Phi_y \partial_z z^2 \right. \\\nonumber
+    &- \left.\frac{2\epsilon\alpha}{1-\beta_A} 
+    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_A} du\, \partial_y \Phi_y \partial_x \partial_z z\Phi_x\right. \\\nonumber
+    &- \left.\frac{2\epsilon\alpha}{1-\beta_A} 
+    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_B} du\, \partial_x \Phi_x \partial_y \partial_z z\Phi_y\right] \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}},
+\end{align}
+where we have defined
+\begin{subequations}\begin{align}
+    \xi_{\beta_A} &\equiv e^{-2u} - \left(1-\frac{1}{\beta_A}\right)e^{-u}-\frac{1}{\beta_A}e^{-u(1+\beta_A)}, \\
+    \xi_{\beta_B} &\equiv e^{-2u} - \left(1-\frac{1}{\beta_B}\right)e^{-u}-\frac{1}{\beta_B}e^{-u(1+\beta_B)}.    
+\end{align}\end{subequations}
+Substituting
+\begin{subequations}\begin{align}
+    \partial_x \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} &= e^{-\beta_A u} \left[\frac{1-e^{-\beta_A(\nicefrac{\tau}{\epsilon}-u)}}{x(1-e^{-\beta_A \nicefrac{\tau}{\epsilon}}) + \nicefrac{\beta_A}{\epsilon}}\right]^2\Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = \frac{\epsilon^2}{\beta_A^2}e^{-\beta_A u}, \\
+    \partial_y \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} &= e^{-\beta_B u} \left[\frac{1-e^{-\beta_B(\nicefrac{\tau}{\epsilon}-u)}}{x(1-e^{-\beta_B \nicefrac{\tau}{\epsilon}}) + \nicefrac{\beta_B}{\epsilon}}\right]^2\Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = \frac{\epsilon^2}{\beta_B^2}e^{-\beta_B u}, \\
+    \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} &= -\frac{\nicefrac{\beta_A}{\epsilon}+(1-e^{-\beta_A u})}{\left(\nicefrac{\beta_A}{\epsilon}\right)^2}, \\
+    \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} &= -\frac{\nicefrac{\beta_B}{\epsilon}+(1-e^{-\beta_B u})}{\left(\nicefrac{\beta_B}{\epsilon}\right)^2}
+\end{align}\end{subequations}
+into Eq. (\ref{eq:lambda_num_large_rho}) and evaluating the integrals, we obtain
+\begin{align}
+        \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle 
+        &\approx \frac{\epsilon^2\alpha\theta^2f_0^4}{\beta_A^2\beta_B^2(1+\beta_A+\beta_B)} \\\nonumber
+        & \times \left[1 +\left(1+\frac{\alpha}{\beta_A}\right)\frac{2\beta_A^2}{(1+\beta_B)(2+\beta_B)}
+        +\left(1+\frac{\alpha}{\beta_B}\right)\frac{2\beta_B^2}{(1+\beta_A)(2+\beta_A)}\right]
+\end{align}
+to the lowest order in $\epsilon$.
+
+
+The denominator of $\Lambda(f_0)$ can be found as 
+\begin{align}
+    \left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \frac{\epsilon^2 \theta^2 f_0^4}{\beta_A^2 \beta_B^2} \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \frac{\epsilon^4 \theta^2 f_0^4}{\beta_A^2 \beta_B^2}.
+\end{align}
+$\Lambda(f_0)$ then follows as
+\begin{align}
+    \Lambda(f_0) &\approx \frac{\alpha}{1+\beta_A + \beta_B} \left[1 +\left(1+\frac{\alpha}{\beta_A}\right)\frac{2\beta_A^2}{(1+\beta_B)(2+\beta_B)}
+    +\left(1+\frac{\alpha}{\beta_B}\right)\frac{2\beta_B^2}{(1+\beta_A)(2+\beta_A)}\right] \\\nonumber
+    &= \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}} \\\nonumber
+    & \times \left[1 +\frac{(\rho + \gamma_A)(\rho + \gamma_{AB})}{(\rho + \gamma_B + \gamma_{AB})(\rho + \nicefrac{1}{2}\gamma_B + \gamma_{AB})}
+    +\frac{(\rho + \gamma_B)(\rho + \gamma_{AB})}{(\rho + \gamma_A + \gamma_{AB})(\rho + \nicefrac{1}{2}\gamma_A + \gamma_{AB})}\right]. \\\nonumber
 \end{align}
 \end{document}

@@ -1,6 +1,8 @@
 .DS_Store
 .ipynb_checkpoints
 /notes/Ben's project ideas 11.07.21.pdf
+/code/.out
+temp.*
 
 # ignoring all subfolders (w/ output) but not files in code
 /code/*/
