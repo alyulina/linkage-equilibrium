@@ -103,34 +103,32 @@ Plugging the series expansion in the equation for $z(\tau')$ and matching the co
 
 In the neutral limit, the equation above reduces to
 \begin{align}\label{eq:z_neutral_eq}
-    \partial_{\tau'}z_1(\tau') &\approx - \frac{2z}{1+z\tau'}z_1(\tau') - \frac{z}{1+z\tau'} + \frac{x}{1+x\tau'} + \frac{y}{1+y\tau'}.
+    \partial_{\tau'}z_1(\tau') &\approx - \frac{2z}{1+z\tau'}z_1(\tau') - \frac{z}{1+z\tau'} + \frac{x}{1+x\tau'} + \frac{y}{1+y\tau'}
 \end{align}
-This inhomogeneous linear ordinary differential equation can be solved by the method of variation of constants. The corresponding homogeneous equation 
-\begin{align}
-    \partial_{\tau'}z_1(\tau') &\approx - \frac{2z}{1+z\tau'}z_1(\tau')
-\end{align}
-has solution in the form
-\begin{align}\label{eq:z_1_homogeneous_u}
-    z_1(\tau') \approx \frac{\phi(\tau')}{(1+z\tau')^2},
-\end{align}
-where $\phi(\tau')$ is some function of $\tau'$. Plugging Eq. (\ref{eq:z_1_homogeneous_u}) into Eq. (\ref{eq:z_neutral_eq}), we obtain
-\begin{align}
-    \partial_{\tau'} \phi(\tau') \approx - z(1+z\tau') + \frac{x(1+z\tau')^2}{1+x\tau'} + \frac{y(1+z\tau')^2}{1+y\tau'},
-\end{align}
-from where
-\begin{align}
-    \phi(\tau') &\approx - \int z(1+z\tau') \,d\tau'\
-    + \int \frac{x(1+z\tau')^2}{1+x\tau'} \,d\tau'\
-    + \int \frac{y(1+z\tau')^2}{1+y\tau'} \,d\tau'\, \\\nonumber
-    &= \frac{1}{2} (1+z\tau')^2 + z\tau'\left(1 - \frac{z}{x}\right) + z\tau'\left(1 - \frac{z}{y}\right)
-     \\\nonumber
-    &\quad + \left(1-\frac{z}{x}\right)^2\ln(1+x\tau')
-    + \left(1-\frac{z}{y}\right)^2\ln(1+y\tau') + C,
-\end{align}
-where 
-\begin{align}
-    C = \frac{1}{2}
-\end{align} is a constant determined by the initial condition $\phi(0)=0$. Then, 
+with the initial condition $z_1(0)=0$. Using the method of variation of constants, we find
+%This inhomogeneous linear ordinary differential equation can be solved by the method of variation of constants. The corresponding homogeneous equation 
+%\begin{align}
+%    \partial_{\tau'}z_1(\tau') &\approx - \frac{2z}{1+z\tau'}z_1(\tau')
+%\end{align}
+%has solution in the form
+%\begin{align}\label{eq:z_1_homogeneous_u}
+%    z_1(\tau') \approx \frac{\phi(\tau')}{(1+z\tau')^2},
+%\end{align}
+%where $\phi(\tau')$ is some function of $\tau'$. Plugging Eq. (\ref{eq:z_1_homogeneous_u}) into Eq. (\ref{eq:z_neutral_eq}), we obtain
+%\begin{align}
+%    \partial_{\tau'} \phi(\tau') \approx - z(1+z\tau') + \frac{x(1+z\tau')^2}{1+x\tau'} + \frac{y(1+z\tau')^2}{1+y\tau'},
+%\end{align}
+%from where
+%\begin{align}
+%    \phi(\tau') &\approx - \int z(1+z\tau') \,d\tau'\
+%    + \int \frac{x(1+z\tau')^2}{1+x\tau'} \,d\tau'\
+%    + \int \frac{y(1+z\tau')^2}{1+y\tau'} \,d\tau'\, \\\nonumber
+%    &= \frac{1}{2} (1+z\tau')^2 + z\tau'\left(1 - \frac{z}{x}\right) + z\tau'\left(1 - \frac{z}{y}\right)
+%     \\\nonumber
+%    &\quad + \left(1-\frac{z}{x}\right)^2\ln(1+x\tau')
+%    + \left(1-\frac{z}{y}\right)^2\ln(1+y\tau') + C,
+%\end{align}
+%where $C = \frac{1}{2}$ is a constant determined by the initial condition $\phi(0)=0$. Then, 
 \begin{align}\label{eq:z_1}
     z_1(\tau') &\approx \frac{1}{2} 
     + \frac{1}{2}\frac{1}{(1+z\tau')^2} + \left(1-\frac{z}{x}\right)\frac{z\tau'}{(1+z\tau')^2} + \left(1-\frac{z}{y}\right)\frac{z\tau'}{(1+z\tau')^2}
@@ -138,32 +136,34 @@ where
     &\quad + \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2}
     + \left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2}.
 \end{align}
-Substituting Eq. (\ref{eq:z_1}) into Eq. (\ref{eq:z_series}), we find
-\begin{align}
-    z(\tau') &\approx \frac{z}{1+z\tau'} 
-    + \frac{\rho}{2}
-    + \frac{\rho}{2}\frac{1}{(1+z\tau')^2} 
-    \\\nonumber
-    &\quad + \rho\left(1-\frac{z}{x}\right)\frac{z\tau'}{(1+z\tau')^2} + \rho\left(1-\frac{z}{y}\right)\frac{z\tau'}{(1+z\tau')^2}
-    \\\nonumber
-    &\quad + \rho\left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2}
-    + \rho\left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2}.
-\end{align}
+%Substituting Eq. (\ref{eq:z_1}) into Eq. (\ref{eq:z_series}), we find
+%\begin{align}
+%    z(\tau') &\approx \frac{z}{1+z\tau'} 
+%    + \frac{\rho}{2}
+%    + \frac{\rho}{2}\frac{1}{(1+z\tau')^2} 
+%    \\\nonumber
+%    &\quad + \rho\left(1-\frac{z}{x}\right)\frac{z\tau'}{(1+z\tau')^2} + \rho\left(1-\frac{z}{y}\right)\frac{z\tau'}{(1+z\tau')^2}
+%    \\\nonumber
+%    &\quad + \rho\left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2}
+%    + \rho\left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2}.
+%\end{align}
 
-Thus, to the lowest order in $\rho$, the numerator of $\Lambda(f_0)$ follows as
+Thus, to the lowest order in $\rho$, from Eq. (\ref{eq:lambda_numerator}) the numerator of $\Lambda(f_0)$ follows as
 \begin{align}\label{eq:lambda_num_contribution}
-    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} -\rho \theta^2 f_0^4 \left[
-    -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'} \right. \\\nonumber
-    &- \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
-    &- \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_x \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
-    &+ \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2} \right. \\\nonumber
-    &+ \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2} 
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} 
+    -\theta^2 f_0^4 \int_0^{\tau} d\tau'\, \partial_x\partial_y\partial_z \left[-\rho z_0\Phi_x\Phi_y + \rho z_1\Phi_x + \rho z_1\Phi_y\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
+    &\approx \rho \theta^2 f_0^4 \left[
+    \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'} \right. \\\nonumber
+    &+ \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
+    &+ \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_x \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
+    &- \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2} \right. \\\nonumber
+    &- \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2} 
     \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
-    &= -\rho \theta^2 f_0^4 \left[
-    -\int_0^{\infty} \frac{1}{(1+2\tau')^2}\,d\tau  \right. \\ \nonumber
-    &+ \left. 2 \int_0^{\infty} \frac{4\tau'}{(1+2\tau')^3} \,d\tau' \right. \\ \nonumber
-    &+ \left. 2 \int_0^{\tau} \frac{2\tau'-2(3+2\tau')\ln(1+\tau')}{(1+2\tau')^3} \,d\tau' \right] \\ \nonumber
-    &= -\rho \theta^2 f_0^4 \left[-\frac{1}{2} + 1 - \frac{3}{2}\right] = \rho \theta^2 f_0^4.
+    % &= -\rho \theta^2 f_0^4 \left[
+    % -\int_0^{\infty} \frac{1}{(1+2\tau')^2}\,d\tau 
+    % + 2 \int_0^{\infty} \frac{4\tau'}{(1+2\tau')^3} \,d\tau' \right. \\ \nonumber
+    % &+ \left. 2 \int_0^{\tau} \frac{2\tau'-2(3+2\tau')\ln(1+\tau')}{(1+2\tau')^3} \,d\tau' \right] \\ \nonumber
+    &= \rho \theta^2 f_0^4 \left[\frac{1}{2} -\frac{1}{2} -\frac{1}{2} +\frac{3}{4} +\frac{3}{4}\right] = \rho \theta^2 f_0^4.
 \end{align}
 where have used
 \begin{subequations}\begin{align}
@@ -209,7 +209,7 @@ where have used
 %    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} -\rho \theta^2 f_0^4 \left[-\frac{1}{2} + \frac{1}{2} + \frac{1}{2} - \frac{3}{4} - \frac{3}{4}\right] = \rho \theta^2 f_0^4.
 %\end{align}
 
-To the lowest order in $\theta$, $f_0$, and $\rho$, the denominator of $\Lambda(f_0)$ can be found as 
+To the lowest order in $\theta$, $f_0$, and $\rho$, from Eq. (\ref{eq:lambda_numerator}) the denominator of $\Lambda(f_0)$ follows as 
 \begin{align}
     \left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \theta^2 f_0^4 \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \theta^2 f_0^4.
 \end{align}
@@ -220,11 +220,11 @@ Thus, in the neutral limit for small $\rho$, $\Lambda(f_0) \approx \rho$.
 
 In the limit that $\gamma_{AB}$ or $\rho$ are large compared to one, we can rescale time in Eq. (\ref{eq:z_general_eq}) so that
 \begin{align}\label{eq:z_strong_s}
-    \partial_{u} z(u) = -z(u) - \epsilon z^2(u) + \alpha f(u)
+    \partial_{u} z(u) = -z(u) - \epsilon z^2(u) + \alpha \xi(u)
 \end{align}
 with the initial condition $z(0) = z$, where $u= \nicefrac{\tau'}{\epsilon}$ is the rescaled time, $\epsilon = \nicefrac{1}{(\gamma_{AB}+\rho)}$, $\alpha = \epsilon \rho$, $\beta_A = \epsilon \gamma_A$, $\beta_B = \epsilon \gamma_B$, and 
 \begin{align}
-    f(u) = \frac{\beta_Axe^{-\beta_A u}}{\beta_A + \epsilon x(1-e^{-\beta_A u})} + \frac{\beta_B ye^{-\beta_B u}}{\beta_B + \epsilon y(1-e^{-\beta_B u})}
+    \xi(u) = \frac{\beta_Axe^{-\beta_A u}}{\beta_A + \epsilon x(1-e^{-\beta_A u})} + \frac{\beta_B ye^{-\beta_B u}}{\beta_B + \epsilon y(1-e^{-\beta_B u})}
 \end{align}
 is a function independent of $z$.
 
@@ -232,25 +232,25 @@ We can solve Eq. (\ref{eq:z_strong_s}) using a perturbation expansion in $\epsil
 \begin{subequations}\begin{align}
     z (u) &\approx \sum_{i=0}^\infty \epsilon^i z_i (u) \\
     \intertext{and}
-    f (u) &\approx \sum_{i=0}^\infty \epsilon^i f_i (u).\label{eq:f(u)_series}
+    \xi (u) &\approx \sum_{i=0}^\infty \epsilon^i \xi_i (u).\label{eq:f(u)_series}
 \end{align}\end{subequations}
-At zeroth order,
+At zeroth order in $\epsilon$,
 \begin{align}
-    \partial_u z_0(u) = -z_0(u) + \alpha f_0(u)  
+    \partial_u z_0(u) = -z_0(u) + \alpha \xi_0(u)  
 \end{align}
 with the initial condition $z_0(0) = z$ and hence 
 % can be solved w/ the method of variation of constants
 \begin{align}
-    z_0(u) = ze^{-u} + \alpha e^{-u} \int_0^u e^{u'} f_0(u') du'.
+    z_0(u) = ze^{-u} + \alpha e^{-u} \int_0^u e^{u'} \xi_0(u') du'.
 \end{align}
-%At first order in $\epsilon$,
-%\begin{align}
-%    \partial_u z_1(u) = -z_1(u) -z_0^2(u) + \alpha f_1(u) 
-%\end{align}
-%with the initial condition $z_1(0) = 0$ and hence 
-%\begin{align}
-%    z_1(u) = \alpha e^{-u} \int_0^u e^{u'} f_1(u') du' - e^{-u} \int_0^u e^{u'} z_0^2 (u') du'.
-%\end{align}
+At first order in $\epsilon$,
+\begin{align}
+    \partial_u z_1(u) = -z_1(u) -z_0^2(u) + \alpha f_1(u) 
+\end{align}
+with the initial condition $z_1(0) = 0$ and hence 
+\begin{align}
+    z_1(u) = \alpha e^{-u} \int_0^u e^{u'} \xi_1(u') du' - e^{-u} \int_0^u e^{u'} z_0^2 (u') du'.
+\end{align}
 
 
 %If $\gamma_A, \gamma_B \ll 1$, then
@@ -259,31 +259,32 @@ with the initial condition $z_0(0) = z$ and hence
 %    % I am not sure about this??
 %    \approx x + y - \epsilon u (x^2 + y^2) + \epsilon^2 u^2 (x^3 + y^3).
 %\end{align}
-If $\gamma_A, \gamma_B \gg 1$, then the first term in Eq. (\ref{eq:f(u)_series}) can be found as 
-% by Taylor expanding the denominators
+If $\gamma_A, \gamma_B \gg 1$, the first two terms of Eq. (\ref{eq:f(u)_series}) can be found as
+% by Taylor expanding the denominators of $\xi(u)$
 \begin{align}
-    f_0(u) &= x e^{-\beta_A u} + y e^{-\beta_B u},
+    \xi_0(u) &= x e^{-\beta_A u} + y e^{-\beta_B u},
 \end{align}
-%and
-%\begin{align}
-%    f_1(u) &= -x^2 \frac{1}{\beta_A}e^{-\beta_A u} \left(1-e^{-\beta_Au}\right)
-%    -y^2 \frac{1}{\beta_B}e^{-\beta_B u} \left(1-e^{-\beta_Bu}\right).
-%\end{align}
+and
+\begin{align}
+    \xi_1(u) &= -x^2 \frac{1}{\beta_A}e^{-\beta_A u} \left(1-e^{-\beta_Au}\right)
+    -y^2 \frac{1}{\beta_B}e^{-\beta_B u} \left(1-e^{-\beta_Bu}\right)
+\end{align}
 and hence
 \begin{align}
-    z_0(u) &= z e^{-u} - \frac{\alpha x}{1-\beta_A}\left(e^{-u}-e^{-\beta_A u}\right) - \frac{\alpha y}{1-\beta_B}\left(e^{-u}-e^{-\beta_B u}\right).
+    z_0(u) &= z e^{-u} - \frac{\alpha x}{1-\beta_A}\left(e^{-u}-e^{-\beta_A u}\right) - \frac{\alpha y}{1-\beta_B}\left(e^{-u}-e^{-\beta_B u}\right)
 \end{align}
-%and 
-%\begin{align}
-%    z_1(u) &= \frac{\alpha x^2}{\beta_A (1-\beta_A)}\left(e^{-u}-e^{-\beta_A u}\right)
-%    - \frac{\alpha x^2}{\beta_A (1-2\beta_A)}\left(e^{-u}-e^{-2\beta_A u}\right) \\ \nonumber
-%    &+ \frac{\alpha y^2}{\beta_B (1-\beta_B)}\left(e^{-u}-e^{-\beta_B u}\right)
-%    - \frac{\alpha y^2}{\beta_B (1-2\beta_B)}\left(e^{-u}-e^{-2\beta_B u}\right) \\ \nonumber
-%    &+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]^2\left(e^{-2u}-e^{-u}\right) \\ \nonumber
-%    &+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]\left[\frac{2\alpha x}{\beta_A(1-\beta_A)}\left(e^{-u(1+\beta_A)}-e^{-u}\right) + \frac{2\alpha y}{\beta_B(1-\beta_B)}\left(e^{-u(1+\beta_B)}-e^{-u}\right)\right] \\ \nonumber
-%    &- \frac{\alpha^2x^2}{(1-\beta_A)^2(1-2\beta_A)}\left(e^{-2\beta_A u} -e^{-u}\right) - \frac{\alpha^2y^2}{(1-\beta_B)^2(1-2\beta_B)}\left(e^{-2\beta_B u} -e^{-u}\right) \\ \nonumber
-%    & -\frac{2\alpha^2 xy}{(1-\beta_A)(1-\beta_B)(1-\beta_A-\beta_B)}\left(e^{-(\beta_A+\beta_B)u}-e^{-u}\right).
-%\end{align}
+and 
+% REWRITE THIS IN POWERS OF Z
+\begin{align}
+    z_1(u) &= \frac{\alpha x^2}{\beta_A (1-\beta_A)}\left(e^{-u}-e^{-\beta_A u}\right)
+    - \frac{\alpha x^2}{\beta_A (1-2\beta_A)}\left(e^{-u}-e^{-2\beta_A u}\right) \\ \nonumber
+    &+ \frac{\alpha y^2}{\beta_B (1-\beta_B)}\left(e^{-u}-e^{-\beta_B u}\right)
+    - \frac{\alpha y^2}{\beta_B (1-2\beta_B)}\left(e^{-u}-e^{-2\beta_B u}\right) \\ \nonumber
+    &+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]^2\left(e^{-2u}-e^{-u}\right) \\ \nonumber
+    &+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]\left[\frac{2\alpha x}{\beta_A(1-\beta_A)}\left(e^{-u(1+\beta_A)}-e^{-u}\right) + \frac{2\alpha y}{\beta_B(1-\beta_B)}\left(e^{-u(1+\beta_B)}-e^{-u}\right)\right] \\ \nonumber
+    &- \frac{\alpha^2x^2}{(1-\beta_A)^2(1-2\beta_A)}\left(e^{-2\beta_A u} -e^{-u}\right) - \frac{\alpha^2y^2}{(1-\beta_B)^2(1-2\beta_B)}\left(e^{-2\beta_B u} -e^{-u}\right) \\ \nonumber
+    & -\frac{2\alpha^2 xy}{(1-\beta_A)(1-\beta_B)(1-\beta_A-\beta_B)}\left(e^{-(\beta_A+\beta_B)u}-e^{-u}\right).
+\end{align}
 
 %To the lowest order in $\epsilon$, the the numerator of $\Lambda(f_0)$ then follows as
 %\begin{align}\label{eq:lambda_num_large_rho}
@@ -302,50 +303,67 @@ and hence
 %    &- \left.\frac{2\epsilon\alpha}{1-\beta_A} 
 %    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_B} du\, \partial_x \Phi_x \partial_y \partial_z z\Phi_y\right] \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}},
 %\end{align}
-The the numerator of $\Lambda(f_0)$ then follows as
+
+To the lowest order in $\epsilon$, the numerator of $\Lambda(f_0)$ follows from Eq. (\ref{eq:lambda_numerator}) as
 \begin{align}\label{eq:lambda_num_large_rho}
-    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle 
-    &\approx \alpha \theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} e^{-u} du \, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z z \Phi_x\Phi_y\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
-    &= \frac{\epsilon^2\alpha\theta^2f_0^4}{\beta_A^2\beta_B^2(1+\beta_A+\beta_B)},
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+ &\approx -\theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} du\, \partial_x\partial_y\partial_z \left[-\alpha z_0\Phi_x\Phi_y -\alpha \epsilon z_1 \Phi_x\Phi_y \right. \\ \nonumber
+ &+ \left. \epsilon^2 z_1\Phi_x + \epsilon^2 z_1\Phi_y\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \approx \alpha \epsilon^4 \theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} du\,\Bigg[ e^{-u}\partial_x \Phi_x \partial_y \Phi_y \partial_z z 
+ %+ \epsilon(e^{-2u} - e^{-u})\partial_x \Phi_x \partial_y \Phi_y \partial_z z^2 
+ \Bigg. \\ \nonumber
+ & - \epsilon \frac{2\alpha}{1-\beta_A} g_A \partial x\Phi_x \partial_y \Phi_y \partial_z z - \epsilon \frac{2\alpha}{1-\beta_B} g_B \partial \Phi_x \partial_y y \Phi_y \partial_z z\Bigg. \\ \nonumber
+ &+ \Bigg. \epsilon^2 \frac{2}{1-\beta_B}g_B \partial_x \Phi_x \partial_y y \partial_z z 
+ + \epsilon^2 \frac{2}{1-\beta_A}g_A \partial_x x \partial_y \Phi_y \partial_z z \Bigg]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
+ &\approx 
+%    &= \frac{\epsilon^2\alpha\theta^2f_0^4}{\beta_A^2\beta_B^2(1+\beta_A+\beta_B)},
 \end{align}
 %where we have defined
 %\begin{subequations}\begin{align}
 %    \xi_{\beta_A} &\equiv e^{-2u} - \left(1-\frac{1}{\beta_A}\right)e^{-u}-\frac{1}{\beta_A}e^{-u(1+\beta_A)}, \\
 %    \xi_{\beta_B} &\equiv e^{-2u} - \left(1-\frac{1}{\beta_B}\right)e^{-u}-\frac{1}{\beta_B}e^{-u(1+\beta_B)}.    
 %\end{align}\end{subequations}
-where
-\begin{subequations}\begin{align}
-    \partial_x \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} &= e^{-\beta_A u} \left[\frac{1-e^{-\beta_A(\nicefrac{\tau}{\epsilon}-u)}}{x(1-e^{-\beta_A \nicefrac{\tau}{\epsilon}}) + \nicefrac{\beta_A}{\epsilon}}\right]^2\Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = \frac{\epsilon^2}{\beta_A^2}e^{-\beta_A u}, \\
-    \partial_y \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} &= e^{-\beta_B u} \left[\frac{1-e^{-\beta_B(\nicefrac{\tau}{\epsilon}-u)}}{x(1-e^{-\beta_B \nicefrac{\tau}{\epsilon}}) + \nicefrac{\beta_B}{\epsilon}}\right]^2\Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = \frac{\epsilon^2}{\beta_B^2}e^{-\beta_B u}.
-    %\Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} &= -\frac{\nicefrac{\beta_A}{\epsilon}+(1-e^{-\beta_A u})}{\left(\nicefrac{\beta_A}{\epsilon}\right)^2}, \\
-    %\Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} &= -\frac{\nicefrac{\beta_B}{\epsilon}+(1-e^{-\beta_B u})}{\left(\nicefrac{\beta_B}{\epsilon}\right)^2}.
-\end{align}\end{subequations}
+where we have defined
 
-The denominator of $\Lambda(f_0)$ can be found as 
+and used
+\begin{subequations}\begin{align}
+    \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_A} + \frac{\epsilon^2}{\beta_A^2}xe^{-\beta_Au} +\mathcal{O}(\epsilon^3), \\
+    \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx - \nicefrac{\epsilon}{\beta_B} + \frac{\epsilon^2}{\beta_B^2}ye^{-\beta_Bu} +\mathcal{O}(\epsilon^3), \\
+    \partial_x \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx \frac{\epsilon^2}{\beta_A^2}e^{-\beta_Au} +\mathcal{O}(\epsilon^3), \\
+    \partial_y \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx \frac{\epsilon^2}{\beta_B^2}e^{-\beta_Bu} +\mathcal{O}(\epsilon^3).
+\end{align}\end{subequations}
+%\begin{subequations}\begin{align}
+%    \partial_x \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} &= e^{-\beta_A u} \left[\frac{1-e^{-\beta_A(\nicefrac{\tau}{\epsilon}-u)}}{x(1-e^{-\beta_A \nicefrac{\tau}{\epsilon}}) + \nicefrac{\beta_A}{\epsilon}}\right]^2\Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = \frac{\epsilon^2}{\beta_A^2}e^{-\beta_A u}, \\
+%    \partial_y \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} &= e^{-\beta_B u} \left[\frac{1-e^{-\beta_B(\nicefrac{\tau}{\epsilon}-u)}}{y(1-e^{-\beta_B \nicefrac{\tau}{\epsilon}}) + \nicefrac{\beta_B}{\epsilon}}\right]^2\Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = \frac{\epsilon^2}{\beta_B^2}e^{-\beta_B u},\\
+%    \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} &= -\frac{\nicefrac{\beta_A}{\epsilon}+(1-e^{-\beta_A u})}{\left(\nicefrac{\beta_A}{\epsilon}\right)^2}, \\
+%    \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} &= -\frac{\nicefrac{\beta_B}{\epsilon}+(1-e^{-\beta_B u})}{\left(\nicefrac{\beta_B}{\epsilon}\right)^2}.
+%\end{align}\end{subequations}
+
+The denominator of $\Lambda(f_0)$ follows from Eq. (\ref{eq:lambda_numerator}) as 
 \begin{align}
     \left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \frac{\epsilon^2 \theta^2 f_0^4}{\beta_A^2 \beta_B^2} \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \frac{\epsilon^4 \theta^2 f_0^4}{\beta_A^2 \beta_B^2}.
 \end{align}
 
 $\Lambda(f_0)$ then follows as
 \begin{align}\label{eq:lambda_strong_s}
-%    \Lambda(f_0) &\approx \frac{\alpha}{1+\beta_A + \beta_B} \left[1 +\left(1+\frac{\alpha}{\beta_A}\right)\frac{2\beta_A^2}{(1+\beta_B)(2+\beta_B)}
-%    +\left(1+\frac{\alpha}{\beta_B}\right)\frac{2\beta_B^2}{(1+\beta_A)(2+\beta_A)}\right] \\\nonumber
-%    &= \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}} \\\nonumber
- %   & \times \left[1 +\frac{(\rho + \gamma_A)(\rho + \gamma_{AB})}{(\rho + \gamma_B + \gamma_{AB})(\rho + \nicefrac{1}{2}\gamma_B + \gamma_{AB})}
-%    +\frac{(\rho + \gamma_B)(\rho + \gamma_{AB})}{(\rho + \gamma_A + \gamma_{AB})(\rho + \nicefrac{1}{2}\gamma_A + \gamma_{AB})}\right].
-\Lambda(f_0) &\approx \frac{\alpha}{1+\beta_A + \beta_B} = \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}}.
+    \Lambda(f_0) &\approx \frac{\alpha}{1+\beta_A + \beta_B} \left[1 +\left(1+\frac{\alpha}{\beta_A}\right)\frac{2\beta_A^2}{(1+\beta_B)(2+\beta_B)}
+    +\left(1+\frac{\alpha}{\beta_B}\right)\frac{2\beta_B^2}{(1+\beta_A)(2+\beta_A)}\right] \\\nonumber
+    &= \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}} \\\nonumber
+  & \times \left[1 +\frac{(\rho + \gamma_A)(\rho + \gamma_{AB})}{(\rho + \gamma_B + \gamma_{AB})(\rho + \nicefrac{1}{2}\gamma_B + \gamma_{AB})}
+    +\frac{(\rho + \gamma_B)(\rho + \gamma_{AB})}{(\rho + \gamma_A + \gamma_{AB})(\rho + \nicefrac{1}{2}\gamma_A + \gamma_{AB})}\right].\\
+%\Lambda(f_0) &\approx \frac{\alpha}{1+\beta_A + \beta_B} = \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}}.
 \end{align}
 
-The approximation above holds for any $\rho$ as long as $\gamma_A, \gamma_B, \gamma_{AB} \gg 1$. If $\gamma_{AB}=0$ and $\gamma_A, \gamma_B \gg \rho \gg 1$, Eq. (\ref{eq:lambda_strong_s}) reduces to
+The approximation above holds for any $\rho$ as long as $\gamma_{AB} \gg 1$ and for any $\gamma_{AB}$ as long as $\rho \gg 1$. If $\rho \gg \gamma_A, \gamma_B, \gamma_{AB}$, then 
 \begin{align}
-    \Lambda(f_0) &\approx \frac{\rho}{\gamma_A + \gamma_B}.
+    \Lambda(f_0) &\approx 1
 \end{align}
-If $\gamma_{AB}=0$ and $\rho \gg \gamma_A, \gamma_B \gg 1$, 
+for any $\gamma_A, \gamma_B, \gamma_{AB}$.
+If $1 \ll \rho \ll \gamma_A, \gamma_B, \gamma_{AB}$, Eq. (\ref{eq:lambda_strong_s}) reduces to
 \begin{align}
-    \Lambda(f_0) &\approx 1.
+    \Lambda(f_0) &\approx \frac{\rho}{\gamma_A + \gamma_B + \gamma_{AB}}.
 \end{align}
 
-Is this too simple?
+Is this too simple? Finding first-order contributions should be not too hard as well. 
 
-Can also look at $\gamma_A, \gamma_B = 0$, $\rho + \gamma_{AB} \gg 1$. It seems that the only regime that we have not thought about yet is small recombination, strong selection but no epistasis? 
+It seems that the only regime that we have not thought about yet is small recombination, strong selection but no epistasis? 
 \end{document}
