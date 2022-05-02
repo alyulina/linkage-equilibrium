@@ -131,6 +131,10 @@ for type,symbol,counts_symbol in zip([regime],['o'],['s']):
         plt.figure(1)
         collapse_xs = gammas *fstar
         collapse_ys = LEs[fstar]
+
+        # saving data! f* \t x \t y \n
+        with open('LE_%s_points.txt'%regime, 'a+') as o:
+        	o.writelines(['{:.1g}'.format(fstar) + '\t' + str(x[0]) + '\t' + str(x[1]) + '\n' for x in zip(collapse_xs, collapse_ys)])
         
         colorVal = scalarMap.to_rgba(log10(fstar))
 
