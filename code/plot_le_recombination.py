@@ -8,8 +8,8 @@ import numpy as np
 from math import log10
 
 import matplotlib
-# matplotlib.use('Agg') # uncomment if running on the cluster
-matplotlib.use('Agg')
+matplotlib.use('Agg') # uncomment if running on the cluster
+import matplotlib.pyplot as plt
 
 from optparse import OptionParser
 
@@ -59,8 +59,8 @@ for type,symbol,counts_symbol in zip([regime],['o'],['s']):
         
         gammas.append(gamma)
     
-        filename = 'output/output_%s_%d.txt.gz' % (type,param_idx)
-        # filename = '/scratch/users/alyulina/recombination/output/output_%s_%d.txt.gz' % (type,param_idx) # uncomment if running on the cluster
+        # filename = 'output/output_%s_%d.txt.gz' % (type,param_idx)
+        filename = '/scratch/users/alyulina/recombination/output/output_%s_%d.txt.gz' % (type,param_idx) # uncomment if running on the cluster
         file = gzip.GzipFile(filename,"r")
         f11s = []
         f10s = []
