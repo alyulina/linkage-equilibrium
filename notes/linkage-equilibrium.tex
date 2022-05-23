@@ -165,16 +165,16 @@ Thus, to the lowest order in $\rho$, from Eq. (\ref{eq:lambda_numerator}) the nu
     % &+ \left. 2 \int_0^{\tau} \frac{2\tau'-2(3+2\tau')\ln(1+\tau')}{(1+2\tau')^3} \,d\tau' \right] \\ \nonumber
     &= \rho \theta^2 f_0^4 \left[\frac{1}{2} -\frac{1}{2} -\frac{1}{2} +\frac{3}{4} +\frac{3}{4}\right] = \rho \theta^2 f_0^4.
 \end{align}
-where have used
+where have used 
 \begin{subequations}\begin{align}
     %\Phi_x(\tau') &= -\frac{(\tau-\tau')(1+x\tau')}{1+x\tau}
     \partial_x \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = 
     %-(\tau-\tau') \partial_x \frac{1+x\tau'}{1+x\tau} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} =
-    -\frac{(\tau-\tau')^2}{(1+x\tau)^2} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = 1, \\
+    \frac{(\tau-\tau')^2}{(1+x\tau)^2} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = 1, \\
     %\Phi_y(\tau') &= -\frac{(\tau-\tau')(1+y\tau')}{1+y\tau}.
     \partial_y \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} =
     %-(\tau-\tau') \partial_x \frac{1+x\tau'}{1+x\tau} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} =
-    -\frac{(\tau-\tau')^2}{(1+y\tau)^2} \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = 1.
+    \frac{(\tau-\tau')^2}{(1+y\tau)^2} \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = 1.
 \end{align}\end{subequations}
 
 %Taking  in Eq. (\ref{eq:lambda_num_contribution}), we obtain 
@@ -229,14 +229,16 @@ with the initial condition $z(0) = z$, where $u= \nicefrac{\tau'}{\epsilon}$ is 
 is a function independent of $z$.
 
 We can solve Eq. (\ref{eq:z_strong_s}) using a perturbation expansion in $\epsilon$, defining 
-\begin{subequations}\begin{align}
-    z (u) &\approx \sum_{i=0}^\infty \epsilon^i z_i (u) \label{eq:z(u)_series}\\
-    \intertext{and, if $\gamma_A,\gamma_B \gg 1$,}
+\begin{align}
+    z (u) &\approx \sum_{i=0}^\infty \epsilon^i z_i (u) \label{eq:z(u)_series}
+\end{align}
+and, if $\gamma_A,\gamma_B \gg 1$,
+\begin{align}
     \xi (u) &\approx \sum_{i=0}^\infty \epsilon^i \xi_i (u) \\ \nonumber
     &= xe^{-\beta_A u} \sum_{i=0}^\infty \left(-\nicefrac{\epsilon}{\beta_A}x(1-e^{-\beta_A u})\right)^i
     + ye^{-\beta_B u} \sum_{i=0}^\infty \left(-\nicefrac{\epsilon}{\beta_B}y(1-e^{-\beta_B u})\right)^i
     .\label{eq:f(u)_series}
-\end{align}\end{subequations}
+\end{align}
 In order to find $\Lambda(f_0)$ to the lowers order in $\epsilon$, we need to calculate the first three terms in each series above.
 At zeroth order in $\epsilon$,
 \begin{align}
@@ -358,8 +360,12 @@ To the lowest order in $\epsilon$, the numerator of $\Lambda(f_0)$ follows from 
 %\end{align}\end{subequations}
 where we have used used
 \begin{subequations}\begin{align}
-    \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_A} + \frac{\epsilon^2}{\beta_A^2}xe^{-\beta_Au} +\mathcal{O}(\epsilon^3), \\
-    \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_B} + \frac{\epsilon^2}{\beta_B^2}ye^{-\beta_Bu} +\mathcal{O}(\epsilon^3), \\
+    \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_A} + \mathcal{O}(\epsilon^2)
+    %\frac{\epsilon^2}{\beta_A^2}xe^{-\beta_Au} +\mathcal{O}(\epsilon^3)
+    , \\
+    \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_B} + \mathcal{O}(\epsilon^2)
+    %\frac{\epsilon^2}{\beta_B^2}ye^{-\beta_Bu} +\mathcal{O}(\epsilon^3)
+    , \\
     \partial_x \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx \frac{\epsilon^2}{\beta_A^2}e^{-\beta_Au} +\mathcal{O}(\epsilon^3), \\
     \partial_y \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx \frac{\epsilon^2}{\beta_B^2}e^{-\beta_Bu} +\mathcal{O}(\epsilon^3).
 \end{align}\end{subequations}
@@ -372,7 +378,7 @@ where we have used used
 
 The denominator of $\Lambda(f_0)$ follows from Eq. (\ref{eq:lambda_numerator}) as 
 \begin{align}
-    \left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \frac{\epsilon^2 \theta^2 f_0^4}{\beta_A^2 \beta_B^2} \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \frac{\epsilon^4 \theta^2 f_0^4}{\beta_A^2 \beta_B^2}.
+    \left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \frac{\epsilon^4 \theta^2 f_0^4}{\beta_A^2 \beta_B^2} \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \frac{\epsilon^4 \theta^2 f_0^4}{\beta_A^2 \beta_B^2}.
 \end{align}
 
 $\Lambda(f_0)$ then follows as
@@ -394,7 +400,54 @@ The approximation above holds for any $\rho$ as long as $\gamma_{A}, \gamma_{B} 
 If $\rho \ll \gamma_A, \gamma_B$, $\gamma_A=\gamma_B=\gamma$, $\gamma_{AB}=2\gamma$, then
 \begin{align}
     \Lambda(f_0) &\approx \frac{19}{60}\frac{\rho}{\gamma}.
+\end{align} 
+
+In the limit that $\gamma_A \gg 1,\gamma_B =0$, we can solve Eq. (\ref{eq:z_strong_s}) expanding
+\begin{align}
+    \xi (u) &\approx \sum_{i=0}^\infty \epsilon^i \xi_i (u) = xe^{-\beta_A u} \sum_{i=0}^\infty \left(-\nicefrac{\epsilon}{\beta_A}x(1-e^{-\beta_A u})\right)^i
+    + y \sum_{i=0}^\infty \left(-\epsilon u\right)^i
+    .\label{eq:f(u)_series}
 \end{align}
+
+To the lowest order in $\epsilon$, the numerator of $\Lambda(f_0)$ follows from Eq. (\ref{eq:lambda_numerator}) as
+\begin{align}\label{eq:lambda_num_large_rho}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+ &\approx -\theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} du\, \partial_x\partial_y\partial_z \left[-\alpha z_0\Phi_x\Phi_y -\alpha \epsilon z_1 \Phi_x\Phi_y + \epsilon^2 z_1\Phi_y \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
+ &\approx \frac{\alpha \epsilon^2 \theta^2 f_0^4}{\beta_A^2 (1+\beta_A)} \left[1 - \beta_A(\alpha+\beta_A) \right]+ \mathcal{O}(\epsilon^3),
+\end{align}
+where we have used used
+\begin{subequations}\begin{align}
+    \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_A} + \mathcal{O}(\epsilon^2)
+    %\frac{\epsilon^2}{\beta_A^2}xe^{-\beta_Au} +\mathcal{O}(\epsilon^3)
+    , \\
+    \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{1}{y} + \mathcal{O}(\epsilon)
+    %\frac{\epsilon^2}{\beta_B^2}ye^{-\beta_Bu} +\mathcal{O}(\epsilon^3)
+    , \\
+    \partial_x \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx \frac{\epsilon^2}{\beta_A^2}e^{-\beta_Au} +\mathcal{O}(\epsilon^3), \\
+    \partial_y \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx \frac{1}{y^2} +\mathcal{O}(\epsilon).
+\end{align}\end{subequations}
+
+The denominator of $\Lambda(f_0)$ follows from Eq. (\ref{eq:lambda_numerator}) as 
+\begin{align}
+    \left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \frac{\epsilon^2 \theta^2 f_0^4}{\beta_A^2} \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \frac{\epsilon^2 \theta^2 f_0^4}{\beta_A^2}.
+\end{align}
+
+$\Lambda(f_0)$ then follows as
+\begin{align}\label{eq:lambda_strong_s_neutral}
+    \Lambda(f_0) &\approx \frac{\alpha}{1+\beta_A} 
+     \left[1 -  \beta_A(\alpha+\beta_A)\right] = \frac{\rho}{\rho + \gamma_A + \gamma_{AB}} \left[1 -\frac{\rho\gamma_A(\rho + \gamma_{A})}{(\rho+\gamma_{AB})^3}\right].
+%\Lambda(f_0) &\approx \frac{\alpha}{1+\beta_A + \beta_B} = \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}}.
+\end{align}
+
+If $\rho \gg \gamma_A$, then 
+\begin{align}
+    \Lambda(f_0) &\approx 1.
+\end{align}
+If $\rho \ll \gamma_A$, $\gamma_{AB}=\gamma_A = \gamma$, then
+\begin{align}
+    \Lambda(f_0) &\approx \frac{1}{2}\frac{\rho}{\gamma}.
+\end{align} 
+
 
 % It seems that the only two regimes that we have not thought about yet are $\rho \gg 1$, $\gamma_A, \gamma_B \ll 1$ and $\rho \ll s \ll 1$ (not sure if this is interesting?).
 %If $\rho \gg 1$, but all mutations are neutral, 
