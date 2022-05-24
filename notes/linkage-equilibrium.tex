@@ -417,13 +417,13 @@ To the lowest order in $\epsilon$, the numerator of $\Lambda(f_0)$ follows from 
 \end{align}
 where we have used used
 \begin{subequations}\begin{align}
-    \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_A} + \mathcal{O}(\epsilon^2)
+    %\Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_A} + \mathcal{O}(\epsilon^2)
     %\frac{\epsilon^2}{\beta_A^2}xe^{-\beta_Au} +\mathcal{O}(\epsilon^3)
-    , \\
+    %, \\
     \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{1}{y} + \mathcal{O}(\epsilon)
     %\frac{\epsilon^2}{\beta_B^2}ye^{-\beta_Bu} +\mathcal{O}(\epsilon^3)
     , \\
-    \partial_x \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx \frac{\epsilon^2}{\beta_A^2}e^{-\beta_Au} +\mathcal{O}(\epsilon^3), \\
+    %\partial_x \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx \frac{\epsilon^2}{\beta_A^2}e^{-\beta_Au} +\mathcal{O}(\epsilon^3), \\
     \partial_y \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx \frac{1}{y^2} +\mathcal{O}(\epsilon).
 \end{align}\end{subequations}
 
@@ -447,6 +447,35 @@ If $\rho \ll \gamma_A$, $\gamma_{AB}=\gamma_A = \gamma$, then
 \begin{align}
     \Lambda(f_0) &\approx \frac{1}{2}\frac{\rho}{\gamma}.
 \end{align} 
+
+Finally, in the limit that both loci are neutral, but either recombination is strong or epistasis is strong, expanding
+\begin{align}
+    \xi (u) &\approx \sum_{i=0}^\infty \epsilon^i \xi_i (u) = (x+y) \sum_{i=0}^\infty \left(-\epsilon u\right)^i
+    \label{eq:f(u)_series}
+\end{align}
+we obtain the numerator and the denominator of $\Lambda$ from Eq. (\ref{eq:lambda_numerator}) to the lowest order in $\epsilon$ as 
+\begin{align}\label{eq:lambda_num_large_rho}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+ &\approx \alpha \theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} du\, \partial_x\partial_y\partial_z z_0\Phi_x\Phi_y \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \approx \alpha \theta^2 f_0^4 + \mathcal{O}(\epsilon),
+\end{align}
+\begin{align}
+    \left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \theta^2 f_0^4 \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \theta^2 f_0^4.
+\end{align}
+
+$\Lambda(f_0)$ then follows as
+\begin{align}\label{eq:lambda_strong_s_neutral}
+    \Lambda(f_0) &\approx \alpha = \frac{\rho}{\rho + \gamma_{AB}}.
+\end{align}
+
+If $\rho \gg \gamma_AB$, then 
+\begin{align}
+    \Lambda(f_0) &\approx 1.
+\end{align}
+If $\rho \ll \gamma_{AB}$, $\gamma_{AB} = \gamma$, then
+\begin{align}
+    \Lambda(f_0) &\approx \frac{\rho}{\gamma}.
+\end{align} 
+
 
 
 % It seems that the only two regimes that we have not thought about yet are $\rho \gg 1$, $\gamma_A, \gamma_B \ll 1$ and $\rho \ll s \ll 1$ (not sure if this is interesting?).
