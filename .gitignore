@@ -7,13 +7,13 @@ temp.*
 /notes/Ben's project ideas 11.07.21.pdf
 
 # ignoring all subfolders (w/ output) but not files in code
-/code/*/
+/simulations/*/
 
 # ignoring modifications of plot_le.py for different regimes
 
 # ignoring output plots
-/code/*.png
+/simulations/*.png
 
 # ignoring large data files
-/code/*.out
+/simulations/*.out
 /uhgg/genomes-all_metadata.tsv
