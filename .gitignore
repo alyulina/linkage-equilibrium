@@ -15,5 +15,5 @@ temp.*
 /code/*.png
 
 # ignoring large data files
-/code/.out
+/code/*.out
 /uhgg/genomes-all_metadata.tsv
