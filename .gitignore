@@ -1,8 +1,10 @@
+# ignoring temp files
 .DS_Store
 .ipynb_checkpoints
-/notes/Ben's project ideas 11.07.21.pdf
-/code/.out
 temp.*
+
+# ignoring some notes 
+/notes/Ben's project ideas 11.07.21.pdf
 
 # ignoring all subfolders (w/ output) but not files in code
 /code/*/
@@ -11,3 +13,7 @@ temp.*
 
 # ignoring output plots
 /code/*.png
+
+# ignoring large data files
+/code/.out
+/uhgg/genomes-all_metadata.tsv
