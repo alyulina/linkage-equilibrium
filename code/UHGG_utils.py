@@ -1,7 +1,7 @@
 import itertools as it
+from datetime import datetime
 import pandas as pd
 import numpy as np
-import datetime
 
 
 def gff_to_df(gff_path, save_path=None):
@@ -73,6 +73,12 @@ def process_SNVs_table(snvs_path, gene_df, save_path):
             linecount += 1
 
 
+def get_SNVs_table_header(snvs_path):
+    with open(snvs_path, 'r') as f:
+        head = f.readline()  # will be useful when processing individual genes
+    return head.rstrip('\n')
+
+
 def if_gene(df, pos):
     """
     Return the row containing information of the gene of a certain position
@@ -88,7 +94,8 @@ def if_gene(df, pos):
     else:
         return None
 
-def get_non_redundant_genome_mask(mgnify_accession, genomes):
+
+def get_non_redundant_genome_mask(genomes_metadata, mgnify_accession, genomes):
     """
     According to metadata, the total # of genomes can be a few times larger than the # of non-redundant genome
     Therefore, an additional step to filter genomes might be necessary
@@ -96,17 +103,19 @@ def get_non_redundant_genome_mask(mgnify_accession, genomes):
     :param genomes: List of genome names as in the header of SNV tables
     :return: a boolean mask for unique genomes
     """
-    # TODO: currently doing nothing, but need to figure out how to deduplicate from metadata
-    return np.ones(len(genomes)).astype(bool)
+    speices_genomes = genomes_metadata[genomes_metadata['MGnify_accession'] == mgnify_accession]['Genome'].to_numpy()
+    return np.isin(genomes, speices_genomes)
 
 
-def process_SNV_table_single_gene(species_accession, header, filepath, gene_id, output=None):
+def process_SNV_table_single_gene(species_accession, header, genomes_metadata, filepath, contig, gene_id, output=None):
     """
     Compute genotype counts for all pairs of sites in a single gene
     :param species_accession: mgnify ID
     :param header: the header for SNV table containing genome names etc; currently not in individual gene files
+    :param genomes_metadata: loaded from "genomes-nr_metadata.tsv"
     :param filepath: file path to the gene SNV table
-    :param gene_id: ID of the gene, assigned by us in the format "contig_id-gene_index"; useful to filter ncRNA or other genes later
+    :param contig: contig of the gene
+    :param gene_id: ID of the gene, assigned by us in gff_to_df
     :param output: If provided, pairwise results will be written to the file as a line (n11, n10, n01, n00, ell) separated by whitespace
     :return: List of pairwise results, if output is not provided
     """
@@ -121,14 +130,23 @@ def process_SNV_table_single_gene(species_accession, header, filepath, gene_id, 
 
     # converting to numpy array for faster arithmetics
     snvs = biallelic_dat.iloc[:, 4:].astype(int).to_numpy()
-    genome_mask = get_non_redundant_genome_mask(species_accession, biallelic_dat.columns[4:])
+    genome_mask = get_non_redundant_genome_mask(genomes_metadata, species_accession, biallelic_dat.columns[4:])
     snvs = snvs[:, genome_mask]
 
     zeros = (snvs == 0).astype(int)
     ones = (snvs == 1).astype(int)
-    n00s = np.dot(zeros, zeros.T)  # using dot product to count the number of genomes with 00 genotype
-    n10s = np.dot(ones, zeros.T)
-    n11s = np.dot(ones, ones.T)
+    ntot = (snvs != 255).astype(int).sum(axis=1)
+
+    # set the reference to be the major allele
+    true_zeros = zeros.copy()
+    true_ones = ones.copy()
+    to_flip = zeros.sum(axis=1) < ntot * 0.5
+    true_zeros[to_flip] = ones[to_flip]
+    true_ones[to_flip] = zeros[to_flip]
+
+    n00s = np.dot(true_zeros, true_zeros.T)  # using dot product to count the number of genomes with 00 genotype
+    n10s = np.dot(true_ones, true_zeros.T)
+    n11s = np.dot(true_ones, true_ones.T)
     # TODO: in the future, we can also calculate pairs of syn/non-syn in a similar fashion here
     if output is not None:
         with open(output, 'a') as f:
@@ -138,7 +156,9 @@ def process_SNV_table_single_gene(species_accession, header, filepath, gene_id, 
                 n10 = str(n10s[i, j])
                 n01 = str(n10s[j, i])
                 n11 = str(n11s[i, j])
-                res = (n11, n10, n01, n00, str(ell), gene_id)
+                # res = (n11, n10, n01, n00, str(ell), contig, str(gene_id))
+                # shortened output to save memory
+                res = (n11, n10, n01, n00, str(ell))
                 f.write(' '.join(res)+'\n')
     else:
         all_pairs = []
@@ -148,6 +168,6 @@ def process_SNV_table_single_gene(species_accession, header, filepath, gene_id, 
             n10 = n10s[i, j]
             n01 = n10s[j, i]
             n11 = n11s[i, j]
-            res = (n11, n10, n01, n00, ell, gene_id)
+            res = (n11, n10, n01, n00, ell)
             all_pairs.append(res)
         return all_pairs
