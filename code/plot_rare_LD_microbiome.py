@@ -88,7 +88,7 @@ ldl_axis.loglog([1e-06],[1e-06],'k.')
 ldf_axis = axes[0][1]
 #ldf_axis.set_ylabel("$\\sigma_d^2")
 ldf_axis.set_xlabel("Frequency scale, $f_0$")
-ldf_axis.set_ylim([6e-04,6e-01])
+ldf_axis.set_ylim([1e-04,6e-01])
 ldf_axis.set_xlim([0.8e-03,2])
 ldf_axis.loglog([1e-06],[1e-06],'k.')
 ldf_axis.fill_between([1.0,2.0],[1,1],[1e-04,1e-04],color='0.8')
@@ -106,7 +106,7 @@ plt.subplots_adjust(hspace=0.35,wspace=0.25)
 #fstars = [1e02,1e-01]
 fstars = [1e02,1e-01,3e-02, 1e-2, 3e-3, 1e-3]
 fstar_colors = ['#045a8d','#2b8cbe','#74a9cf', '#9bbbd2', '#c1cbd2', '#d2d2d2']
-fstar_labels=['$f_0=\\infty$','$f_0=0.1$', '$f_0=0.03$', '$f_0=0.01$', '$f_0=0.003$', '$f_0=0.001']
+fstar_labels=['$f_0=\\infty$','$f_0=0.1$', '$f_0=0.03$', '$f_0=0.01$', '$f_0=0.003$', '$f_0=0.001$']
 # file = gzip.GzipFile(sys.argv[1],"r")
 species_name = "E_Rectale"
 # Er_path = os.path.join('/Volumes/Botein/uhgg', 'E_rectale_site_pairs.txt')
@@ -141,7 +141,7 @@ species_name = "E_Rectale"
 # n10s = numpy.array(n10s)*1.0
 # n01s = numpy.array(n01s)*1.0
 # n00s = numpy.array(n00s)*1.0
-ns = numpy.load('/Volumes/Botein/uhgg/E_rectale_site_pairs.npy').astype(float)
+ns = numpy.load('/Volumes/Botein/uhgg/E_rectale_site_pairs_083022.npy').astype(float)
 print("Done loading")
 n11s = ns[:, 0]
 n10s = ns[:, 1]
@@ -162,6 +162,10 @@ n01s = n01s[good_idxs]
 n00s = n00s[good_idxs]
 ntots = ntots[good_idxs]
 ells = ells[good_idxs]
+
+# set genome wide pairs to 1e7 so that later code can work
+mask = (ells > 1e4) & (ells < 1e8)
+ells[mask] = 1e7
 
 min_ntot = ntots.min()
 
@@ -214,7 +218,7 @@ for idx in xrange(0,len(ellranges)):
     ellmin,ellmax = ellranges[idx]
     color = colors[idx]
     step = 10
-    bins = numpy.arange(0,ntots.max(), 10)-0.5
+    bins = numpy.arange(0,ntots.max(), 20)-0.5
     xs = (bins[1:]+bins[:-1])/2
     # xs = numpy.arange(0,ntots.max(), 10)
 
