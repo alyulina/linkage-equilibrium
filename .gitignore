@@ -2,6 +2,7 @@
 .DS_Store
 .ipynb_checkpoints
 temp.*
+/uhgg/sandbox.ipynb
 
 # ignoring some notes 
 /notes/Ben's project ideas 11.07.21.pdf
@@ -17,3 +18,4 @@ temp.*
 # ignoring large data files
 /simulations/*.out
 /uhgg/genomes-all_metadata.tsv
+/uhgg/*.xlsx
