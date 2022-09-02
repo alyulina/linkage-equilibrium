@@ -4,8 +4,9 @@
 temp.*
 /uhgg/sandbox.ipynb
 
-# ignoring some notes 
+# ignoring some notes and Ben's code
 /notes/Ben's project ideas 11.07.21.pdf
+/uhgg/Ben's code/*
 
 # ignoring all subfolders (w/ output) but not files in code
 /simulations/*/
