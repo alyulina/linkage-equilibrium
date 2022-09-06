@@ -1,34 +1,70 @@
+import numpy as np
+import pandas as pd
 import genome_utils
 
 ref_genome_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492.fna'
 genome_annotation_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492.gff'
-gene_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/GUT_GENOME143712_1-0.tsv'
+snps_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/' # path to folder
+
+ann_snps_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/' # path to folder
+err_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492_snp_ann.err'
+err_out = open(err_path, 'a')
 
 ref_genome = genome_utils.get_genome_sequence(ref_genome_path)
 genome_annotation = genome_utils.get_genome_annotation(genome_annotation_path)
-# print(genome_annotation)
-# get a list of genes from genome annotation, write out to std err if there's no file
-# else get number of genes, snps paths, and gene ids
 
-# have a for loop here
-gene_id_i = 0 # same format as in genome_annotation
-gene_seq_i = genome_utils.get_gene_sequence(ref_genome_path, genome_annotation_path, gene_id_i)
+for i in range(len(genome_annotation[:1])): # CHANGE THIS WHEN WORKING WITH MORE FILES
+    gene_id = genome_annotation.iloc[i, 9]
+    start, end, strand = genome_utils.get_gene(genome_annotation_path, gene_id)
+    gene_seq = genome_utils.get_gene_sequence(ref_genome_path, genome_annotation_path, gene_id)
+    snps = genome_utils.get_snps(snps_path + genome_annotation.iloc[i, 0] + '-' + str(gene_id) + '.tsv')
 
-# if set(gene_seq_i) != {'C', 'A', 'T', 'G'}:
-# print err in std err
+    err_out.write('gene id: ' + str(gene_id) + '\n')
 
-snps_path_i = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/GUT_GENOME143712_1-' + str(gene_id_i) + '.tsv'
+    site_degeneracies = []
+    snp_types = []
 
-# add two empty columns
+    n_not_snps = 0
+    for j in range(len(snps)):
+        snp_pos_genome = snps.iloc[j, 1]
+        ref_allele = snps.iloc[j, 2]
+        alt_allele = snps.iloc[j, 3]
 
-# go line by line:
-# snp_id = ... (get first column value)
-# determine 1) codon based on position (position // 3) and location within codon (position % 3)
-# copy from Ben's code
-codon_id = snp_id // 3
-codon_position = snp_id % 3
-codon = gene_seq[codon_id * 3 : (codon_id + 1) * 3]
-genome_base = .. # - ref nuc us correct, write to std err if not; have a counter?
-# - alt nuc differs from ref, write to std err if not; have a counter?
+        if ref_allele != gene_seq[snp_pos_genome - start]:
+            err_out.write('snps do not map in line ' + str(j) + '\n')
+
+        codon_pos = (snp_pos_genome - start) // 3
+        snp_pos_codon = (snp_pos_genome - start) % 3
+        ref_codon = gene_seq[codon_pos * 3 : (codon_pos + 1) * 3]
+        alt_codon = ref_codon[:snp_pos_codon] + alt_allele + ref_codon[(snp_pos_codon + 1):]
+        # print(ref_codon, alt_codon)
+
+        site_degeneracies.append(genome_utils.codon_degeneracy_table[ref_codon][snp_pos_codon])
+
+        if alt_allele == ref_allele:
+            snp_type = '.'
+            n_not_snps += 1
+        elif genome_utils.codon_table[ref_codon] == genome_utils.codon_table[alt_codon]:
+            snp_type = 's' # synonymous
+        elif genome_utils.codon_table[ref_codon] == '!' or genome_utils.codon_table[alt_codon] == '!':
+            # premature gain or loss of stop codon
+            snp_type = 'n' # nonsense
+        else:
+            snp_type = 'm'  # missense
+
+        snp_types.append(snp_type)
+
+    if n_not_snps != 0:
+        err_out.write(str(n_not_snps) + ' out of ' + str(len(snps)) + ' snps are not snps\n')
+
+    snps.insert(4, 'snp type', snp_types)
+    snps.insert(5, 'site degeneracy', site_degeneracies)
+    snps.to_csv(ann_snps_path + genome_annotation.iloc[i, 0] + '-' + str(gene_id) + '-annotated.tsv',
+                sep='\t', header=False, index=False)
+    err_out.write('done!\n\n')
+
+err_out.close()
+
+
 
 
