@@ -1,23 +1,21 @@
-import numpy as np
-import pandas as pd
 import genome_utils
 
-ref_genome_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492.fna'
-genome_annotation_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492.gff'
-snps_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/' # path to folder
+ref_genome_path = '/home/groups/bhgood/uhgg/reference_genomes/MGYG-HGUT-02492.fna'
+genome_annotation_path = '/home/groups/bhgood/uhgg/genes/MGYG-HGUT-02492.gff'
+snps_path = '/home/groups/bhgood/uhgg/snv_tables' # path to folder
 
-ann_snps_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/' # path to folder
-err_path = '/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492_snp_ann.err'
+ann_snps_path = '/home/groups/bhgood/uhgg/snv_tables_annotated' # path to folder
+err_path = '/home/users/alyulina/recombination/uhgg/MGYG-HGUT-02492_snp_annotation.err'
 err_out = open(err_path, 'a')
 
 ref_genome = genome_utils.get_genome_sequence(ref_genome_path)
 genome_annotation = genome_utils.get_genome_annotation(genome_annotation_path)
 
-for i in range(len(genome_annotation[:1])): # CHANGE THIS WHEN WORKING WITH MORE FILES
+for i in range(len(genome_annotation)):
     gene_id = genome_annotation.iloc[i, 9]
     start, end, strand = genome_utils.get_gene(genome_annotation_path, gene_id)
     gene_seq = genome_utils.get_gene_sequence(ref_genome_path, genome_annotation_path, gene_id)
-    snps = genome_utils.get_snps(snps_path + genome_annotation.iloc[i, 0] + '-' + str(gene_id) + '.tsv')
+    snps = genome_utils.get_snps(snps_path + '/' + genome_annotation.iloc[i, 0] + '-' + str(gene_id) + '.tsv')
 
     err_out.write('gene id: ' + str(gene_id) + '\n')
 
