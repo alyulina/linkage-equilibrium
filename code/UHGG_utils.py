@@ -122,8 +122,10 @@ def compute_core_genes(gene_names, coverage_array, coverage_threshold=0.5, preve
     prevelances = np.mean(coverage_array >= coverage_threshold, axis=1)
     return gene_names[prevelances >= prevelance_threshold]
 
+
 def load_core_genes(species_id):
     return json.load(open('/Volumes/Botein/uhgg/core_genes/{}/core_genes.json'.format(species_id), 'r'))
+
 
 def get_SNVs_table_header(snvs_path):
     with open(snvs_path, 'r') as f:
