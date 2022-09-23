@@ -1,5 +1,6 @@
 import os
 import genome_utils
+from optparse import OptionParser
 
 #ref_genome_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492.fna"
 #genome_annotation_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492.gff"
@@ -8,12 +9,31 @@ import genome_utils
 #ann_snps_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test"
 #err_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02492_snp_annotation.err"
 
-ref_genome_path = '/home/groups/bhgood/uhgg/reference_genomes/MGYG-HGUT-02492.fna'
-genome_annotation_path = '/home/groups/bhgood/uhgg/genes/MGYG-HGUT-02492.gff'
-snps_path = '/home/groups/bhgood/uhgg/snv_tables/MGYG-HGUT-02492' # path to folder
+#ref_genome_path = '/home/groups/bhgood/uhgg/reference_genomes/MGYG-HGUT-02492.fna'
+#genome_annotation_path = '/home/groups/bhgood/uhgg/genes/MGYG-HGUT-02492.gff'
+#snps_path = '/home/groups/bhgood/uhgg/snv_tables/MGYG-HGUT-02492' # path to folder
 
-ann_snps_path = '/home/groups/bhgood/uhgg/snv_tables_annotated' # path to folder
-err_path = '/home/users/alyulina/recombination/uhgg/MGYG-HGUT-02492_snp_annotation.err'
+#ann_snps_path = '/home/groups/bhgood/uhgg/snv_tables_annotated' # path to folder
+#err_path = '/home/users/alyulina/recombination/uhgg/MGYG-HGUT-02492_snp_annotation.err'
+
+parser = OptionParser()
+
+parser.add_option("-s",
+                  "--species",
+                  type="string",
+                  help="species uhgg accession, e. g. MGYG-HGUT-00001",
+                  dest="species_accession")
+
+(options, args) = parser.parse_args()
+species_accession = options.apecies_accession
+
+ref_genome_path = '/home/groups/bhgood/uhgg/reference_genomes/' + species_accession + '.fna'
+genome_annotation_path = '/home/groups/bhgood/uhgg/genes/' + species_accession + '.gff'
+snps_path = '/scratch/groups/bhgood/uhgg/snv_tables/' + species accession # path to folder
+
+ann_snps_path = '/scratch/groups/bhgood/uhgg/snv_tables_annotated/' + species accession # path to folder
+err_path = '/home/users/alyulina/recombination/uhgg/' + species_accession + '_snp_annotation.err'
+
 err_out = open(err_path, 'a')
 
 ref_genome = genome_utils.get_genome_sequence(ref_genome_path)
