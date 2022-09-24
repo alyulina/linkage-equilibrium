@@ -1,4 +1,6 @@
 import os
+from typing import List
+
 import genome_utils
 from optparse import OptionParser
 
@@ -110,13 +112,11 @@ for i in range(len(genome_annotation)): # for each gene
         if n_not_snps != 0:
             err_out.write(str(n_not_snps) + ' out of ' + str(len(snps)) + ' snps are not snps\n')
 
-    snps.insert(4, 'snp type', snp_types)
-    snps.insert(5, 'site degeneracy', site_degeneracies)
-    snps.to_csv(ann_snps_path + '/' + genome_annotation.iloc[i, 0] + '-' + str(gene_id) + '-annotated.tsv',
-                sep='\t', header=False, index=False)
-    err_out.write('synonymous: ' + str(snp_type_counts[0]) +
-                  ', nonsynonumous: ' + str(snp_type_counts[1]) +
-                  ', missense: ' + str(snp_type_counts[2]) + '\ndone!\n\n')
+    snps.insert(4, 'snp type', snp_types) # will raise ValueError if any ot the snps were skipped
+    snps.insert(5, 'site degeneracy', site_degeneracies) # will raise ValueError if any ot the snps were skipped
+    snps.to_csv(ann_snps_path + '/' + genome_annotation.iloc[i, 0] + '-' + str(gene_id) + '-annotated.tsv', sep='\t', header=False, index=False)
+    # err_out.write('synonymous: ' + str(snp_type_counts[0]) + ', nonsynonumous: ' + str(snp_type_counts[1]) + ', missense: ' + str(snp_type_counts[2]) + '\n')
+    err_out.write('done!\n\n')
 
 err_out.close()
 
