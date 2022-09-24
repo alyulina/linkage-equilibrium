@@ -1,6 +1,8 @@
 # ignoring temp files
 .DS_Store
 .ipynb_checkpoints
+.idea
+__pycache__
 temp.*
 /uhgg/sandbox.ipynb
 /uhgg/test/*
@@ -21,3 +23,7 @@ temp.*
 /simulations/*.out
 /uhgg/genomes-all_metadata.tsv
 /uhgg/*.xlsx
+
+# ignoring posters and slides
+/posters/*
+/slides/*
