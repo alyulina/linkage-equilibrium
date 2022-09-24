@@ -18,16 +18,19 @@ parser.add_option("-s",
                   dest="species_accession")
 
 (options, args) = parser.parse_args()
-species_accession = options.apecies_accession
+species_accession = options.species_accession
 
 ref_genome_path = '/home/groups/bhgood/uhgg/reference_genomes/' + species_accession + '.fna'
 genome_annotation_path = '/home/groups/bhgood/uhgg/genes/' + species_accession + '.gff'
-snps_path = '/scratch/groups/bhgood/uhgg/snv_tables/' + species accession # path to folder
+snps_path = '/scratch/groups/bhgood/uhgg/snv_tables/' + species_accession # path to folder
 
-ann_snps_path = '/scratch/groups/bhgood/uhgg/snv_tables_annotated/' + species accession # path to folder
+ann_snps_path = '/scratch/groups/bhgood/uhgg/snv_tables_annotated/' + species_accession # path to folder
 err_path = '/home/users/alyulina/recombination/uhgg/' + species_accession + '_snp_annotation.err'
 
 err_out = open(err_path, 'a')
+
+if os.path.exists(ann_snps_path) == False:
+    os.makedirs(ann_snps_path)
 
 ref_genome = genome_utils.get_genome_sequence(ref_genome_path)
 genome_annotation = genome_utils.get_genome_annotation(genome_annotation_path)

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=snps_ann
-#SBATCH --output=/home/users/alyulina/recombination/uhgg/slurm-%j.out
+#SBATCH --output=/home/users/alyulina/recombination/uhgg/slurm-%A_%a.out
 #SBATCH --time=2-00:00:00
 #SBATCH --mem=8G
 #SBATCH --partition hns,dpetrov,normal
