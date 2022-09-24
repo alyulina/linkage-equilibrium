@@ -45,18 +45,29 @@ codon_degeneracy_table = {'GCT': [1, 1, 4], 'GCC': [1, 1, 4], 'GCA': [1, 1, 4], 
 
 def get_genome_sequence(fna_path):
     """Reads an .fna file and returns the genome sequence.
-       Only works with files containing one contig.
 
     Args:
         fna_path: path to the .fna file.
                   type: str
 
-    Returns: nucleotide sequence as a string in uppercase.
-             type: str
+    Returns: a dictionary of nucleotide sequences as strings in uppercase with contig names as keys.
+             type: {str: str}
     """
+
     with open(fna_path, 'r') as f:
         lines = f.readlines()
-    return ''.join([x.strip() for x in lines][1:])
+
+    contig_sequences = {}
+    for i in lines:
+        if i[0] == '>': # new contig
+            contig_name = i.strip()[1:]
+            if contig_name in contig_sequences.keys():
+                raise ValueError('Duplicate contig!')
+            else:
+                contig_sequences[contig_name] = ''
+        else:
+            contig_sequences[contig_name] += i.strip()
+    return contig_sequences
 
 
 def get_genome_annotation(gff_path):
@@ -104,8 +115,8 @@ def get_genome_annotation(gff_path):
     return annotation
 
 
-def get_gene(gff_path, gene_id):
-    """Gets gene coordinates and strand.
+def get_gene_location(gff_path, gene_id):
+    """Gets gene coordinates, strand, and contig.
 
     Args:
         gff_path: path to the .gff genome annotation file.
@@ -113,39 +124,39 @@ def get_gene(gff_path, gene_id):
         gene_id: gene id in the .gff file
                  type: int or str
 
-    Returns: gene start, end, and strand
-             type: int, int, str
+    Returns: contig, gene start, end, and strand.
+             type: str, int, int, str
 
     Dependencies: pandas as pd, get_genome_annotation(gff_path)
     """
     genome_annotation = get_genome_annotation(gff_path)
-    # to add later: check if gene_id is in genome_annotation and raise an exception if not
     gene_annotation = genome_annotation.loc[genome_annotation['Gene ID'] == gene_id]
-    return gene_annotation.iloc[0, 3], gene_annotation.iloc[0, 4], gene_annotation.iloc[0, 6]
+    return gene_annotation.iloc[0, 0], gene_annotation.iloc[0, 3], gene_annotation.iloc[0, 4], gene_annotation.iloc[0, 6]
 
 
 def get_gene_sequence(fna_path, gff_path, gene_id):
     """Gets the sequence of a gene from the reference genome.
 
     Args:
-        fna_path: path to the .fna reference genome file
+        fna_path: path to the .fna reference genome file.
                   type: str
         gff_path: path to the .gff file.
                   type: str
-        gene_id: gene id in the .gff file
+        gene_id: gene id in the .gff file.
                  type: int or str
 
-    Returns: gene sequence in uppercase
+    Returns: gene sequence in uppercase.
              type: str
 
-    Dependencies: pandas as pd, get_genome_annotation(gff_path), get_gene(gff_path, gene_id), get_genome_sequence(fna_path), reverse_complement(seq)
+    Dependencies: pandas as pd, get_genome_annotation(gff_path), get_gene_location(gff_path, gene_id), get_genome_sequence(fna_path), reverse_complement(seq)
     """
-    start, end, strand = get_gene(gff_path, gene_id)
+    contig, start, end, strand = get_gene_location(gff_path, gene_id)
     genome_seq = get_genome_sequence(fna_path)
+    contig_seq = genome_seq[contig]
     if strand == '+':
-        gene_seq = genome_seq[start - 1 : end]
+        gene_seq = contig_seq[start - 1 : end]
     elif strand == '-':
-        gene_seq = reverse_complement(genome_seq[start - 1 : end])
+        gene_seq = reverse_complement(contig_seq[start - 1 : end])
     return gene_seq
 
 def get_snps(tsv_path, values=True):
@@ -155,7 +166,7 @@ def get_snps(tsv_path, values=True):
         tsv_path: path to the .tsv file with snps; only one letter for alternative allele is allowed.
                   type: str
         values: whether or not to read snp values,
-                default is values=True
+                default is values=True.
                 type: bool
 
     Returns: a table containing snp position, reference and alternative alleles, and snp values across a population.
