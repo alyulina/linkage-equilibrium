@@ -67,7 +67,7 @@ def process_SNVs_table(snvs_path, gene_df, save_path):
             row = if_gene(contig_df, pos)  # sites found in multiple genes will be removed!
             if row is not None:
                 # Important: here we set how the gene files should be named
-                file_name = save_path + "{}-{}.tsv".format(contig, row['Gene ID'].squeeze())
+                file_name = os.path.join(save_path, "{}-{}.tsv".format(contig, row['Gene ID'].squeeze()))
                 with open(file_name, 'a') as g:
                     g.write(line)
             if linecount % 100000 == 0:
@@ -203,7 +203,8 @@ def load_biallelic_snvs(snv_path, genome_mask):
     biallelic_dat = dat.groupby(1).filter(lambda x: x.shape[0] == 1)
 
     # converting to numpy array for faster arithmetics
-    snvs = biallelic_dat.iloc[:, 4:].astype(int).to_numpy()
+    # snvs = biallelic_dat.iloc[:, 4:].astype(int).to_numpy()
+    snvs = biallelic_dat.iloc[:, 6:].astype(int).to_numpy()  # TODO: eventually use headers maybe
     snvs = snvs[:, genome_mask]
 
     zeros = (snvs == 0).astype(int)
@@ -216,8 +217,22 @@ def load_biallelic_snvs(snv_path, genome_mask):
     to_flip = zeros.sum(axis=1) < ntot * 0.5
     true_zeros[to_flip] = ones[to_flip]
     true_ones[to_flip] = zeros[to_flip]
-    return true_zeros, true_ones, biallelic_dat.iloc[:, 1].to_numpy()
 
+    ells = biallelic_dat.iloc[:, 1].to_numpy()
+    mut_types = biallelic_dat.iloc[:, 4].to_numpy()
+    return true_zeros, true_ones, ells, mut_types
+
+
+def pair_type(mut_type1, mut_type2):
+    """
+    0: syn & syn pair
+    1: non-syn & syn pair
+    2: non-syn & non-syn pair
+    :param mut_type1:
+    :param mut_type2:
+    :return:
+    """
+    return int(mut_type1 != 's') + (mut_type2 != 's')
 
 def process_SNV_table_single_gene(filepath, genome_mask, output=None):
     """
@@ -228,7 +243,7 @@ def process_SNV_table_single_gene(filepath, genome_mask, output=None):
     :return: List of pairwise results, if output is not provided
     """
 
-    true_zeros, true_ones, locations = load_biallelic_snvs(filepath, genome_mask)
+    true_zeros, true_ones, locations, mut_types = load_biallelic_snvs(filepath, genome_mask)
 
     n00s = np.dot(true_zeros, true_zeros.T)  # using dot product to count the number of genomes with 00 genotype
     n10s = np.dot(true_ones, true_zeros.T)
@@ -242,9 +257,10 @@ def process_SNV_table_single_gene(filepath, genome_mask, output=None):
                 n10 = str(n10s[i, j])
                 n01 = str(n10s[j, i])
                 n11 = str(n11s[i, j])
+                type = str(pair_type(mut_types[i], mut_types[j]))
                 # res = (n11, n10, n01, n00, str(ell), contig, str(gene_id))
                 # shortened output to save memory
-                res = (n11, n10, n01, n00, str(ell))
+                res = (n11, n10, n01, n00, str(ell), type)
                 f.write(' '.join(res)+'\n')
     else:
         all_pairs = []
@@ -268,8 +284,8 @@ def process_SNV_table_between_genes(filepath1, filepath2, genome_mask, output=No
     :param output: If provided, results will be appended to the files as a line (n11, n10, n01, n00, ell)
     :return:
     """
-    true_zeros1, true_ones1, ells1 = load_biallelic_snvs(filepath1, genome_mask)
-    true_zeros2, true_ones2, ells2 = load_biallelic_snvs(filepath2, genome_mask)
+    true_zeros1, true_ones1, ells1, mut_types1 = load_biallelic_snvs(filepath1, genome_mask)
+    true_zeros2, true_ones2, ells2, mut_types2 = load_biallelic_snvs(filepath2, genome_mask)
 
     n00s = np.dot(true_zeros1, true_zeros2.T)  # using dot product to count the number of genomes with 00 genotype
     n10s = np.dot(true_ones1, true_zeros2.T)
@@ -286,9 +302,10 @@ def process_SNV_table_between_genes(filepath1, filepath2, genome_mask, output=No
                     n10 = str(n10s[i, j])
                     n01 = str(n01s[i, j])
                     n11 = str(n11s[i, j])
+                    type = str(pair_type(mut_types1[i], mut_types2[j]))
                     # res = (n11, n10, n01, n00, str(ell), contig, str(gene_id))
                     # shortened output to save memory
-                    res = (n11, n10, n01, n00, str(ell))
+                    res = (n11, n10, n01, n00, str(ell), type)
                     f.write(' '.join(res) + '\n')
     else:
         all_pairs = []
