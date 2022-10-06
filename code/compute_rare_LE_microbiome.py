@@ -1,24 +1,52 @@
 import sys
 import numpy
 import os
-from scipy.special import gammaln
-import matplotlib as mpl
 import logging
-import matplotlib.pyplot as plt
+import argparse
 from datetime import datetime
 from numpy.random import randint, shuffle, poisson, binomial, choice, hypergeometric
 
 from estimator import calculate_LD_Good2022, calculate_LD, calculate_LE
 
-if len(sys.argv) !=2:
-    print("Usage: please provide path to site pair file in npy format")
-    quit()
-path = sys.argv[1]
+parser = argparse.ArgumentParser()
+parser.add_argument('--path', type=str, required=True, 
+		    help='Path to the npy file with all pairs of sites')
+parser.add_argument('stats', choices=['LD', 'LE', 'LD_manual']
+parser.add_argument('--savepath', type=str,
+		    help='Path to where outputs should be saved')
+parser.add_argument('--debug', action='store_true', 
+                    help='will terminate after parsing the filename')
+parser.add_argument('--pairtype', type=int, choices=range(3), help='the type of pair to process')
+args = parser.parse_args()
+
+path = args.path
 accession = path.split('/')[-1].split('.')[0]
 
 now = datetime.now()
 dt_string = now.strftime("%H:%M:%S")
 print("Started processing {} at {}".format(accession, dt_string))
+
+if args.pairtype is None:
+    typename = 'all'
+else:
+    typename = ['syn', 'syn_non_syn', 'non_syn'][args.pairtype]
+
+if path.savepath:
+    savepath = os.path.join(path.savepath, args.stats, accession)
+else:
+    savepath = os.path.join('./cached', args.stats, accession)
+os.makedirs(savepath, exist_ok=True)
+
+if args.stats=='LD':
+    stat_func = calculate_LD
+elif args.stats=='LE':
+    stat_func = calculate_LE
+else:
+    stat_func = calculate_LD_Good2022
+
+if path.debug:
+    print("Debug mode: exiting")
+    quit()
 
 """
 Loading the ns for a species
@@ -30,6 +58,7 @@ n10s = ns[:, 1]
 n01s = ns[:, 2]
 n00s = ns[:, 3]
 ells = ns[:, 4]
+types = ns[:, 5]
 ntots = n11s+n10s+n01s+n00s
 
 max_ntot = ntots.max()
@@ -39,6 +68,14 @@ good_idxs = (ntots>0.95*max_ntot)
 print("max_ntot", max_ntot)
 print("Kept", good_idxs.sum()*1.0/len(good_idxs))
 
+
+# filter pairs according to pair type
+if args.pairtype is None:
+    mask = np.ones(ntots.shape).astype(bool)
+else:
+    mask = (types==args.pairtype)
+good_idxs = good_idxs & mask
+
 n11s = n11s[good_idxs]
 n10s = n10s[good_idxs]
 n01s = n01s[good_idxs]
@@ -47,9 +84,12 @@ n_obs = numpy.vstack([n10s, n01s, n11s, n00s]).T
 print("Total data shape: {}, {} bytes".format(n_obs.shape, n_obs.nbytes))
 ntots = ntots[good_idxs]
 ells = ells[good_idxs]
+
 # set genome wide pairs to 1e7 so that later code can work
 mask = (ells > 1e4) & (ells < 1e8)
 ells[mask] = 1e7
+
+if 
 
 """
 Fix a few ells, scan a range of f0
@@ -75,17 +115,16 @@ for idx in xrange(0,len(ellranges)):
 
     sigmasquareds = []
     for f0 in f0s:
-        print f0
-        # numer, denom = calculate_sigmasquared(n11s[good_idxs],n10s[good_idxs],n01s[good_idxs],n00s[good_idxs],ntots[good_idxs],f0)
+        print(f0)
         # numer, denom = calculate_LD(n_obs[good_idxs, :],f0)
-        numer, denom = calculate_LE(n_obs[good_idxs, :],f0)
         # numer, denom = calculate_LD_Good2022(n11s[good_idxs],n10s[good_idxs],n01s[good_idxs],n00s[good_idxs],ntots[good_idxs],f0)
+        numer, denom = stat_func(n_obs[good_idxs, :],f0)
         sigmasquared = numer.mean() / denom.mean()
         sigmasquareds.append(sigmasquared)
 
     sigmasquareds = numpy.array(sigmasquareds)
-    numpy.save("./cached/{}/f_scan_f0s_{}".format(accession, idx), capped_f0s)
-    numpy.save("./cached/{}/f_scan_LEs_{}".format(accession, idx), sigmasquareds)
+    numpy.save(os.path.join(savepath, "f_scan_f0s_{}".format(idx)), capped_f0s)
+    numpy.save(os.path.join(savepath, "f_scan_stats_{}".format(idx)), sigmasquareds)
 
 now = datetime.now()
 dt_string = now.strftime("%H:%M:%S")
@@ -107,8 +146,7 @@ for idx in xrange(0,len(fstars)):
 
     # numer, denom = calculate_sigmasquared(n11s,n10s,n01s,n00s,ntots,fstar)
     # numer, denom = calculate_LD(n_obs,fstar)
-    numer, denom = calculate_LE(n_obs,fstar)
-    # numer, denom = calculate_LD_Good2022(n11s,n10s,n01s,n00s,ntots,fstar)
+    numer, denom = stat_func(n_obs, fstar)
 
     sigmasquareds2 = []
     avg_ells2 = []
@@ -135,8 +173,8 @@ for idx in xrange(0,len(fstars)):
     avg_ells[-1]=6e03
     sigmasquareds = numpy.array(sigmasquareds2)
 
-    numpy.save("./cached/{}/ell_scan_ells_{}".format(accession, idx), avg_ells)  # the genome wide distance is set to be 6e03 here
-    numpy.save("./cached/{}/ell_scan_LEs_{}".format(accession, idx), sigmasquareds)
+    numpy.save(os.path.join(savepath, "ell_scan_ells_{}".format(idx)), avg_ells)  # the genome wide distance is set to be 6e03 here
+    numpy.save(os.path.join(savepath, "ell_scan_stats_{}".format(idx)), sigmasquareds)
 
 now = datetime.now()
 dt_string = now.strftime("%H:%M:%S")
