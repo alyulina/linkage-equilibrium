@@ -10,10 +10,10 @@ from estimator import calculate_LD_Good2022, calculate_LD, calculate_LE
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--path', type=str, required=True, 
-		    help='Path to the npy file with all pairs of sites')
-parser.add_argument('stats', choices=['LD', 'LE', 'LD_manual']
+                    help='Path to the npy file with all pairs of sites')
+parser.add_argument('stats', choices=['LD', 'LE', 'LD_manual'])
 parser.add_argument('--savepath', type=str,
-		    help='Path to where outputs should be saved')
+                    help='Path to where outputs should be saved')
 parser.add_argument('--debug', action='store_true', 
                     help='will terminate after parsing the filename')
 parser.add_argument('--pairtype', type=int, choices=range(3), help='the type of pair to process')
@@ -32,9 +32,9 @@ else:
     typename = ['syn', 'syn_non_syn', 'non_syn'][args.pairtype]
 
 if path.savepath:
-    savepath = os.path.join(path.savepath, args.stats, accession)
+    savepath = os.path.join(path.savepath, args.stats, typename, accession)
 else:
-    savepath = os.path.join('./cached', args.stats, accession)
+    savepath = os.path.join('./cached', args.stats, typename, accession)
 os.makedirs(savepath, exist_ok=True)
 
 if args.stats=='LD':
@@ -71,7 +71,7 @@ print("Kept", good_idxs.sum()*1.0/len(good_idxs))
 
 # filter pairs according to pair type
 if args.pairtype is None:
-    mask = np.ones(ntots.shape).astype(bool)
+    mask = numpy.ones(ntots.shape).astype(bool)
 else:
     mask = (types==args.pairtype)
 good_idxs = good_idxs & mask
@@ -88,8 +88,6 @@ ells = ells[good_idxs]
 # set genome wide pairs to 1e7 so that later code can work
 mask = (ells > 1e4) & (ells < 1e8)
 ells[mask] = 1e7
-
-if 
 
 """
 Fix a few ells, scan a range of f0

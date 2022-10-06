@@ -113,11 +113,11 @@ def calculate_LD(n_obs, f0):
 # n01s = n_obs[:, 1]
 # n11s = n_obs[:, 2]
 # n00s = n_obs[:, 3]
-def calculate_LD_Good2022_(n_obs, f0):
-    return calculate_LD_Good2022(n_obs[:, 2], n_obs[:, 0], n_obs[:, 1], n_obs[:, 3], n_obs.sum(axis=1), f0)
+def calculate_LD_Good2022(n_obs, f0):
+    return _calculate_LD_Good2022(n_obs[:, 2], n_obs[:, 0], n_obs[:, 1], n_obs[:, 3], n_obs.sum(axis=1), f0)
 
 
-def calculate_LD_Good2022(n11s, n10s, n01s, n00s, ntots, fstar):
+def _calculate_LD_Good2022(n11s, n10s, n01s, n00s, ntots, fstar):
     # Now do version based on counts
     # First calculate numerator
     rsquared_numerators = n11s*(n11s-1)*n00s*(n00s-1)*numpy.power(1-2.0/ntots/fstar,n11s-2)*numpy.power(1-1.0/ntots/fstar,n10s-0+n01s-0)
