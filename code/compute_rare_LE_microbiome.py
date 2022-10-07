@@ -31,8 +31,8 @@ if args.pairtype is None:
 else:
     typename = ['syn', 'syn_non_syn', 'non_syn'][args.pairtype]
 
-if path.savepath:
-    savepath = os.path.join(path.savepath, args.stats, typename, accession)
+if args.savepath:
+    savepath = os.path.join(args.savepath, args.stats, typename, accession)
 else:
     savepath = os.path.join('./cached', args.stats, typename, accession)
 os.makedirs(savepath, exist_ok=True)
@@ -44,7 +44,7 @@ elif args.stats=='LE':
 else:
     stat_func = calculate_LD_Good2022
 
-if path.debug:
+if args.debug:
     print("Debug mode: exiting")
     quit()
 
@@ -101,7 +101,7 @@ ellranges = [(1e04,1e08),(1e03,2e03),(1e02,3e02)]
 colors = ['#1f77b4','#2ca02c','#ff7f0e']
 labels =['Genome avg','1000<$\ell$<2000','100<$\ell$<300']
 
-for idx in xrange(0,len(ellranges)):
+for idx in range(0,len(ellranges)):
     ellmin,ellmax = ellranges[idx]
     color = colors[idx]
     label=labels[idx]
@@ -137,7 +137,7 @@ big_theory_ells = numpy.hstack([raw_theory_ells,[1e07]])  # for filtering data; 
 
 fstars = [1e02,1e-01,3e-02, 1e-2, 3e-3, 1e-3]  # Specify the f0s to calculate
 
-for idx in xrange(0,len(fstars)):
+for idx in range(0,len(fstars)):
     fstar = fstars[idx]
     capped_fstar = min([fstar,1.0])
     print("Processing fstar =", fstar, capped_fstar)
