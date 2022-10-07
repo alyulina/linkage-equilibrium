@@ -6,7 +6,6 @@ import json
 import numpy as np
 import random
 
-
 def gff_to_df(gff_path, save_path=None):
     """
     Parse GFF file downloaded from uhgg into dataframe
