@@ -112,17 +112,27 @@ for idx in range(0,len(ellranges)):
     good_idxs = (ells>ellmin)*(ells<ellmax)
 
     sigmasquareds = []
+    all_numers = []
+    all_denoms = []
     for f0 in f0s:
         print(f0)
         # numer, denom = calculate_LD(n_obs[good_idxs, :],f0)
         # numer, denom = calculate_LD_Good2022(n11s[good_idxs],n10s[good_idxs],n01s[good_idxs],n00s[good_idxs],ntots[good_idxs],f0)
         numer, denom = stat_func(n_obs[good_idxs, :],f0)
-        sigmasquared = numer.mean() / denom.mean()
+        numer = numer.mean()
+        denom = denom.mean()
+        sigmasquared = numer / denom
         sigmasquareds.append(sigmasquared)
+        all_numers.append(numer)
+        all_denoms.append(denom)
 
     sigmasquareds = numpy.array(sigmasquareds)
+    all_numers = numpy.array(all_numers)
+    all_denoms = numpy.array(all_denoms)
     numpy.save(os.path.join(savepath, "f_scan_f0s_{}".format(idx)), capped_f0s)
     numpy.save(os.path.join(savepath, "f_scan_stats_{}".format(idx)), sigmasquareds)
+    numpy.save(os.path.join(savepath, "f_scan_stats_numer_{}".format(idx)), all_numers)
+    numpy.save(os.path.join(savepath, "f_scan_stats_denom_{}".format(idx)), all_denoms)
 
 now = datetime.now()
 dt_string = now.strftime("%H:%M:%S")
@@ -148,6 +158,8 @@ for idx in range(0,len(fstars)):
 
     sigmasquareds2 = []
     avg_ells2 = []
+    all_numers = []
+    all_denoms = []
     for l in big_theory_ells:
         lmin = l*numpy.power(10,-0.1)
         lmax = l*numpy.power(10,0.1)
@@ -156,7 +168,9 @@ for idx in range(0,len(fstars)):
             # fewer than 10 points!
             continue
 
-        sigmasquared = (numer*(ells>=lmin)*(ells<=lmax)).mean() / (denom*(ells>=lmin)*(ells<=lmax)).mean()
+        curr_numer = (numer*(ells>=lmin)*(ells<=lmax)).mean()
+        curr_denom = (denom*(ells>=lmin)*(ells<=lmax)).mean()
+        sigmasquared = curr_numer / curr_denom
 
         local_ells = ells[(ells>=lmin)*(ells<=lmax)]
         # Harmonic mean
@@ -166,13 +180,19 @@ for idx in range(0,len(fstars)):
 
         avg_ells2.append(avg_ell)
         sigmasquareds2.append(sigmasquared)
+        all_numers.append(curr_numer)
+        all_denoms.append(curr_denom)
 
     avg_ells = numpy.array(avg_ells2)
     avg_ells[-1]=6e03
     sigmasquareds = numpy.array(sigmasquareds2)
+    all_numers = numpy.array(all_numers)
+    all_denoms = numpy.array(all_denoms)
 
     numpy.save(os.path.join(savepath, "ell_scan_ells_{}".format(idx)), avg_ells)  # the genome wide distance is set to be 6e03 here
     numpy.save(os.path.join(savepath, "ell_scan_stats_{}".format(idx)), sigmasquareds)
+    numpy.save(os.path.join(savepath, "ell_scan_stats_numer_{}".format(idx)), all_numers)
+    numpy.save(os.path.join(savepath, "ell_scan_stats_denom_{}".format(idx)), all_denoms)
 
 now = datetime.now()
 dt_string = now.strftime("%H:%M:%S")
