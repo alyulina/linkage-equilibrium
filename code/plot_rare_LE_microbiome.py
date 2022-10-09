@@ -123,7 +123,7 @@ def plot_one_species(axes, accession, dat_path, legend=False):
 
 accessions = os.listdir('./cached/sherlock/pairwise_stats/LE/syn/')
 stat_type = 'LD'
-pair_type = 'syn'
+pair_type = 'non_syn'
 
 for i, accession in enumerate(accessions):
     # accession = 'MGYG-HGUT-02506'
