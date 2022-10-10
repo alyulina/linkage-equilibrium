@@ -52,15 +52,49 @@ if args.debug:
 """
 Loading the ns for a species
 """
-ns = numpy.load(path).astype(float)
-print("Done loading")
-n11s = ns[:, 0]
-n10s = ns[:, 1]
-n01s = ns[:, 2]
-n00s = ns[:, 3]
-ells = ns[:, 4]
-types = ns[:, 5]
-ntots = n11s+n10s+n01s+n00s
+if path.endswith('npy'):
+    ns = numpy.load(path).astype(float)
+    print("Done loading")
+    n11s = ns[:, 0]
+    n10s = ns[:, 1]
+    n01s = ns[:, 2]
+    n00s = ns[:, 3]
+    ells = ns[:, 4]
+    types = ns[:, 5]
+    ntots = n11s+n10s+n01s+n00s
+elif path.endswith('.gz'):
+    import gzip
+    file = gzip.GzipFile(path, "r")
+    file.readline()  # header
+    n11s = []
+    n10s = []
+    n01s = []
+    n00s = []
+    ells = []
+    print "Loading data..."
+    for line in file:
+        items = line.split()
+        n11 = long(items[0])
+        n10 = long(items[1])
+        n01 = long(items[2])
+        n00 = long(items[3])
+        ell = long(items[4])
+
+        n11s.append(n11)
+        n10s.append(n10)
+        n01s.append(n01)
+        n00s.append(n00)
+        ells.append(ell)
+    file.close()
+    n11s = numpy.array(n11s) * 1.0
+    n10s = numpy.array(n10s) * 1.0
+    n01s = numpy.array(n01s) * 1.0
+    n00s = numpy.array(n00s) * 1.0
+    ntots = n11s + n10s + n01s + n00s
+    ells = numpy.array(ells)
+    types = np.ones(ells.shape)
+else:
+    raise RuntimeError("site count file format is not recognized")
 
 max_ntot = ntots.max()
 
