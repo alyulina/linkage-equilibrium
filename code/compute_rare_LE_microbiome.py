@@ -35,6 +35,7 @@ if args.savepath:
     savepath = os.path.join(args.savepath, args.stats, typename, accession)
 else:
     savepath = os.path.join('./cached', args.stats, typename, accession)
+print("saving to {}".format(savepath))
 os.makedirs(savepath, exist_ok=True)
 
 if args.stats=='LD':
