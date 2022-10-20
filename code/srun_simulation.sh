@@ -4,19 +4,20 @@
 #
 #Give your job a name
 #SBATCH --job-name=LE
-#SBATCH --output=/home/users/alyulina/recombination/output/slurm-%A_%a.out
+#SBATCH --output=/home/users/zhiru/linkage-equillibrium/code/batch_out/slurm-%A_%a.out
+
 #
 #Specify time limit; days-hours:minutes:seconds or hours:minutes:seconds
-#SBATCH --time=2-00:00:00
+#SBATCH --time=1:00:00
 #
 #Specify memory in gigabytes
 #SBATCH --mem=4G
 #
 #Specify account and partition
-#SBATCH --partition hns,dpetrov,normal
+#SBATCH --partition normal
 #
 #Would you like to be notified when the job starts or is completed?
-#SBATCH --mail-user=alyulina@stanford.edu
+#SBATCH --mail-user=zhiru@stanford.edu
 #SBATCH --mail-type=ALL
 #
 #Do not restart the job if it fails
@@ -34,6 +35,7 @@ unset SLURM_EXPORT_ENV
 export OMP_NUM_THREADS=1
 #
 #Load the software module you intend to use
+ml gcc
 module load python/2.7.13
 module load py-numpy/1.14.3_py27
 module load py-scipy/1.1.0_py27
@@ -41,4 +43,4 @@ module load py-scipy/1.1.0_py27
 #Read type from parameters.py and print out parameters, then run simulation
 type=$1
 echo $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID)
-srun --cpu_bind=verbose ./simulate_twolocus $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID) | gzip -c > /scratch/users/alyulina/recombination/output/output_${type}_$SLURM_ARRAY_TASK_ID.txt.gz
+srun --cpu_bind=verbose ./simulate_twolocus $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID) | gzip -c > /scratch/users/zhiru/output_${type}_$SLURM_ARRAY_TASK_ID.txt.gz

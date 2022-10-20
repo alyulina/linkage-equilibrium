@@ -71,14 +71,14 @@ elif path.endswith('.gz'):
     n01s = []
     n00s = []
     ells = []
-    print "Loading data..."
+    print("Loading data...")
     for line in file:
         items = line.split()
-        n11 = long(items[0])
-        n10 = long(items[1])
-        n01 = long(items[2])
-        n00 = long(items[3])
-        ell = long(items[4])
+        n11 = int(items[0])
+        n10 = int(items[1])
+        n01 = int(items[2])
+        n00 = int(items[3])
+        ell = int(items[4])
 
         n11s.append(n11)
         n10s.append(n10)
@@ -92,7 +92,7 @@ elif path.endswith('.gz'):
     n00s = numpy.array(n00s) * 1.0
     ntots = n11s + n10s + n01s + n00s
     ells = numpy.array(ells)
-    types = np.ones(ells.shape)
+    types = numpy.ones(ells.shape)
 else:
     raise RuntimeError("site count file format is not recognized")
 
