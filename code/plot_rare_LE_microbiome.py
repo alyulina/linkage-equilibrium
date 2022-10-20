@@ -23,12 +23,6 @@ mpl.rcParams['font.size'] = 8
 mpl.rcParams['lines.linewidth'] = 1
 mpl.rcParams['legend.frameon'] = False
 mpl.rcParams['legend.fontsize'] = 'small'
-
-# Set up figure
-f, axes = plt.subplots(10,2,squeeze=False)
-f.set_size_inches(6,20.)
-
-
 def plot_one_species(axes, accession, dat_path, legend=False):
     species_name = accession_to_species_name(accession)
     axes[0].set_title(accession)
@@ -121,13 +115,24 @@ def plot_one_species(axes, accession, dat_path, legend=False):
         ldl_axis.legend(loc='lower center', bbox_to_anchor=(0.5, 1.2), ncol=3, frameon=False,numpoints=1)
 
 
+# Set up figure
+# f, axes = plt.subplots(10,2,squeeze=False)
+f, axes = plt.subplots(1,2,squeeze=False)
+f.set_size_inches(6,2.)
+
 accessions = os.listdir('./cached/sherlock/pairwise_stats/LE/syn/')
 stat_type = 'LD'
-pair_type = 'non_syn'
+pair_type = 'all'
 
-for i, accession in enumerate(accessions):
-    # accession = 'MGYG-HGUT-02506'
-    dat_path = os.path.join('./cached', 'sherlock', 'pairwise_stats', stat_type, pair_type, accession)
-    plot_one_species(axes[i], accession, dat_path, legend=(i==0))
+# for i, accession in enumerate(accessions):
+#     # accession = 'MGYG-HGUT-02506'
+#     dat_path = os.path.join('./cached', 'sherlock', 'pairwise_stats', stat_type, pair_type, accession)
+#     plot_one_species(axes[i], accession, dat_path, legend=(i==0))
+
+accession = 'MGYG-HGUT-02492'
+name = 'erectale_snv_pairs'
+dat_path = os.path.join('./cached', 'Ben_LD', 'test_pairwise_stats', stat_type, pair_type, name)
+plot_one_species(axes[0], accession, dat_path, legend=False)
+
 plt.tight_layout()
-plt.savefig(os.path.join('./figs', '{}_{}.pdf'.format(stat_type, pair_type)), bbox_inches='tight')
+plt.savefig(os.path.join('./figs', 'test_{}.pdf'.format(stat_type, pair_type)), bbox_inches='tight')

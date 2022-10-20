@@ -21,24 +21,28 @@ params['r_selA=1e-5'] = [(num_runs,dt,N,s,0,0,r) for r in rs]
 params['r_selAB=1e-5'] = [(num_runs,dt,N,s/2,s/2,0,r) for r in rs]
 params['r_eps=1e-5'] = [(num_runs,dt,N,0,0,s,r) for r in rs]
 params['r_negeps=1e-5'] = [(num_runs,dt,N,s,s,-s,r) for r in rs]
+params['r_negeps_strong=1e-5'] = [(num_runs,dt,N,s,s,-2*s,r) for r in rs]
 
 s = 1e-4
 params['r_selA=1e-4'] = [(num_runs,dt,N,s,0,0,r) for r in rs]
 params['r_selAB=1e-4'] = [(num_runs,dt,N,s/2,s/2,0,r) for r in rs]
 params['r_eps=1e-4'] = [(num_runs,dt,N,0,0,s,r) for r in rs]
 params['r_negeps=1e-4'] = [(num_runs,dt,N,s,s,-s,r) for r in rs]
+params['r_negeps_strong=1e-4'] = [(num_runs,dt,N,s,s,-2*s,r) for r in rs]
 
 s = 1e-3
 params['r_selA=1e-3'] = [(num_runs,dt,N,s,0,0,r) for r in rs]
 params['r_selAB=1e-3'] = [(num_runs,dt,N,s/2,s/2,0,r) for r in rs]
 params['r_eps=1e-3'] = [(num_runs,dt,N,0,0,s,r) for r in rs]
 params['r_negeps=1e-3'] = [(num_runs,dt,N,s,s,-s,r) for r in rs]
+params['r_negeps_strong=1e-3'] = [(num_runs,dt,N,s,s,-2*s,r) for r in rs]
 
 s = 1e-2
 params['r_selA=1e-2'] = [(num_runs,dt,N,s,0,0,r) for r in rs]
 params['r_selAB=1e-2'] = [(num_runs,dt,N,s/2,s/2,0,r) for r in rs]
 params['r_eps=1e-2'] = [(num_runs,dt,N,0,0,s,r) for r in rs]
 params['r_negeps=1e-2'] = [(num_runs,dt,N,s,s,-s,r) for r in rs]
+params['r_negeps_strong=1e-2'] = [(num_runs,dt,N,s,s,-2*s,r) for r in rs]
 
 
 ss = numpy.logspace(-5,-2,13)
