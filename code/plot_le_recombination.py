@@ -6,8 +6,10 @@ import ld_theory
 import gzip
 import numpy as np
 from math import log10
+import os
 
 import matplotlib
+import matplotlib.pyplot as plt
 # matplotlib.use('Agg') # uncomment if running on the cluster
 matplotlib.use('Agg')
 
@@ -18,9 +20,13 @@ parser = OptionParser()
 parser.add_option("-p", "--parameters", type="string",
                   help="name pf the parameters regime from parameters.py",
                   dest="regime")
+parser.add_option("--path", type="string",
+                  help="root path to the data files",
+                  dest="dat_path")
 
 (options, args) = parser.parse_args()
 regime = options.regime
+dat_path = options.dat_path
 
 plt.figure(1,figsize=(6,4.5))
 f = plt.gcf()
@@ -59,7 +65,7 @@ for type,symbol,counts_symbol in zip([regime],['o'],['s']):
         
         gammas.append(gamma)
     
-        filename = 'output/output_%s_%d.txt.gz' % (type,param_idx)
+        filename = os.path.join(dat_path, 'output_%s_%d.txt.gz' % (type,param_idx))
         # filename = '/scratch/users/alyulina/recombination/output/output_%s_%d.txt.gz' % (type,param_idx) # uncomment if running on the cluster
         file = gzip.GzipFile(filename,"r")
         f11s = []
