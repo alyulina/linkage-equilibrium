@@ -29,12 +29,12 @@ We are interested in the linkage equilibrium statistic $\Lambda(f_0)$, defined a
 \begin{align}
     \Lambda(f_0) \equiv \frac{\left\langle f_{ab}f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle},
 \end{align}
-where $f_A \equiv f_{Ab} + f_{aB}$, $f_B \equiv f_{aB} + f_{AB}$ and $f_A, f_B \lesssim f_0$.
+where $f_A \equiv f_{Ab} + f_{AB}$, $f_B \equiv f_{aB} + f_{AB}$ and $f_A, f_B \lesssim f_0$.
 In the limit that $f_{Ab}$, $f_{aB}$, $f_{AB} \ll1$, 
 \begin{align}\label{eq:lambda_small_f}
     \Lambda(f_0) \approx \frac{\left\langle f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2f_B^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}.
 \end{align}
-The moments follows from 
+The moments follow from 
 \begin{align}\label{eq:lambda_numerator}
     \left\langle f_{Ab}^if_{aB}^jf_{AB}^k\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
     = -f_0^{(i+j+k)} \partial_x^i \partial_y^j \partial_z^k H(x, y, z, t) \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}},
@@ -393,13 +393,22 @@ $\Lambda(f_0)$ then follows as
 %\Lambda(f_0) &\approx \frac{\alpha}{1+\beta_A + \beta_B} = \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}}.
 \end{align}
 
-The approximation above holds for any $\rho$ as long as $\gamma_{A}, \gamma_{B} \gg 1$. If $\rho \gg \gamma_A, \gamma_B$, then 
+The approximation above holds for any $\rho$ as long as $\gamma_{A}, \gamma_{B}, \gamma_{AB} \gg 1$. If $\rho \gg \gamma_A, \gamma_B$, then 
 \begin{align}
     \Lambda(f_0) &\approx 1.
 \end{align}
 If $\rho \ll \gamma_A, \gamma_B$, $\gamma_A=\gamma_B=\gamma$, $\gamma_{AB}=2\gamma$, then
 \begin{align}
     \Lambda(f_0) &\approx \frac{19}{60}\frac{\rho}{\gamma}.
+\end{align} 
+
+In the limit that the double mutant is neutral ($\gamma_{AB} = 0 $), but both single mutants are strongly deleterious, for $\rho \gg \gamma_A, \gamma_B \gg 1$, then for $\gamma_A = \gamma_B = \gamma$
+\begin{align}
+    \Lambda(f_0) &\approx 1 + 2\frac{\gamma^2}{\rho},
+\end{align} 
+and $\Lambda(f_0) \sim 1$ if $\rho$ becomes infinitely large. If $\gamma_A, \gamma_B \gg \rho \gg1$, then 
+\begin{align}
+    \Lambda(f_0) &\approx \gamma^2.
 \end{align} 
 
 In the limit that $\gamma_A \gg 1,\gamma_B =0$, we can solve Eq. (\ref{eq:z_strong_s}) expanding
@@ -467,7 +476,7 @@ $\Lambda(f_0)$ then follows as
     \Lambda(f_0) &\approx \alpha = \frac{\rho}{\rho + \gamma_{AB}}.
 \end{align}
 
-If $\rho \gg \gamma_AB$, then 
+If $\rho \gg \gamma_{AB}$, then 
 \begin{align}
     \Lambda(f_0) &\approx 1.
 \end{align}
@@ -487,4 +496,7 @@ If $\rho \ll \gamma_{AB}$, $\gamma_{AB} = \gamma$, then
 %\begin{align}
 %    \xi(u) = \frac{x}{1+\epsilon u x} + \frac{y}{1+\epsilon u y} \approx x + y - \epsilon u (x^2 + y^2) + \mathcal{O}(\epsilon^3).
 %\end{align}
+
+
+
 \end{document}
