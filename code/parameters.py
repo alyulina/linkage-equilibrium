@@ -3,8 +3,8 @@ import sys
 
 params = {}
 
-num_runs = int(1e8)
-N = 1e05
+num_runs = int(1e9)
+N = 1e06
 dt = 100
 s1 = 0
 s2 = 0

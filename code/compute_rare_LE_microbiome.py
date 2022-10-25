@@ -31,10 +31,11 @@ if args.pairtype is None:
 else:
     typename = ['syn', 'syn_non_syn', 'non_syn'][args.pairtype]
 
-if path.savepath:
-    savepath = os.path.join(path.savepath, args.stats, typename, accession)
+if args.savepath:
+    savepath = os.path.join(args.savepath, args.stats, typename, accession)
 else:
     savepath = os.path.join('./cached', args.stats, typename, accession)
+print("saving to {}".format(savepath))
 os.makedirs(savepath, exist_ok=True)
 
 if args.stats=='LD':
@@ -44,7 +45,7 @@ elif args.stats=='LE':
 else:
     stat_func = calculate_LD_Good2022
 
-if path.debug:
+if args.debug:
     print("Debug mode: exiting")
     quit()
 
@@ -70,14 +71,14 @@ elif path.endswith('.gz'):
     n01s = []
     n00s = []
     ells = []
-    print "Loading data..."
+    print("Loading data...")
     for line in file:
         items = line.split()
-        n11 = long(items[0])
-        n10 = long(items[1])
-        n01 = long(items[2])
-        n00 = long(items[3])
-        ell = long(items[4])
+        n11 = int(items[0])
+        n10 = int(items[1])
+        n01 = int(items[2])
+        n00 = int(items[3])
+        ell = int(items[4])
 
         n11s.append(n11)
         n10s.append(n10)
@@ -91,7 +92,7 @@ elif path.endswith('.gz'):
     n00s = numpy.array(n00s) * 1.0
     ntots = n11s + n10s + n01s + n00s
     ells = numpy.array(ells)
-    types = np.ones(ells.shape)
+    types = numpy.ones(ells.shape)
 else:
     raise RuntimeError("site count file format is not recognized")
 
@@ -135,7 +136,7 @@ ellranges = [(1e04,1e08),(1e03,2e03),(1e02,3e02)]
 colors = ['#1f77b4','#2ca02c','#ff7f0e']
 labels =['Genome avg','1000<$\ell$<2000','100<$\ell$<300']
 
-for idx in xrange(0,len(ellranges)):
+for idx in range(0,len(ellranges)):
     ellmin,ellmax = ellranges[idx]
     color = colors[idx]
     label=labels[idx]
@@ -181,7 +182,7 @@ big_theory_ells = numpy.hstack([raw_theory_ells,[1e07]])  # for filtering data; 
 
 fstars = [1e02,1e-01,3e-02, 1e-2, 3e-3, 1e-3]  # Specify the f0s to calculate
 
-for idx in xrange(0,len(fstars)):
+for idx in range(0,len(fstars)):
     fstar = fstars[idx]
     capped_fstar = min([fstar,1.0])
     print("Processing fstar =", fstar, capped_fstar)

@@ -1,7 +1,7 @@
 # modifying plot_recombination_figure.py
 
 import parameters
-import ld_theory
+#import ld_theory
 
 import gzip
 import numpy as np
@@ -9,9 +9,9 @@ from math import log10
 import os
 
 import matplotlib
-import matplotlib.pyplot as plt
 # matplotlib.use('Agg') # uncomment if running on the cluster
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 from optparse import OptionParser
 
@@ -47,7 +47,7 @@ jet = cm = plt.get_cmap(cmap)
 cNorm  = matplotlib.colors.Normalize(vmin=vmin, vmax=vmax)
 scalarMap = matplotlib.cm.ScalarMappable(norm=cNorm, cmap=jet)
 
-n=1e05 # actual population size
+n=1e06 # actual population size
 fstars = np.array([0.001,0.003,0.01,0.03,0.1])
 params = parameters.params
 for type,symbol,counts_symbol in zip([regime],['o'],['s']):
@@ -147,7 +147,7 @@ eta_axis.set_xticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4])
 eta_axis.set_xticklabels(['$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$', '$10^{2}$', '$10^{3}$', '$10^{4}$'])
 eta_axis.set_yticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0])
 eta_axis.set_yticklabels(['$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
-eta_axis.set_ylim([5e-6,2])
+eta_axis.set_ylim([5e-6,20])
 eta_axis.set_xlim([5e-6,2e4])
 eta_axis.minorticks_off()
 eta_axis.tick_params(axis='both', labelsize=8)
