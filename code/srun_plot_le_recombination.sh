@@ -2,20 +2,16 @@
 #
 #Give your job a name
 #SBATCH --job-name=plot_LE
-#SBATCH --output=/home/users/alyulina/recombination/output/slurm-%j.out
+#SBATCH --output=/home/users/zhiru/linkage-equillibrium/code/batch_out/slurm-%j.out
 #
 #Specify time limit; days-hours:minutes:seconds or hours:minutes:seconds
-#SBATCH --time=2-00:00:00
+#SBATCH --time=1:00:00
 #
 #Specify memory in gigabytes
-#SBATCH --mem=4G
+#SBATCH --mem=8G
 #
 #Specify account and partition
-#SBATCH --partition hns,dpetrov,normal
-#
-#Would you like to be notified when the job starts or is completed?
-#SBATCH --mail-user=alyulina@stanford.edu
-#SBATCH --mail-type=NONE
+#SBATCH --partition normal
 #
 #Do not restart the job if it fails
 #SBATCH --no-requeue
@@ -33,7 +29,9 @@ module load py-numpy/1.14.3_py27
 module load py-scipy/1.1.0_py27
 module load viz
 module load py-matplotlib/2.1.2_py27
+ml py-scipystack/1.0_py27
 #
 #
 type=$1
-srun --cpu_bind=verbose python2 plot_le_recombination.py -p ${type}
+srun --cpu_bind=verbose python2 plot_le_recombination_freq_scan.py -p ${type} --path $SCRATCH
+#srun --cpu_bind=verbose python2 plot_le_recombination.py -p ${type} --path $SCRATCH

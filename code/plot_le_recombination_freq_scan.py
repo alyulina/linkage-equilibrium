@@ -9,9 +9,9 @@ from math import log10
 import os
 
 import matplotlib
-import matplotlib.pyplot as plt
 # matplotlib.use('Agg') # uncomment if running on the cluster
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 from optparse import OptionParser
 
@@ -47,14 +47,15 @@ jet = cm = plt.get_cmap(cmap)
 cNorm  = matplotlib.colors.Normalize(vmin=vmin, vmax=vmax)
 scalarMap = matplotlib.cm.ScalarMappable(norm=cNorm, cmap=jet)
 
-n=1e05 # actual population size
+n=1e06 # actual population size
 # fstars = np.array([0.001,0.003,0.01,0.03,0.1])
 # fstars = np.hstack([np.logspace(-3,-0.5,20),[1e02]])
-fstars = np.logspace(-3,-0.5,20)
+fstars = np.logspace(-4.5,-0.5,30)
 
 params = parameters.params
-params_to_plot = [0, 5, 10, 15, 20]
+params_to_plot = np.arange(1, 21, 3)
 gammas = []
+type = regime
 # for param_idx in xrange(0,len(params[type])):
 for param_idx in params_to_plot:
     LEs = []
@@ -126,17 +127,18 @@ for param_idx in params_to_plot:
         LEs.append(LE)
 
     LEs = np.array(LEs)
-    line, = eta_axis.loglog(fstars,LEs,'o',markersize=5,alpha=0.7,markeredgewidth=0,label=gamma)
+    line, = eta_axis.loglog(fstars,LEs,'o',markersize=5,alpha=0.7,markeredgewidth=0,label="$2NR=$%.1e"%gamma)
 
 # eta_axis.set_xticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4])
 # eta_axis.set_xticklabels(['$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$', '$10^{2}$', '$10^{3}$', '$10^{4}$'])
 eta_axis.set_yticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0])
 eta_axis.set_yticklabels(['$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
-eta_axis.set_ylim([5e-6,2])
+eta_axis.set_ylim([5e-6,2e2])
+eta_axis.set_xlim([1e-5, 1])
 # eta_axis.set_xlim([5e-6,2e4])
 eta_axis.minorticks_off()
 eta_axis.tick_params(axis='both', labelsize=8)
 
 eta_axis.legend(frameon=False,fontsize=8,loc='lower right')
 
-plt.savefig('LE_%s.png'%regime,dpi=600,bbox_inches='tight') 
+plt.savefig('LE_freq_%s.pdf'%regime,dpi=600,bbox_inches='tight') 

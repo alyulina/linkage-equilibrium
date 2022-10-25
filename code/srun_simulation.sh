@@ -8,7 +8,7 @@
 
 #
 #Specify time limit; days-hours:minutes:seconds or hours:minutes:seconds
-#SBATCH --time=1:00:00
+#SBATCH --time=1-00:00:00
 #
 #Specify memory in gigabytes
 #SBATCH --mem=4G
@@ -43,4 +43,4 @@ module load py-scipy/1.1.0_py27
 #Read type from parameters.py and print out parameters, then run simulation
 type=$1
 echo $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID)
-srun --cpu_bind=verbose ./simulate_twolocus $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID) | gzip -c > /scratch/users/zhiru/output_${type}_$SLURM_ARRAY_TASK_ID.txt.gz
+srun --cpu_bind=verbose ./simulate_twolocus $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID) | gzip -c > /scratch/users/zhiru/output_${type}_${SLURM_ARRAY_TASK_ID}_large.txt.gz
