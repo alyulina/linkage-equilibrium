@@ -42,7 +42,7 @@ int main(int argc, char * argv[]){
     }
 
     // Read in parameters 
-    const int num_runs = (int) atof(argv[1]); // number of replicate populations to evolve
+    const long long num_runs = (long long) atof(argv[1]); // number of replicate populations to evolve
     const int dt = (int) atof(argv[2]);
     const int N = (int) atof(argv[3]);
     const double s1 = -1*atof(argv[4]); // record negative value
@@ -97,7 +97,7 @@ int main(int argc, char * argv[]){
     std::discrete_distribution<int> draw_sfs1 (pn1s.begin(), pn1s.end());
     std::discrete_distribution<int> draw_sfs2 (pn2s.begin(), pn2s.end());
     std::cout << "// " << N*s1 << " " << N*s2 << " " << N*eps << " " << N*r << std::endl;
-    for(int run_idx=0;run_idx<num_runs;++run_idx){
+    for(long long run_idx=0;run_idx<num_runs;++run_idx){
         // Evolve a replicate population
         
         // haplotype counts in population

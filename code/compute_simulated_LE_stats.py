@@ -28,6 +28,7 @@ rs = np.array([params[idx][6] for idx in range(len(params))])
 
 numers = np.empty((len(rs), len(fstars)))
 denoms = np.empty((len(rs), len(fstars)))
+normalization = np.empty((len(rs), len(fstars)))
 
 params = parameters.params
 for i in range(len(rs)):
@@ -43,7 +44,9 @@ for i in range(len(rs)):
     r = rs[i]
 
     # filename = os.path.join(dat_path, 'output_%s_%d.txt.gz' % (regime, i))
-    filename = os.path.join(dat_path, 'output_%s_%d_large.txt.gz' % (regime, i))
+    #filename = os.path.join(dat_path, 'output_%s_%d_large.txt.gz' % (regime, i))
+    filename = os.path.join(dat_path, 'output_%s_%d_mega.txt.gz' % (regime, i))
+    print("Processing %s" % filename)
     file = gzip.GzipFile(filename, "r")
     f11s = []
     f10s = []
@@ -72,6 +75,7 @@ for i in range(len(rs)):
 
     numerator = f11s * f00s * f10s * f01s
     sampling_variances = (fAs * (1 - fAs) * fBs * (1 - fBs)) ** 2
+    norm = (f10s * f01s) ** 2  # our approximation for the denom
 
     for j in range(len(fstars)):
         fstar = fstars[j]
@@ -79,8 +83,10 @@ for i in range(len(rs)):
 
         LE_numerator = (numerator * Hs).mean()
         LE_denominator = (sampling_variances * Hs).mean()
+        LE_norm = (norm * Hs).mean()
         numers[i, j] = LE_numerator
         denoms[i, j] = LE_denominator
+        normalization[i, j] = LE_norm
 
 # saving all the intermediate files
 savepath = os.path.join(config.CACHED_DIR, 'simulated_LE')
@@ -88,3 +94,4 @@ np.save(os.path.join(savepath, '%s_large_rs' % regime), rs)
 np.save(os.path.join(savepath, '%s_large_fstars' % regime), fstars)
 np.save(os.path.join(savepath, '%s_large_numers' % regime), numers)
 np.save(os.path.join(savepath, '%s_large_denoms' % regime), denoms)
+np.save(os.path.join(savepath, '%s_large_norms' % regime), normalization)
