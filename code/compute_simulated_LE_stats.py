@@ -43,9 +43,9 @@ for i in range(len(rs)):
     # gamma = 2 * N * r
     r = rs[i]
 
-    # filename = os.path.join(dat_path, 'output_%s_%d.txt.gz' % (regime, i))
+    filename = os.path.join(dat_path, 'output_%s_%d.txt.gz' % (regime, i))
     #filename = os.path.join(dat_path, 'output_%s_%d_large.txt.gz' % (regime, i))
-    filename = os.path.join(dat_path, 'output_%s_%d_mega.txt.gz' % (regime, i))
+    #filename = os.path.join(dat_path, 'output_%s_%d_mega.txt.gz' % (regime, i))
     print("Processing %s" % filename)
     file = gzip.GzipFile(filename, "r")
     f11s = []
@@ -73,6 +73,8 @@ for i in range(len(rs)):
     fAs = f11s + f10s
     fBs = f11s + f01s
 
+    # ZHIRU: can consider adding multinomial sampling for a figure about finite sample
+
     numerator = f11s * f00s * f10s * f01s
     sampling_variances = (fAs * (1 - fAs) * fBs * (1 - fBs)) ** 2
     norm = (f10s * f01s) ** 2  # our approximation for the denom
@@ -89,9 +91,9 @@ for i in range(len(rs)):
         normalization[i, j] = LE_norm
 
 # saving all the intermediate files
-savepath = os.path.join(config.CACHED_DIR, 'simulated_LE')
-np.save(os.path.join(savepath, '%s_large_rs' % regime), rs)
-np.save(os.path.join(savepath, '%s_large_fstars' % regime), fstars)
-np.save(os.path.join(savepath, '%s_large_numers' % regime), numers)
-np.save(os.path.join(savepath, '%s_large_denoms' % regime), denoms)
-np.save(os.path.join(savepath, '%s_large_norms' % regime), normalization)
+savepath = os.path.join(config.CACHED_DIR, 'simulated')
+np.save(os.path.join(savepath, '%s_rs' % regime), rs)
+np.save(os.path.join(savepath, '%s_fstars' % regime), fstars)
+np.save(os.path.join(savepath, '%s_numers' % regime), numers)
+np.save(os.path.join(savepath, '%s_denoms' % regime), denoms)
+np.save(os.path.join(savepath, '%s_norms' % regime), normalization)
