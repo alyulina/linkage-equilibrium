@@ -1,5 +1,8 @@
 import sys
 import numpy
+import matplotlib as mpl
+mpl.use('Agg')
+
 import pylab
 import gzip
 import parameters
@@ -7,16 +10,16 @@ from math import log10,log
 import ld_theory
 from numpy.random import multinomial
 from scipy.special import gammaln
+import os
 
 import matplotlib.colors as colors
 import matplotlib.cm as cmx
-import matplotlib as mpl
 import matplotlib.gridspec as gridspec
 from numpy.random import randint, shuffle, poisson, binomial, choice, hypergeometric
 import matplotlib.colors as mcolors
 import matplotlib.patheffects as pe
 
-debug = True
+debug = False
 
 mpl.rcParams['font.size'] = 8
 mpl.rcParams['lines.linewidth'] = 1
@@ -69,7 +72,7 @@ small_ld_axis.set_xlim([theory_xs[0],1e04])
 
 # Plot DATA
 
-n=1e05 # actual population size
+n=1e06 # actual population size
 fstars = numpy.logspace(-3,-1,20)
 nstars = numpy.power(2,numpy.arange(3,11))
  
@@ -109,7 +112,7 @@ for type,symbol,counts_symbol in zip(['r'],['o'],['s']):
         
         gammas.append(gamma)
     
-        filename = 'output/output_%s_%d.txt.gz' % (type,param_idx)
+        filename = os.path.join('/scratch/groups/bhgood/LE_data/', 'output_%s_%d.txt.gz' % (type,param_idx))
         file = gzip.GzipFile(filename,"r")
         f11s = []
         f10s = []

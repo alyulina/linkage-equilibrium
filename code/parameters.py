@@ -17,6 +17,9 @@ params['test'] = [(100000,dt,N,s1,s2,eps,r) for r in rs]
 params['r'] = [(num_runs,dt,N,s1,s2,eps,r) for r in rs]
 params['r_small'] = [(int(1e6),dt,N,s1,s2,eps,r) for r in rs]
 
+mu = 1e-10
+params['r_mu=1e-10'] = [(num_runs,dt,N,s1,s2,eps,r,mu) for r in rs]
+
 mu = 1e-9
 params['r_mu=1e-9_small'] = [(int(1e6),dt,N,s1,s2,eps,r,mu) for r in rs]
 params['r_mu=1e-9'] = [(num_runs,dt,N,s1,s2,eps,r,mu) for r in rs]

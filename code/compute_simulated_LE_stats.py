@@ -43,9 +43,9 @@ for i in range(len(rs)):
     # gamma = 2 * N * r
     r = rs[i]
 
-    # filename = os.path.join(dat_path, 'output_%s_%d.txt.gz' % (regime, i))
+    filename = os.path.join(dat_path, 'output_%s_%d.txt.gz' % (regime, i))
     #filename = os.path.join(dat_path, 'output_%s_%d_large.txt.gz' % (regime, i))
-    filename = os.path.join(dat_path, 'output_%s_%d_mega.txt.gz' % (regime, i))
+    #filename = os.path.join(dat_path, 'output_%s_%d_mega.txt.gz' % (regime, i))
     print("Processing %s" % filename)
     file = gzip.GzipFile(filename, "r")
     f11s = []
@@ -97,7 +97,7 @@ for i in range(len(rs)):
         LDs[i, j] = LD_numerator / LD_denominator
 
 # saving all the intermediate files
-savepath = os.path.join(config.CACHED_DIR, 'simulated_LE')
+savepath = os.path.join(config.CACHED_DIR, 'simulated')
 np.save(os.path.join(savepath, '%s_rs' % regime), rs)
 np.save(os.path.join(savepath, '%s_fstars' % regime), fstars)
 np.save(os.path.join(savepath, '%s_numers' % regime), numers)

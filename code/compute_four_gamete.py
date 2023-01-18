@@ -24,7 +24,8 @@ dat_path = options.dat_path
 
 params = parameters.params[regime]  # list of tuples of parameters
 rs = np.array([params[idx][6] for idx in range(len(params))])
-ns = np.array([30, 100, 300, 1000, 3000, 10000])
+#ns = np.array([30, 100, 300, 1000, 3000, 10000])
+ns = np.array([100, 1000, 10000])
 FGs = []
 
 for i in range(len(rs)):
