@@ -105,9 +105,61 @@ def calculate_LD(n_obs, f0):
     numer_monos, denom_monos = generate_LD_poly()
     n_tots = np.sum(n_obs, axis=1)
     numer = any_poly(numer_monos, n_obs, n_tots, f0)
-    denom = any_poly(denom_monos, n_obs, n_tots, f0)
+    denom = any_poly(denom_monos, n_obs, n_tots, f0)  # not yet averaged over pairs
     return numer, denom
 
+
+def calculate_LE_numer_alternative(n_obs, f0, num_reps=1):
+    """
+    Alternative to the moment method, this function computes the numerator of LE using an estimator based on
+    indicators of configurations of n_obs
+    :param n_obs:
+    :param f0:
+    :param num_reps: how many subsampling reps to perform
+    :return: A single number for the numerator at this frequency scale
+    """
+    subsample_size = int(1 / f0)
+    ntots = n_obs.sum(axis=1)
+    numers = []
+    for i in range(num_reps):
+        sub_n10s = np.random.hypergeometric(n_obs[:, 0], ntots - n_obs[:, 0], subsample_size)
+        sub_n01s = np.random.hypergeometric(n_obs[:, 1], ntots - n_obs[:, 1], subsample_size)
+        sub_n11s = np.random.hypergeometric(n_obs[:, 2], ntots - n_obs[:, 2], subsample_size)
+        passed = (sub_n11s==1) & (sub_n10s==1) & (sub_n01s==1)  # the indicator results
+        numers.append(np.mean(passed) / (subsample_size**3))  # already averaging over site pairs
+    return np.mean(numers)
+
+def calculate_LE_denom_single_site_moment(nAs, ntots, f0):
+    """
+    Alternative way of calculating the denominator, using only single-site SFS
+    Here, estimator is based on the moment method, and res should give the same mean as
+    <fA^2 (1-fA)^2>
+
+    TODO: might need to change nAs from the true SFS, instead of the one from site pairs
+    :param nAs: single mutant counts at sites
+    :param ntots: total number of samples at each site
+    :param f0: frequency scale
+    :return: a single number for the denominator of LE
+    """
+    res = np.power(1 - 1. / ntots / f0, nAs - 2) * perm(nAs, 2) / np.power(ntots, 2)
+    res -= 2 * np.power(1 - 1. / ntots / f0, nAs - 3) * perm(nAs, 3) / np.power(ntots, 3)
+    res += np.power(1 - 1. / ntots / f0, nAs - 4) * perm(nAs, 4) / np.power(ntots, 4)
+    return np.mean(res) ** 2  # both A and B sites
+
+
+def calculate_LE_denom_single_site_indicator(nAs, ntots, f0, num_reps):
+    """
+    Similar to calculate_LE_denom_single_site_moment, but using the indicator method
+    """
+    subsample_size = int(1 / f0)
+    Mtmp = []
+    for k in range(num_reps):
+        subsamples = np.random.hypergeometric(nAs, ntots - nAs, subsample_size)
+        M = np.mean(subsamples==2) * 2 / (subsample_size**2)
+        M -= 2 * np.mean(subsamples==3) * 6 / (subsample_size**3)
+        M += np.mean(subsamples==4) * 24 / (subsample_size**4)
+        Mtmp.append(M)
+    return np.mean(Mtmp)**2  # squaring for both sites in the denominator
 
 # n10s = n_obs[:, 0]
 # n01s = n_obs[:, 1]
@@ -118,6 +170,10 @@ def calculate_LD_Good2022(n_obs, f0):
 
 
 def _calculate_LD_Good2022(n11s, n10s, n01s, n00s, ntots, fstar):
+    """
+    The manual version used in Good2022 paper
+    :return:
+    """
     # Now do version based on counts
     # First calculate numerator
     rsquared_numerators = n11s*(n11s-1)*n00s*(n00s-1)*numpy.power(1-2.0/ntots/fstar,n11s-2)*numpy.power(1-1.0/ntots/fstar,n10s-0+n01s-0)
