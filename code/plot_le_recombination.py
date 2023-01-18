@@ -154,4 +154,4 @@ eta_axis.tick_params(axis='both', labelsize=8)
 
 eta_axis.legend(frameon=False,fontsize=8,loc='lower right')
 
-plt.savefig('LE_%s.png'%regime,dpi=600,bbox_inches='tight') 
+plt.savefig('LE_%s_raw.png'%regime,dpi=600,bbox_inches='tight')

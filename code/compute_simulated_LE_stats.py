@@ -29,8 +29,8 @@ rs = np.array([params[idx][6] for idx in range(len(params))])
 numers = np.empty((len(rs), len(fstars)))
 denoms = np.empty((len(rs), len(fstars)))
 normalization = np.empty((len(rs), len(fstars)))
+LDs = np.empty((len(rs), len(fstars)))
 
-params = parameters.params
 for i in range(len(rs)):
     # LEs = {fstar: [] for fstar in fstars}
     # denominatorsquareds = {fstar: [] for fstar in fstars}
@@ -79,6 +79,9 @@ for i in range(len(rs)):
     sampling_variances = (fAs * (1 - fAs) * fBs * (1 - fBs)) ** 2
     norm = (f10s * f01s) ** 2  # our approximation for the denom
 
+    LD_numerator_uw = (f11s * f00s - f01s * f10s) ** 2
+    LD_sampling_variances = fAs * (1 - fAs) * fBs * (1 - fBs)
+
     for j in range(len(fstars)):
         fstar = fstars[j]
         Hs = np.exp(-fAs / fstar - fBs / fstar)
@@ -90,6 +93,11 @@ for i in range(len(rs)):
         denoms[i, j] = LE_denominator
         normalization[i, j] = LE_norm
 
+        # compute LD for comparison too
+        LD_numerator = (LD_numerator_uw * Hs).mean()
+        LD_denominator = (LD_sampling_variances * Hs).mean()
+        LDs[i, j] = LD_numerator / LD_denominator
+
 # saving all the intermediate files
 savepath = os.path.join(config.CACHED_DIR, 'simulated')
 np.save(os.path.join(savepath, '%s_rs' % regime), rs)
@@ -97,3 +105,4 @@ np.save(os.path.join(savepath, '%s_fstars' % regime), fstars)
 np.save(os.path.join(savepath, '%s_numers' % regime), numers)
 np.save(os.path.join(savepath, '%s_denoms' % regime), denoms)
 np.save(os.path.join(savepath, '%s_norms' % regime), normalization)
+np.save(os.path.join(savepath, '%s_LDs' % regime), LDs)
