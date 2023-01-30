@@ -10,6 +10,10 @@ def factorial_fraction(n, i):
         res *= n - i
     return res
 
+def sterling_factorial(n):
+    # return log(n!) using sterling's approximation
+    return n * np.log(n) - n + np.log(2*np.pi*n) / 2
+
 def _M(i,j,k,l,n10,n01,n11,n00, n, f0):
     res = np.power(1 - 1./n/f0, n10 - i) * np.power(1 - 1./n/f0, n01 - j) * np.power(1 - 2./n/f0, n11 - k)
     res *= perm(n10, i) / np.power(n, i)
@@ -115,12 +119,19 @@ def calculate_LE_numer_alternative(n_obs, f0, num_reps=1):
     indicators of configurations of n_obs
     :param n_obs:
     :param f0:
-    :param num_reps: how many subsampling reps to perform
+    :param num_reps: how many subsampling reps to perform; if zero, use exact hypergeometric probability weights
+    (but Sterling's approximation for factorial)
     :return: A single number for the numerator at this frequency scale
     """
     subsample_size = int(1 / f0)
     ntots = n_obs.sum(axis=1)
     numers = []
+    if num_reps == 0:
+        n00s = n_obs[:, 3]
+        factorials = sterling_factorial(n00s) - sterling_factorial(n00s + 3 - subsample_size) \
+                    - sterling_factorial(ntots) + sterling_factorial(ntots - subsample_size)
+        numers = n_obs[:, 0] * n_obs[:, 1] * n_obs[:, 2] * perm(subsample_size, subsample_size - 3) / (subsample_size**3)
+        numers *= np.exp(factorials)
     for i in range(num_reps):
         sub_n10s = np.random.hypergeometric(n_obs[:, 0], ntots - n_obs[:, 0], subsample_size)
         sub_n01s = np.random.hypergeometric(n_obs[:, 1], ntots - n_obs[:, 1], subsample_size)
@@ -147,7 +158,7 @@ def calculate_LE_denom_single_site_moment(nAs, ntots, f0):
     return np.mean(res) ** 2  # both A and B sites
 
 
-def calculate_LE_denom_single_site_indicator(nAs, ntots, f0, num_reps):
+def calculate_LE_denom_single_site_indicator(nAs, ntots, f0, num_reps=1):
     """
     Similar to calculate_LE_denom_single_site_moment, but using the indicator method
     """
