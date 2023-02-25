@@ -1,0 +1,147 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amsfonts,amssymb,mathtools,nicefrac,cases,empheq,enumitem}
+\usepackage{xcolor,tikz,graphicx}
+
+
+% Formatting
+\usepackage[utf8]{inputenc}
+\usepackage[top=1in, bottom=1in, right=1in, left=1in]{geometry} % page margins
+% \setlength{\parindent}{0 pt} % paragraph left indentation
+% \setlength{\parskip}{36 pt} % before paragraph spacing
+\setlength{\jot}{12pt} % between-line spacing in multi-line equations
+\renewcommand{\baselinestretch}{1.25} % between-line spacing
+\usepackage{titlesec,float} % sections spacing + indent first paragraph in section, placing figures
+\titleformat*{\section}{\large\bfseries}
+% \titlespacing*{\section}{0 pt}{0 pt}{-24 pt} % title spacing
+\titlespacing*{\subsection}{0 pt}{0 pt}{0 pt}
+\setlength{\abovecaptionskip}{6 pt} % moving figure captures up
+%\setlength{\abovecaptionskip}{-12 pt} % reducing space below figures
+\allowdisplaybreaks
+
+\title{\vspace{-36 pt} \Large Perturbative solution for $\Lambda(f_0)$ in the limit that $\rho$ is small \vspace{-36 pt}}
+\date{}
+
+\begin{document}
+% \maketitle
+\section*{Perturbative solution for $\Lambda(f_0)$ for neutral loci}
+In the case where $\gamma_A, \gamma_B, \gamma_{AB}$ are small compared to both $1$ and $\rho$, the characteristic $\psi(\tau', x, y, z)$ follows from 
+
+\begin{align}\label{eq:z_characteristic_neutral}
+    \frac{\partial \psi}{\partial \tau'} = -\rho \psi -\psi^2 + \frac{\rho y}{1+y\tau'} + \frac{\rho x}{1+x\tau'}, \quad \psi(0, x, y, z) = z.
+\end{align}
+
+This equation is difficult to solve in the general case. To make progress, we consider a perturbation expansion around $x=1+\delta x$, $y=1+\delta y$, $z=2+\delta z$, defining
+
+\begin{align}\label{eq:psi_xyz_expansion}
+    \psi(\tau', x, y, z) 
+    % \approx \psi(\tau', 1+\delta x, 1+ \delta y, 2+\delta z) 
+    = \sum_{i, j, k=0}^{\infty} \delta_x^i \delta_y^j \delta_z^k \psi_{i + j + k}^{x^i y^j z^k}(\tau').
+\end{align}
+
+Substituting the above series expansion into Eq.~(\ref{eq:z_characteristic_neutral}) and matching coefficients in front of $\delta x$, $\delta y$, $\delta z$, we obtain a system of ordinary differential equations that can be solved numerically, 
+
+\begin{equation}\label{eq:ode_system_neutral}
+    \begin{cases}
+    \partial_{\tau'} \psi_0 = -\rho \psi_0 - \psi_0^2 + \frac{2\rho}{1+\tau'}, \quad \psi_0(0) = 2; \\
+    
+    \partial_{\tau'} \psi_1^x = -\rho \psi_1^x -2 \psi_0 \psi_1^x + \frac{\rho}{(1+\tau')^2}, \quad \psi_1^x(0) = 0; \\
+    
+    \partial_{\tau'} \psi_1^y = -\rho \psi_1^y -2 \psi_0 \psi_1^y + \frac{\rho}{(1+\tau')^2}, \quad \psi_1^y(0) = 0; \\
+    
+    \partial_{\tau'} \psi_1^z = -\rho \psi_1^z - 2 \psi_0 \psi_1^z, \quad \psi_1^z(0) = 1; \\
+    
+    \partial_{\tau'} \psi_2^{xy} = -\rho \psi_2^{xy} - 2 \psi_0 \psi_2^{xy} - 4 \psi_1^x \psi_1^y, \quad \psi_2^{xy}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_2^{xz} = -\rho \psi_2^{xz} - 2 \psi_0 \psi_2^{xz} - 4 \psi_1^x \psi_1^z, \quad \psi_2^{xz}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_2^{yz} = -\rho \psi_2^{yz} - 2 \psi_0 \psi_2^{yz} - 4 \psi_1^y \psi_1^z, \quad \psi_2^{yz}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_3^{xyz} = -\rho \psi_3^{xyz} - 2 \psi_0 \psi_3^{xyz} - 6 \psi_1^x \psi_2^{yz} - 6 \psi_1^y \psi_2^{xz} - 6 \psi_1^z \psi_2^{xy}, \quad \psi_3^{xyz}(0) = 0. 
+    \end{cases}
+\end{equation}\\
+
+
+We can see that solving the system above is enough to compute $\Lambda$. To find the numerator, we need to evaluate 
+
+\begin{align}\label{eq:num_lambda_unperturbed}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} 
+    -\theta^2 f_0^4 \int_0^{\tau} d\tau'\, \partial_x\partial_y\partial_z \psi \left[\Phi_x + \Phi_y -\rho \Phi_x\Phi_y\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}},
+\end{align}
+
+where
+\begin{subequations}\label{eq:phi_x_y_expansion_full_neutral}
+    \begin{align}
+        \Phi_x(\tau') &= \sum_{i=0}^{\infty} \delta^i_x \Phi^x_i (\tau'), \\
+        \Phi_y(\tau') &= \sum_{j=0}^{\infty} \delta^j_y \Phi^y_j (\tau').
+    \end{align}
+\end{subequations}
+
+The denominator will be dominated by 
+\begin{align}\label{eq:lambda_num_neutral}
+    \left\langle f_{Ab}^2 f_{aB}^2 \cdot e^{-\frac{f_A + f_B}{f_0}}\right\rangle \approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} = \theta^2 f_0^4 \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} = \theta^2 f_0^4.
+\end{align}
+
+Substitution the series expansions in Eqs.~(\ref{eq:psi_xyz_expansion}, \ref{eq:phi_x_y_expansion_full_neutral}) into Eq.~(\ref{eq:num_lambda_unperturbed}) and dividing it by Eq.~(\ref{eq:lambda_num_neutral}), we find $\Lambda$ up to the lowest order in $\delta x$, $\delta y$, and $\delta z$ as
+\begin{align}\label{eq:num_lambda_unperturbed}
+    \Lambda & \approx{} 
+     \left[ \rho \int_0^{\tau} d\tau'\, \psi_1^z \Phi_1^x \Phi_1^y - \frac{1}{2} \int_0^{\tau} d\tau'\, \psi_2^{xz} \Phi_1^y \left(1-\rho \Phi_0^x\right) \right. \\ \nonumber
+    & - \frac{1}{2} \left. \int_0^{\tau} d\tau'\, \psi_2^{yz} \Phi_1^x \left(1-\rho \Phi_0^y\right) + \frac{1}{6} \int_0^{\tau} d\tau'\,  \psi_3^{xyz} (\Phi_0^x + \Phi_0^y -\rho \Phi_0^x\Phi_0^y)
+    \right]\Bigg\vert_{\tau=\infty} \\ \nonumber
+    & = \int_0^{\infty} d\tau'\, \left[ \rho \psi_1^z - \frac{1}{2}\left[1+\rho(1+\tau')\right]\left[\psi_2^{xz} + \psi_2^{yz}\right] + \frac{1}{6} (1+\tau') \left[2-\rho(1+\tau')\right] \psi_3^{xyz} \right],
+\end{align}
+where we have used 
+\begin{subequations}
+    \begin{align}
+        \Phi_0^x(\tau') \Bigg\vert_{\tau=\infty} &= \Phi_0^y(\tau') \Bigg\vert_{\tau=\infty} = -(1+\tau'), \\
+        \Phi_1^x(\tau') \Bigg\vert_{\tau=\infty} &= \Phi_1^y(\tau') \Bigg\vert_{\tau=\infty} = 1.
+    \end{align}
+\end{subequations} \\
+
+% Solving for the denominator will be hard; should we again consider only $\langle f_{Ab} f_{aB} e^{-\frac{f_A+f_B}{f_0}}\rangle \approx \theta^2 f_0^4$?
+
+\section*{Perturbative solution for $\Lambda(f_0)$ in the general case}
+
+In the general case, the characteristic $\psi(\tau', x, y, z)$ follows from 
+
+\begin{align}\label{eq:z_characteristic_neutral}
+    \frac{\partial \psi}{\partial \tau'} = -(\gamma_{AB} + \rho) \psi -\psi^2 + \rho \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \rho \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}, \quad \psi(0, x, y, z) = z.
+\end{align}\\
+
+Expanding around $x=1+\delta x$, $y=1+\delta y$, $z=2+\delta z$, we obtain a system of ordinary differential equations, which reduces to that in Eq.~(\ref{eq:ode_system_neutral}) if we set $\gamma_A=0$, $\gamma_B = 0$, $\gamma_{AB} =0$,
+\begin{equation}
+    \begin{cases}
+    \partial_{\tau'} \psi_0 = -(\rho+\gamma_{AB})\psi_0 - \psi_0^2 + \frac{\rho \gamma_A e^{-\gamma_A \tau'}}{1 + \gamma_A - e^{-\gamma_A \tau'}} + \frac{\rho \gamma_B e^{-\gamma_B \tau'}}{1 + \gamma_B - e^{-\gamma_B \tau'}}, \quad \psi_0(0) = 2; \\
+    
+    \partial_{\tau'} \psi_1^x = -(\rho+\gamma_{AB}) \psi_1^x -2 \psi_0 \psi_1^x + \frac{\rho \gamma_A^2 e^{-\gamma_A \tau'}}{(1 + \gamma_A - e^{-\gamma_A \tau'})^2}, \quad \psi_1^x(0) = 0; \\
+    
+    \partial_{\tau'} \psi_1^y = -(\rho+\gamma_{AB}) \psi_1^y -2 \psi_0 \psi_1^y + \frac{\rho \gamma_B^2 e^{-\gamma_B \tau'}}{(1 + \gamma_B - e^{-\gamma_B \tau'})^2}, \quad \psi_1^y(0) = 0; \\
+    
+    \partial_{\tau'} \psi_1^z = -(\rho+\gamma_{AB}) \psi_1^z - 2 \psi_0 \psi_1^z, \quad \psi_1^z(0) = 1; \\
+    
+    \partial_{\tau'} \psi_2^{xy} = -(\rho+\gamma_{AB}) \psi_2^{xy} - 2 \psi_0 \psi_2^{xy} - 4 \psi_1^x \psi_1^y, \quad \psi_2^{xy}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_2^{xz} = -(\rho+\gamma_{AB}) \psi_2^{xz} - 2 \psi_0 \psi_2^{xz} - 4 \psi_1^x \psi_1^z, \quad \psi_2^{xz}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_2^{yz} = -(\rho+\gamma_{AB}) \psi_2^{yz} - 2 \psi_0 \psi_2^{yz} - 4 \psi_1^y \psi_1^z, \quad \psi_2^{yz}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_3^{xyz} = -(\rho+\gamma_{AB}) \psi_3^{xyz} - 2 \psi_0 \psi_3^{xyz} - 6 \psi_1^x \psi_2^{yz} - 6 \psi_1^y \psi_2^{xz} - 6 \psi_1^z \psi_2^{xy}, \quad \psi_3^{xyz}(0) = 0. 
+    \end{cases}
+\end{equation}\\
+
+Similarly to the neutral case above, we obtain for $\Lambda$
+\begin{align}\label{eq:num_lambda_unperturbed}
+    \Lambda & \approx{} 
+     \left[ \rho \int_0^{\tau} d\tau'\, \psi_1^z \Phi_1^x \Phi_1^y - \frac{1}{2} \int_0^{\tau} d\tau'\, \psi_2^{xz} \Phi_1^y \left(1-\rho \Phi_0^x\right) \right. \\ \nonumber
+    & - \frac{1}{2} \left. \int_0^{\tau} d\tau'\, \psi_2^{yz} \Phi_1^x \left(1-\rho \Phi_0^y\right) + \frac{1}{6} \int_0^{\tau} d\tau'\,  \psi_3^{xyz} (\Phi_0^x + \Phi_0^y -\rho \Phi_0^x\Phi_0^y)
+    \right]\Bigg\vert_{\tau=\infty},
+\end{align}
+where 
+\begin{subequations}
+    \begin{gather}
+        \Phi_0^x(\tau') \Bigg\vert_{\tau=\infty} = -\frac{1+\gamma_A-e^{-\gamma_A\tau'}}{\gamma_A(1+\gamma_A)}, \quad \Phi_0^y(\tau') \Bigg\vert_{\tau=\infty} = -\frac{1+\gamma_B-e^{-\gamma_A\tau'}}{\gamma_B(1+\gamma_B)}, \\
+        \Phi_1^x(\tau') \Bigg\vert_{\tau=\infty} = \frac{e^{-\gamma_A\tau'}}{(1+\gamma_A)^2}, \quad \Phi_1^y(\tau') \Bigg\vert_{\tau=\infty} = \frac{e^{-\gamma_B\tau'}}{(1+\gamma_B)^2}.
+    \end{gather}
+\end{subequations} \\
+
+\end{document}
