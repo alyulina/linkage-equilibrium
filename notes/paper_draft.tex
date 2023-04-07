@@ -1,0 +1,1049 @@
+\documentclass[aps,rmp,twocolumn,groupedaddress,floatfix,notitlepage]{revtex4-1}
+
+\usepackage{amsmath,amsfonts,amssymb,mathtools,nicefrac,cases,empheq,graphicx,xcolor}
+% adding citations and bibliography;
+% this is probably not the right way to do it w/ revtex4-1 but I could not make it work otherwise
+\usepackage[backend=biber,style=apa]{biblatex}
+\addbibresource{references.bib}
+
+
+\setlength{\parindent}{0 pt} % paragraph left indentation
+\setlength{\parskip}{18 pt}
+% before paragraph spacing
+
+
+\begin{document}
+
+\title{Linkage equilibrium between rare alleles} 
+
+\begin{abstract}
+\emph{(APS abstract)} Recombination is ubiquitous among bacteria, but the extent to which it shapes genetic diversity within bacterial populations remains elusive. Classical approaches for measuring recombination focus on the correlations between alleles (“linkage disequilibrium”), and how they decay with the distance between loci. However, the overall levels of linkage disequilibrium are influenced by other evolutionary forces like natural selection and genetic drift, which makes it difficult to tease out the effects of recombination. Here, we introduce an alternative metric (“linkage equilibrium”) that vanishes in the absence of recombination and approaches one for unlinked loci. We derive analytical expressions that predict how this metric scales with the rate of recombination, the strength of selection, and the present-day frequencies of the two alleles. We find that our linkage equilibrium metric strongly depends on this frequency scale, which reflects the underlying timescales over which these mutations occurred. We show how this scaling could be used to quantify the relative strengths of selection and recombination, and discuss their implications for recombination patterns in bacteria. 
+\end{abstract}
+
+\maketitle
+
+%\subsection*{Data availability}
+
+\newpage
+\onecolumngrid
+\section*{Model} 
+\begin{itemize}
+\item We investigate the transition to linkage equilibrium in the simplest possible model of recombination in a population of $N$ haploid individuals. We consider two biallelic loci, $a/A$ and $b/B$. We assume that each locus acquires mutations at a per-generation rate $\mu$ and we focus on the infinite sites limit where $N\mu \ll 1$. We further assume that upon acquiring a mutation at one of the loci, the fitness of a wildtype individual $ab$ is reduced by either $s_A$ or $s_B$. If an individual has mutations at both loci, its fitness is reduced by $s_{AB} = s_A + s_B + \epsilon_{AB}$, where the parameter $\epsilon_{AB}$ reflects pairwise epistatic interactions. The two loci recombine at rate $R$ per individual per generation, which varies depending on the coordinate distance $\ell$ between the loci. By considering different functional forms of $R(\ell)$, we can incorporate different mechanisms of homologous recombination into our model. In simple cases, however, we can assume this scaling to be linear at short distances, $R(\ell) = r\ell$, where $r$ is the per-site per-generation recombination rate. 
+
+\item The assumptions above yield a Wright--Fisher model for the population frequencies of the four possible haplotypes, $f_{ab}$, $f_{Ab}$, $f_{aB}$, and $f_{AB}$. To analyze the dynamics of the transition to linkage equilibrium in this model, we introduce a linkage equilibrium measure defined as
+\begin{align}\label{eq:lambda}
+    \Lambda \equiv \frac{f_{ab}f_{Ab}f_{aB}f_{AB}}{f_A^2 (1-f_A)^2 f_B^2 (1-f_B)^2},
+\end{align}
+where $f_A$, $f_B$ denote allele frequencies defined as $f_A{\equiv}f_{Ab} + f_{AB}$, $f_B \equiv f_{aB} + f_{AB}$. We note that in the absence of recombination, $\Lambda = 0$ as recombination is required to generate all four haplotypes under the infinite sites assumption. In the opposite limit of infinite recombination, correlations between haplotype frequencies disappear and thus haplotype frequencies can be approximated by the products of the corresponding allele frequencies, which yields $\Lambda = 1$. We can think of this metric as a quantitative version of the four gamete test.
+
+\item To study how $\Lambda$ depends on the present-day allele frequency scale $f_0$, following earlier work \parencite{good_2022}, we consider the weighted average of $\Lambda$,
+\begin{align}\label{eq:lambda_f0}
+    \bar{\Lambda}(f_0) \equiv \left\langle \Lambda \cdot W(f_A,f_B |f_0)\right \rangle,
+\end{align}
+where the angular brackets denote the ensemble average and 
+\begin{align}
+    W(f_A,f_B |f_0) \propto f_A^2 (1-f_A)^2 e^{-\nicefrac{f_A}{f_0}} \cdot f_B^2 (1-f_B)^2 e^{-\nicefrac{f_B}{f_0}}
+\end{align}
+is a weighting function normalized so that its expectation is unity. This weighting function ensures that $\Lambda(f_0)$ is dominated by contributions from alleles at frequencies $f_A,f_B \sim f_0$ \parencite{good_2022}. The weighted average in Eq.~(\ref{eq:lambda_f0}) is equivalent to 
+\begin{align}\label{eq:lambda_avg}
+    \bar{\Lambda}(f_0) = \frac{\left\langle f_{ab}f_{Ab}f_{aB}f_{AB} \cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}.
+\end{align}
+
+\item In the diffusion limit, the changes in haplotype frequencies due to selection, mutation, recombination, and drift can be described by a system of coupled Langevin equations,
+\begin{subequations}\label{eq:Langevin_full}
+    \begin{empheq}[left={\empheqlbrace\,}]{align}
+        \frac{\partial f_{ab}}{\partial t} &= \bar{S}(t) f_{ab} + \mu[f_{Ab}+f_{aB}-2f_{ab}] - R D(t) + \frac{\zeta_{ab}(t)}{\sqrt{N}},\\
+        \frac{\partial f_{Ab}}{\partial t} &= [\bar{S}(t) - s_A] f_{Ab} + \mu[f_{ab}+f_{AB}-2f_{Ab}] + R D(t) + \frac{\zeta_{Ab}(t)}{\sqrt{N}},\\
+        \frac{\partial f_{aB}}{\partial t} &= [\bar{S}(t) - s_B] f_{aB} + \mu[f_{ab}+f_{AB}-2f_{aB}] + R D(t) + \frac{\zeta_{aB}(t)}{\sqrt{N}},\\
+        \frac{\partial f_{AB}}{\partial t} &= [\bar{S}(t) - s_{AB}] f_{AB} + \mu[f_{Ab}+f_{aB}-2f_{AB}] - R D(t) + \frac{\zeta_{AB}(t)}{\sqrt{N}},
+    \end{empheq}
+\end{subequations}
+where $\bar{S}(t) \equiv s_Af_{Ab} + s_Bf_{aB} + s_{AB}f_{AB}$ is the reduction in the mean fitness of the population, $D(t) \equiv f_{AB}f_{ab} - f_{Ab}f_{aB}$ is the coefficient of linkage disequilibrium, and $\zeta_{ab}$, $\zeta_{Ab}$, $\zeta_{aB}$, $\zeta_{AB}$ are Brownian noise terms with a correlation structure that is necessary to keep the population size constant \parencite{good_desai_2013}.
+
+\item The system in Eq.~(\ref{eq:Langevin_full}) are generally difficult to solve analytically because the selection, recombination, and drift terms on the right-hand side are nonlinear in frequency. However, if mutant alleles are rare ($f_{A},f_{B} \ll 1$), the frequency dynamics of mutant haplotypes can be approximated by a nearly linear system of stochastic differential equations,
+ \begin{subequations}\label{eq:Langevin}
+    \begin{empheq}[left={\empheqlbrace\,}]{align}
+        \frac{\partial f_{Ab}}{\partial t} &= - s_A f_{Ab} + \mu + R D(t) + \sqrt{\frac{f_{Ab}}{N}} \eta_{Ab}(t),\\
+        \frac{\partial f_{aB}}{\partial t} &= - s_B f_{aB} + \mu + R D(t) + \sqrt{\frac{f_{aB}}{N}} \eta_{aB}(t),\\
+        \frac{\partial f_{AB}}{\partial t} &= - s_{AB} f_{AB} + \mu [f_{Ab} + f_{aB}] - RD(t) + \sqrt{\frac{f_{AB}}{N}} \eta_{AB}(t),
+    \end{empheq}
+\end{subequations}
+where $\eta_{Ab}$, $\eta_{aB}$, $\eta_{AB}$ are uncorrelated Brownian noise terms with mean zero and variance one. We have neglected the contribution of reverse mutations to the double mutant frequency since in the infinite sites limit this contribution is always small in comparison to genetic drift. The only nonlinearity now enters through the $f_{Ab}f_{aB}$ term in $D(t)$, suggesting that the frequency dynamics of rare alleles can be analyzed with perturbation theory, treating the $D(t)$ term as a perturbative correction to the otherwise linear dynamics. Note that Eq.~(\ref{eq:Langevin}) makes the assumption that mutant frequencies are rare at all times up until the present day. 
+
+\item In the sections below, we present the results of analytical calculations that predict how $\bar{\Lambda}(f_0)$ scales with the rate of recombination, the strength of selection, and the present-day frequency scale $f_0$. We explain our results with heuristic arguments.
+\end{itemize}
+
+
+\newpage
+\section*{Analysis and results}
+\subsection*{Calculating $\bar{\Lambda}(f_0)$}
+
+\begin{itemize}
+\item Following earlier work \parencite{good_2022, weissman_et_al_2009,weissman_et_al_2010,good_desai_2013,cvijovic_et_al_2018}, we consider the moment generating function of the joint distribution of mutant haplotype frequencies, 
+\begin{align}\label{eq:H(x,y,z,t)}
+    H(x, y, z, t) \equiv \left\langle e^{-x\frac{f_{Ab}(t)}{f_0}-y\frac{f_{aB}(t)}{f_0}-z\frac{f_{AB}(t)}{f_0}} \right\rangle,
+\end{align}
+where the average is taken over the frequency trajectories $f_{Ab}(t), f_{aB}(t)$, and $f_{Ab}(t)$. As such, in a population where all mutants are rare, the weighted moments in Eq.~(\ref{eq:lambda_avg}) follow from
+
+\begin{align}\label{eq:lambda_moments}
+    \left\langle f_{Ab}^if_{aB}^jf_{AB}^k\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+    = (-f_0)^{(i+j+k)} \partial_x^i \partial_y^j \partial_z^k H(x, y, z, t) \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ t=\infty}}.
+\end{align}
+
+\item Good \parencite{good_2022} has previously solved for $H(x, y, z)$ perturbatively in the limit that both $N\mu$ and $f_0$ are small compared to one:
+\begin{align}\label{eq:h_expansion_main_text}
+    H(x, y, z, \tau) &\approx 1 -\theta (H_A + H_B)
+    + \frac{\theta^2}{2}\left(H_A + H_B\right)^2 \\\nonumber
+    &\quad + \theta^2f_0\Upsilon + \theta^2f_0\int_0^{\tau}d \tau' \psi(\tau') \left[\Phi_x(\tau')+\Phi_y(\tau')-\rho\Phi_x(\tau')\Phi_y(\tau')\right]\\\nonumber
+    &\quad + \mathcal{O}(f_0^2) +\mathcal{O}(\theta^3),
+\end{align}
+where $\theta = 2N\mu$, $\tau = \nicefrac{t}{2Nf_0}$ is the rescaled time, $\rho = 2NRf_0$ is the rescaled recombination rate, $H_A(x, \tau)$, $H_B(y, \tau)$, $\Phi_x(\tau')$, $\Phi_y(\tau')$, and $\Upsilon(x, y, \tau)$ are functions independent of $z$ and are defined in Appendix \ref{appendix:H}, and $\psi(\tau')$ is the solution to the characteristic curve for $z$ given by
+\begin{align}\label{eq:psi_general_eq_main_text}
+    \partial_{\tau'} \psi(\tau') = -(\gamma_{AB} + \rho) \psi(\tau') - \psi^2(\tau') + \rho \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \rho \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}
+\end{align}
+with the initial condition $\psi(0)=z$, where $\gamma_{A}=2Ns_
+{A}f_0$, $\gamma_{B}=2Ns_
+{B}f_0$, and $\gamma_{AB}=2Ns_
+{AB}f_0$ are the rescaled selection coefficients.
+
+\item To the lowest order in $N\mu$ and $f_0$, the numerator of $\bar{\Lambda}(f_0)$ will come from the term containing $\psi'(\tau')$ in Eq.~(\ref{eq:h_expansion_main_text}), and thus the to find $\bar{\Lambda}(f_0)$, we need to solve for $\psi'(\tau')$. The differential equation in Eq.~(\ref{eq:psi_general_eq_main_text}) is difficult to solve in the general case, due to the many different timescales involved. To make progress, we use the separation of timescales approach to find $\psi'(\tau')$ asymptotically in regimes where selection and recombination are weak compared to drift and either selection or recombination are strong compared to drift. We include detailed calculations in Appendices \ref{appendix:neutral-loci} and \ref{appendix:strong-selection-recombination}, respectively. We also find $\bar{\Lambda}(f_0)$ numerically, first expanding $\psi'(\tau')$ perturbatively around the initial conditions $x,y=1, z=2$ (see Appendix \ref{appendix:numerics}).
+We summarize our results in the sections below.
+
+\item To interpret our results, we consider various scenarios that could lead to all four haplotypes being present in the population. In most cases, there are two scenarios that contribute to $\bar{\Lambda}(f_0)$. In the first scenario (Fig.~\ref{fig:heuristics_schematic}A), mutation first generates two single-mutant haplotypes, $Ab$ and $aB$, which can then recombine and produce the double-mutant haplotype $AB$. We refer to this case as the \emph{separate mutations} scenario. In the second scenario (Fig.~\ref{fig:heuristics_schematic}B), the double-mutant $AB$ is produced by mutation from one of the single mutants, and then the double mutant recombines with the wildtype, which the other single-mutant haplotype. We will call this the \emph{nested mutations} scenario. Although nested mutations are less likely to happen than separated mutations considered above, $AB$ and $ab$ haplotypes are more likely to recombine than $Ab$ and $aB$ to produce the remaining haplotype. We thus expect both scenarios to contribute to $\bar{\Lambda}(f_0)$. Using heuristic arguments, we estimate their contributions to $\bar{\Lambda}(f_0)$ for both neutral and deleterious alleles. We separately consider the case of strong positive epistasis, which requires considering the third scenario (Fig.~\ref{fig:heuristics_schematic}C), in which the double mutant recombines twice with the wildtype, and results in a distinct scaling of $\bar{\Lambda}(f_0)$. Additionally, we consider the effect of recurrent mutations (Fig.~\ref{fig:heuristics_schematic}D).
+
+
+%\item We can understand our results by thinking about the different scenarios that lead to all four haplotypes present in the population, and the terms in As long as mutation alone is unlikely to produce all four haplotypes, there are two ways in which all four haplotypes can be created through recombination. Mutation can first generate two single-mutant haplotypes, $Ab$ and $aB$, which can then recombine to produce the double-mutant haplotype $AB$. We will refer to this case as the \emph{separate mutations} scenario. The other way is to generate the double-mutant $AB$ from one of the single mutants, and then have the double mutant recombine with the wild type to create the other single-mutant haplotype. We will call this the \emph{nested mutations} scenario. Although nested mutations are less likely to happen than separated mutations considered above, $AB$ and $ab$ haplotypes are more likely to recombine than $Ab$ and $aB$ to produce the remaining haplotype. We thus expect both scenarios to contribute to $\Lambda$. 
+
+%\item By considering the probabilities of each of the scenarios that generate all four haplotypes and the typical haplotype frequencies, we can estimate the numerator and the denominator of $\Lambda$. In the sections below, we present heuristic arguments, which allow us to estimate the dominant frequency contributions for neutral and deleterious alleles. We also separately consider the case of strong positive epistasis, which leads to a different scaling of $\Lambda$.
+
+%\item Thus, by considering the probabilities of each of the scenarios that generate all four haplotypes, we can estimate the numerator of $\Lambda$ as
+%\begin{align}
+%    \langle f_{ab} f_{Ab} f_{aB} f_{AB}\rangle_{f \sim f^*} &\sim 
+%    \left[\underbrace{(N\mu)^2 NR f^*_{Ab}f^*_{aB}}_{\substack{\text{separete}\\ \text{mutations}\\ \text{recombine}}} + \underbrace{(N\mu)^2 NR (f^*_{Ab} + f^*_{aB})f^*_{AB}}_{\substack{\text{nested}\\ \text{mutations}\\ \text{recombine}}}\right] \times \underbrace{f^*_{Ab} f^*_{aB} f^*_{AB}}_{\substack{\text{dominant}\\\text{frequency}\\\text{contributions}}},
+%\end{align}
+%where $f^*$ is the dominant frequency contribution for each of the haplotypes.
+
+%\item As long as recombination is relatively weak (compared to what?), the denominator of $\Lambda$ is dominated by the two single mutants produced in the separate mutations scenario and we can estimate it as
+%\begin{align}
+%    \langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\rangle_{f \sim f^*} \sim 
+%    \langle f_{Ab}^2 f_{aB}^2 \rangle_{f \sim f^*} \sim \underbrace{(N\mu)^2}_{\substack{\text{separete}\\ \text{mutations}}} 
+%    \times \underbrace{f_{Ab}^{*2} f_{aB}^{*2}}_{\substack{\text{dominant}\\\text{frequency}\\\text{contributions}}}.
+%\end{align}
+
+%\item $\Lambda$ then follows as
+%\begin{align}\label{eq:lambda_heuristics}
+%    \Lambda \sim NR f^{*2}_{Ab} f^{*2}_{aB} f^*_{AB} \left[ 1 + \frac{f^*_{AB}}{f^*_{Ab}} + \frac{f^*_{AB}}{f^*_{aB}}\right].
+%\end{align}
+
+%\item In the sections below, we present heuristic arguments, which allow us to estimate the dominant frequency contributions for neutral and deleterious alleles in the separate and nested mutations scenarios. We also separately consider the case of strong positive epistasis, which leads to a different scaling of $\Lambda$.
+
+
+
+%We use this result to derive the numerator and denominator of $\Lambda$ in Appendices \ref{appendix:neutral-loci} and \ref{appendix:strong-selection-recombination} and we summarize the results below.
+%\begin{subequations}\begin{align}
+%    H_A(x, \tau) &\equiv \ln \left[1 + \frac{x(1-e^{-\gamma_A\tau})}{\gamma_A}\right], \\
+%    H_B(y, \tau) &\equiv \ln \left[1 + \frac{y(1-e^{-\gamma_B\tau})}{\gamma_B}\right],
+%\end{align}\end{subequations}
+%\begin{subequations}\begin{align}
+%    \Phi_x(\tau') &\equiv -\frac{[ 1-e^{-\gamma_A (\tau-\tau')} ][\gamma_A+x(1-e^{-\gamma_A \tau'})]}{\gamma_A \left[ \gamma_A+x(1-e^{-\gamma_A \tau}) \right]}, \\
+%    \Phi_y(\tau') &\equiv -\frac{[1-e^{-\gamma_B (\tau-\tau')}][\gamma_B+y(1-e^{-\gamma_B \tau'})]}{\gamma_A \left[ \gamma_B+y(1-e^{-\gamma_B \tau}) \right]},
+%\end{align}\end{subequations}
+%\begin{align}
+%    \Upsilon(x, y, \tau) &= \int_0^{\tau} d\tau' \rho \left[x(\tau') + y(\tau')\right]\Phi_x(\tau')\Phi_y(\tau').
+%\end{align}
+
+%\item We use this result to find the numerator and denominator of $\Lambda$ in the mutation-limited regime ($N\mu \ll \rho$). In this regime, there are two ways to get all four haplotypes: by producing two single-mutants first and having them recombine to generate the double-mutant haplotype, which we refer to as the \emph{double mutant recombinant case}, and by producing the same single mutation twice on tho different backgrounds and having the double mutant recombine with the wildtype to produce the second double mutant, which we refer to as the \emph{nested mutations case}. In any case, we need at least two mutation events and one recombination event. Thus, to find the numerator, we need consider at least two orders in $\theta$ because we need two single mutations, and at least one order in $\rho$.
+
+% \item The dominant contribution to the denominator will come from $\langle f_{Ab}^2 f_{aB}^2 \cdot e^{-\frac{f_A + f_B}{f_0}} \rangle$ [is this always true?]
+
+%\item In the sections below, we apresent heuristic arguments, which allow us to estimate the dominant freqeuncy contributions for neutral and deleterious alleles in \emph{double mutant recombinant case} and  the \emph{nested mutations case}.
+
+%\item We also discuss the results of formal analysis described in Appendix B and C. We consider different parameter regimes which lead to different solutions for the characteristic $\psi(\tau')$, and different dominant terms in $H$ that contribute to the numerator and the denominator of $\Lambda$.
+
+\end{itemize}
+
+\begin{figure*}[h!]
+%\flushleft
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/heuristics_schematic.png} 
+    \hfill
+    \caption{\textbf{Schematic of different lineage dynamics that contribute to $\bar{\Lambda}(f_0)$.}  \label{fig:heuristics_schematic}}
+\end{figure*}
+
+\newpage
+\subsection*{Neutral alleles}
+
+\begin{itemize}
+\item The frequencies of neutral alleles are only influenced by drift and recombination. However, even in the neutral limit, Eq.~(\ref{eq:psi_general_eq_main_text}) is difficult to solve because of the inhomogeneous terms that vary over different time scales set by $x$ and $y$. However, the weighted average of the linkage equilibrium metric depends on the special case that $x=1, y=1$, which suggest a perturbative expansion around $x=1+\delta x, y=1+\delta y, z=2+\delta z$. Using the series ansatz \begin{align}\label{eq:psi_xyz_expansion}
+    \psi(\tau', x, y, z) 
+    % \approx \psi(\tau', 1+\delta x, 1+ \delta y, 2+\delta z) 
+    = \sum_{i, j, k=0}^{\infty} \delta_x^i \delta_y^j \delta_z^k \psi_{i + j + k}^{x^i y^j z^k}(\tau'),
+\end{align}
+we can obtain a system of coupled ordinary differencial equations for $\psi_{i+j+k}^{x^iy^jz^k}$. In Appendix \ref{appendix:numerics}, we outline how by substituting the solution for this system into Eq.~(\ref{eq:h_expansion_main_text}) and Eq.~(\ref{eq:lambda_moments}), we find 
+\begin{align}\label{eq:num_lambda_unperturbed_main_text}
+    \bar{\Lambda}(f_0) & \approx  \int_0^{\infty} d\tau'\, \left[ \rho \psi_1^z - \frac{1}{2}\left[1+\rho(1+\tau')\right]\left[\psi_2^{xz} + \psi_2^{yz}\right] + \frac{1}{6} (1+\tau') \left[2-\rho(1+\tau')\right] \psi_3^{xyz} \right].
+\end{align}
+This integral, as well as the $\psi_{i+j+k}^{x^iy^jz^k}$ components of the series expansion can be found numerically. We verify our solution with forward-time simulations (see Fig.~\ref{fig:neutral_LE}A).
+
+\item Using the timescale separation approach, we can analytically predict the asymptotic behavior of $\bar{\Lambda}(f_0)$. When recombination is small on the timescale of drift ($\rho \ll 1$), we can solve Eq.~(\ref{eq:psi_general_eq_main_text}) perturbatively, treating the recombination term as a correction to the otherwise asexual neutral dynamics. We do so by considering a perturbation expansion in the powers of $\rho$,
+\begin{align}\label{eq:z_series}
+    \psi(\tau') \approx \sum_{i=0}^{\infty} \rho^{i}\psi_i(\tau').
+\end{align}
+The first few terms of this series are calculated in Appendix~\ref{appendix:neutral-loci}. Using this formal solution, the leading order solution for the numerator of $\bar{\Lambda}(f_0)$ in this \emph{recombination-limited regime} follows from Eq.~(\ref{eq:lambda_moments}) as 
+\begin{align}\label{eq:lambda_num_small_rho_neutral_main_text}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx \rho \theta^2 f_0^4.
+\end{align}
+This solution contains two powers of the rescaled recombination rate $\theta$ and one power of the rescaled recombination rate $\rho$, which corresponds to at least two mutation and one recombination events being required for the linkage equilibrium metric to be nonzero. 
+
+\item In the opposite \emph{recombination-dominant regime} where $\rho \gg 1$, we can make progress by focusing on the dynamics that happen on the timescale set by recombination and using the series ansatz
+\begin{align}\label{eq:psi(u)_series_main_text}
+    \psi(u) &\approx \sum_{i=0}^\infty \left(\nicefrac{1}{\rho}\right)^i \psi_i (u),
+\end{align}
+where $u = \rho\tau'$ is the rescaled time. We find that in this case, the numerator of $\bar{\Lambda}(f_0)$ follows as 
+\begin{align}\label{eq:lambda_num_large_rho_neutral_main_text}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx \theta^2 f_0^4.
+\end{align}
+We include a detailed calculation in Appendix \ref{appendix:strong-selection-recombination}. We note that the answer does not depend on $\rho$ as in this regime, our choice of timescale ensures that recombination has happened.
+
+\item In contrast to a recombination event being required for the numerator of $\bar{\Lambda}(f_0)$ to be nonzero, the dominant contribution to the denominator in both regimes will come from two mutation events. Therefore, the denominator can be approximated by
+\begin{align}\label{eq:lambda_denom_neutral_main_text}
+    \left\langle f_{Ab}^2f_{aB}^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+    \approx \theta^2 f_0^4.
+\end{align}
+We calculate it in Appendix $\ref{appendix:neutral-loci}$.
+
+\item Combining these results, we find that asymptotically, 
+\begin{align}\label{eq:lambda_neutral_result}
+    \bar{\Lambda}(f_0) \approx
+    \begin{cases}
+        \rho & \text{if $\rho \ll 1$},\\
+        1 & \text{if $\rho \gg 1$}.
+    \end{cases}
+\end{align}
+We see that for neutral loci, $\bar{\Lambda}(f_0)$ depends on a single compound parameter $\rho$, which dictates the transition from the recombination-limited to the recombination-dominant regimes. This means that changes in $NR$ can mimic changes in $f_0$ and vice versa (see Fig.~\ref{fig:neutral_LE}). This is similar to the frequency-resolved version of the linkade disequilibrium statistic $\sigma_d^2 (f_0)$. We also note that as expected in the infinite sites limit, the weighted first moment of $\Lambda$ is independent of the mutation rate, which implies that this metric primarily captures the contributions from segregating alleles, rather than the target sizes for mutations to occur. 
+
+\item We can understand the asymptotics in Eq.~(\ref{eq:lambda_neutral_result}) by utilizing heuristic arguments developed earlier. In the recombination-limited regime, single mutants drift freely until they reach the frequency of order $f \sim f_0$, upon which their contributions to the statistic become negligible. 
+%Their frequency distribution follows $p(f) \sim \frac{N\mu}{f}$. 
+While the loss of single mutant individuals due to recombination is negligible, it will still provide the dominant contribution to the numerator of $\bar{\Lambda}(f_0)$, either through two single mutants recombining with each other (Fig. \ref{fig:heuristics_schematic}A) or through a double mutant recombining with the wildtype (Fig. \ref{fig:heuristics_schematic}B). %In the first scenario, two separate single mutants will be generated from the wildtype and drift to frequency $\sim f_0$ with probability $\left(\int_0^{f_0} \cdot \frac{N \mu}{f} df \right)^2= (N\mu)^2$ and recombine to generate the fourth haplotype with probability $NRf_0^2$. In the second scenario, a single mutant arises on the wildtype background, drifts to the frequency of order $f_0$, and catches the second mutation with probability $(N\mu)^2f_0$. The double mutant then recombines with the wildtype with probability $NRf_0$.
+By considering the probabilities of each of the two scenarios that generate all four haplotypes and the dominant haplotype frequencies, we can estimate the numerator of $\bar{\Lambda}(f_0)$ as
+\begin{align}
+    \langle f_{ab} f_{Ab} f_{aB} f_{AB}\rangle_{f \sim f^*} &\sim 
+    [\underbrace{(N\mu)^2 NR f^*_{Ab}f^*_{aB}}_{\substack{\text{prob. that}\\\text{separete}\\ \text{mutations}\\ \text{recombine}}} + \underbrace{(N\mu)^2 NR (f^*_{Ab} + f^*_{aB})f^*_{AB}}_{\substack{\text{prob. that}\\\text{nested}\\ \text{mutation}\\ \text{recombines}}}] \times f^*_{Ab} f^*_{aB} f^*_{AB}
+    %\sim (N\mu)^2 NRf_0^5,
+\end{align}
+where $f^*$ are the dominant haplotype frequencies. 
+
+The denominator of $\bar{\Lambda}(f_0)$ can be estimated as
+\begin{align}
+    %\langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\rangle_{f \sim f^*} \sim 
+    \langle f_{Ab}^2 f_{aB}^2 \rangle_{f \sim f^*} \sim \underbrace{(N\mu)^2}_{\substack{\text{prob. of}\\\text{separete}\\ \text{mutations}}} 
+    \times f_{Ab}^{*2} f_{aB}^{*2}. 
+    % \sim (N\mu)^2 f_0^4.
+\end{align}
+
+Therefore $\bar{\Lambda}(f_0)$ follows as 
+%$\Lambda \sim NRf_0$. 
+\begin{align}\label{eq:lambda_heuristics}
+    \Lambda \sim NR f^*_{AB} \left[ 1 + \frac{f^*_{AB}}{f^*_{Ab}} + \frac{f^*_{AB}}{f^*_{aB}}\right].
+\end{align}
+Substituting $f^* \sim f_0$ for single mutants and $f* \sim 1$ for the wildtype, we recover the scalings for the numerator and denominator predicted asymptotically, as well as the linear scaling $\bar{\Lambda}(f_0)\sim NRf_0$.
+
+
+\item As the rate of recombination becomes larger, we need to consider other terms that will start to contribute significantly to the denominator of $\bar{\Lambda}(f_0)$. However, we can also note that upon transitioning to the quasi-linkage equilibrium regime ($NRf_0^2 \gg 1$), which ensures that $NRf_0 \gg 1$, it is safe to assume that the frequencies of the double mutants can be approximated by the product of the frequencies of the single mutants. We see that in this case, the numerator of $\Lambda$ becomes equal to the denominator, 
+\begin{align}
+    \langle f_{ab} f_{Ab} f_{aB} f_{AB}\rangle \sim \langle f_A^2 f_a^2 f_B^2 f_b^2 \rangle \sim \langle f_A^2 (1 - f_A)^2 f_B^2 (1 - f_B)^2 \rangle,
+\end{align}
+and thus $\bar{\Lambda}(f_0) \sim 1$. Note that we cannot distinguish between the recombination-dominant and the quasi-linkage equilibrium regimes when considering the first moment of the product of the four haplotype frequencies, similarly to the frequency-resolved linkage disequilibrium statistic $\sigma_d^2 (f_0)$.
+
+\end{itemize}
+
+\begin{figure*}[h!]
+%\flushleft
+    \centering
+    \includegraphics[width=1\textwidth]{figs/LE_neutral.pdf} 
+    \hfill
+    \caption{\textbf{Scaling of $\Lambda$ for neutral alleles.}  \label{fig:neutral_LE}}
+\end{figure*}
+
+\newpage
+
+\subsection*{Deleterious alleles}
+\begin{itemize}
+%\item The frequency dynamics of deleterious alleles are similar to that of neutral alleles, except that negative selection prevents deleterious alleles from growing to frequencies much larger than the drift barrier. When selection is strong compared to drift, we can again use the time scale separation approach to perturbatively solve Eq.~(\ref{eq:psi_general_eq_main_text}). 
+
+\item The frequency dynamics of deleterious alleles are similar to that of neutral alleles, except that negative selection prevents deleterious alleles from reaching frequencies much larger than the drift barrier $f \sim \frac{1}{Ns}$. As the rate of recombination becomes larger, the mutant allele will feel its effect as well, as the lineage will start losing individuals and will not reach frequencies much larger than $f \sim \frac{1}{NR}$.
+
+\item Similarly to the neutral case, when recombination is small and as long as there is no epistasis -- which we examine separately below -- we can estimate $\Lambda$ from Eq.~(\ref{eq:lambda_heuristics}). This time, however, the typical frequencies will not necessarily be set by sampling trajectories at frequencies of order $f_0$. Instead, we need to consider $f^* = \mathrm{max}\left\{\frac{1}{Ns}, \frac{1}{NR}, f_0 \right\}$. If selection is weak compared to drift ($Nsf_0 \ll 1$), the mutant haplotype frequencies will be capped at $f_0$, and the scaling for $\Lambda$ follows that for neutral alleles. If, however, selection is strong compared to both drift and recombination ($Nsf_0 \gg 1$, $s \gg R$), we obtain 
+\begin{align}
+    \Lambda \sim \frac{R}{s},
+\end{align}
+where we have assumed $s_{A}, s_{B}, s_{AB} \sim s$. This result holds true even if one of the single mutants is neutral, in which case its frequency contribution would be dominated by $f_0 \ll \frac{1}{Ns}$.
+
+% We can also define an effective selection coefficient $s^* \equiv \mathrm{max}\left\{s, R, \frac{1}{Nf_0} \right\}$.
+
+\item In the quasi-linkage equilibrium regime ($NR f^*_{Ab} f^*_{aB} \gg 1$), similarly to the neutral case, we obtain $\Lambda \sim 1$. We can also get this by plugging in $f^* \sim \frac{1}{NR}$ for mutant frequencies in Eq.~(\ref{eq:lambda_heuristics}). We again see that $\Lambda$ cannot distinguish the quasi-linkage equilibrium from the recombination-dominant regime. Similarly to the neutral case considered above, the weaker requirement of $R \gg s$ turns out to be sufficient for $\Lambda$ to reach its quasi-linkage equilibrium level.
+
+\item We consider the strong selection case formally in Appendix \ref{appendix:strong-selection-recombination}. We find $\Lambda$ by solving for the characteristic $\psi(\tau')$ perturbatively in $1/(s_{AB} + R)$. Our results agree with our heuristic picture. 
+
+\item We can also notice that we can introduce the effective selection coefficients $s^* \equiv \mathrm{max} \left\{ s, R, \frac{1}{N \fstar} \right\}$. In this case, we can write 
+
+\begin{align}
+    \Lambda \sim \frac{R}{s^*_{AB}},
+\end{align}
+
+which captures both the strong and weak selection regimes if recombination is weak, as well as the recombination-dominant regime. 
+
+%\begin{align}
+%\Lambda 
+%\sim \begin{cases}\label{eq:lambda_general_solution}
+%\frac{R}{s^*_{AB}} & \text{if $R \ll s^*_{AB}$} \\
+%1 & \text{ if $R \gg s^*_{AB}$}
+%\end{cases}.
+%\end{align}
+
+\item Our results agree with simulations. See Fig.~(\ref{fig:selection}A).
+
+\end{itemize}
+
+
+\newpage
+\subsection*{Effects of epistasis}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=7in]{figs/selection_fig.png}
+\hfill
+\caption{\textbf{Effects of selection.} \label{fig:selection} I did not have time to make better figures / run more simulations. I was thinking that for \textbf{A}, we should have $s/R$ on the x-axis, and show simulation results for both different $R$ and different $s$. For \textbf{B}, maybe we can only show results for one frequency -- where we can see all three regimes. Not sure if we should be calculating $\Lambda$ or the numerator w/ a different normalizing factor in simulations.}
+\end{figure*}
+
+\begin{itemize}
+\item When the epistatic effect is at most of the same order as both single mutant fitness effects ($s_{AB} \sim s_A, s_B$), there is no difference in the scaling of $\Lambda$. This is different from $\sigma^2_d(f_0)$, where epistasis of the same order leads to different functional behavior of the statistic.
+%$|\epsilon_{AB}| \ll s_{A}, s_{B}$
+
+\item In the case of strong synergistic epistasis ($s_{AB} \gg s_{Ab}, s_{aB}$), it is easy to recover the same scaling as in the case of strong selection but without epistasis by plugging in the corresponding $f^*$ into Eq.~(\ref{eq:lambda_heuristics}). We consider this case formally in Appendix~\ref{appendix:strong-selection-recombination}.
+
+\item Strong antagonistic epistasis ($s_{AB} \ll s_{Ab}, s_{aB}$), however, leads to a very different scaling of $\Lambda$ for weak recombination. The numerator of $\Lambda$ will be dominated by the nested mutations scenario. But in this case, by the time the double mutant drifts to frequency $f \sim f^*_{AB}$, single mutants will have already reached the drift barrier and typically gone extinct. Therefore, we need to consider a term that used to be negligible before: the double mutant recombining twice with the wildtype to produce both single mutants. Thus, if recombination is weak, 
+\begin{align}
+    \langle f_{ab} f_{Ab} f_{aB} f_{AB}\rangle_{f \sim f^*} \sim 
+    (N\mu)^2 (NR)^2 (f^*_{Ab} + f^*_{aB})f^{*2}_{AB} \times f^*_{Ab} f^*_{aB} f^*_{AB}.
+\end{align}
+
+
+The denominator of $\Lambda$ will also not be dominated by just the first term anymore. \textcolor{red}{I am not sure if it is a good idea to calculate each of the terms or even just the $f^4_{AB}$ term.} However, we can consider a different normalizing factor for the numerator. Thus, 
+\begin{align}
+    \frac{\langle f_{ab} f_{Ab} f_{aB} f_{AB}\rangle_{f \sim f^*}}{\langle f_{Ab}^2 f_{aB}^2\rangle_{f \sim f^*}} \sim (NR)^2 f^{*2}_{AB} \left[ \frac{f^*_{AB}}{f^*_{Ab}} + \frac{f^*_{AB}}{f^*_{aB}}\right].
+\end{align}
+In quasi-linkage equilibrium, the numerator again becomes equal to the denominator. 
+In the extreme case of the double mutant being neutral but two single mutants being strongly deleterious ($s_{AB} = 0$, $s_A, s_B \sim s \ll \frac{1}{Nf_0}$),
+we obtain 
+\begin{align}
+    \frac{\langle f_{ab} f_{Ab} f_{aB} f_{AB}\rangle_{f \sim f^*}}{\langle f_{Ab}^2 f_{aB}^2\rangle_{f \sim f^*}} \sim 
+    \begin{cases}
+    (NRf_0)^2(Nsf_0) &\text{ if $NRf_0 \ll 1$} \\
+    \nicefrac{s}{R} &\text{ if $NRf_0 \gg 1$} \\
+    1 &\text{ if $R \gg s$}
+    \end{cases}.
+\end{align}
+
+Our formal analysis in Appendix \ref{appendix:strong-selection-recombination} agrees with heuristics \textcolor{red}{(but we still need to consider the $NRf_0 \ll 1$ case)}. Simulations also look like they agree w/ this scaling (see Fig.~(\ref{fig:selection}B)).
+
+%We, however, note that this case while interesting is likely irrelevant to data analysis.
+\end{itemize}
+
+
+
+
+\newpage
+\twocolumngrid
+\subsection*{Effects of recurrent mutation}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=3.42in]{figs/recur_mut.pdf}
+\hfill
+\caption{\textbf{Effects of recurrent mutations.} Placeholder. \label{fig:recur_muts}}
+\end{figure*}
+
+\begin{itemize}
+	\item In our analysis so far, the only mechanism to generate all four haplotypes is through recombination. However, recurrent mutations on either locus A or B can also generate the fourth haplotype. This process can be confounded with recombination, hindering the utility of traditional four-gamete tests for detecting recombination in empirical data. Similarly, here, we expect recurrent mutations to create nonzero $\Lambda$ even between non-recombining loci. In this section, we explore how to distinguish the effects of recurrent mutation from recombination from the scaling of $\Lambda$.
+	\item We can gain a heuristic understanding of the effect of recurrent mutations by considering the production rate of the fourth haplotype. For simplicity, we will focus on the neutral alleles, but the heuristic argument can be adapted to deleterious alleles using effective frequencies (\secref{}). As discussed in previous sections, there are two scenarios when three haplotypes are circulating in the population: separate mutations or nested mutations.
+	\item In the first case, the rate of generating the new AB haplotype is $\sim NR\fAb\faB \sim NR\fstar^2$ through recombination, and $\sim N\mu f_{A,B} \sim N\mu\fstar$ through recurrent mutation. When the former rate is much smaller than the latter ($NR\fstar \ll N\mu = \theta$), we expect the metric to be dominated by recurrent mutation instead of recombination. After being generated, the new AB lineage will follow same dynamics regardless of the mode of generation. Therefore, we can estimate the value of $\Lambda$ using the same equation in our previous heuristic analysis, except replacing $NR\fA\fB$ with $N\mu f_{A,B}$. We find that when recurrent mutations dominate, $\Lambda \sim \theta$.
+	\item Similarly, in the second scenario, the rate of generating the remaining single-mutant haplotype is $\sim NRf_{A,B}\fab \sim NR\fstar$ through recombination, and $N\mu$ through recurrent mutation. Again, comparison of the rates leads to the same condition for the transition to mutation-dominated regime as before. Using a modified version of \eq{}, we find that $\Lambda\sim\theta$, which is the same scaling as the separate mutation scenario.
+	\item Thus, recurrent mutations serve as another source of the fourth haplotype independent from recombination. Quantitatively, this effect sets a minimal value at $\Lambda \sim \theta$ when there is weak or no recombination. In particular, $\Lambda$ reaches this lower limit at $\rho \sim N\mu$. Since $\theta=N\mu$ is typically much smaller than 1 in natural populations, we expect this transition to mutation-dominated regime to be well-separated from the transition to clonal recombinant regime (at $\rho\sim 1$). 
+    \item In addition, in the mutation-dominated regime, $\Lambda$ remains constant with respect to both $R$ and $\fstar$. This means that empirically, we can identify the effect of recurrent mutations by examining how $\Lambda$ scales with the frequency scale $\fstar$ and the recombination rate $R$.
+    \item We verify our theory prediction using WF simulations (\fig{fig:recur_muts}).
+\end{itemize}
+
+\newpage
+\subsection*{Transition to quasi-linkage equilibrium (QLE)}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{figs/sim_dist.png} 
+\hfill
+\caption{\textbf{Distribution of $\Lambda$ reveals transition to QLE.} Placeholder. \label{fig:sim_dist}}
+\end{figure*}
+
+% temporary bullet points
+\begin{itemize}
+    \item Our analytical calculation and simulations have shown that the mean of $\Lambda$ saturates at 1 as long as recombination is strong at the frequency scale ($NR\fstar\gg1$). However, previous work on higher moments of LD statistics has shown that the dynamics transitions into a distinct regime when $NR\fstar^2\gg1$ \parencite{good_2022}. Since both regimes share the same mean, it's necessary to characterize the distribution of $\Lambda$ around the mean value in order to further resolve the approach to linkage equilibrium.
+	\item The basic picture of our previous heuristic analysis is that each AB lineage arises separately, and will reach a typical frequency $1/NR$ when recombination is strong ($NR\fstar\gg1$). The distribution of $\fAB$ therefore should have an exponential cutoff at $1/NR$. If we condition both marginal frequencies $f_{A, B}$ to be $\sim \fstar$, then $\Lambda$ will have an exponential distribution with mean $\fAB / \fA\fB \sim 1/NR\fstar^2$. The rate of generating these $AB$ haplotypes is $NR\fstar^2$ (and thus non-zero lambda). These two factors cancel each other to produce a mean of 1.
+	\item This picture no longer holds when the number of recombinant lineage becomes large ($NR\fstar^2\gg1$). The stochastic dynamics of each lineage matters less when there's a large number of them, and the total frequency $\fAB$ will instead reflect the balance between the removal and creation of AB haplotypes through recombination. This suggests that $\fAB$ will be sharply peaked around the LE frequency $\fA\cdot\fB$, and thus $\Lambda$ will be sharply peaked at 1. This regime corresponds to the traditional QLE regime.
+    \item The above arguments suggest that the distribution of $\Lambda$ can be used to distinguish the clonal recombinant regime and the QLE regime. We test this idea by analyzing the distribution of $\Lambda$ in simulation (\fig{fig:sim_dist}). We compute the conditioned distribution at five frequencies, all of which have a mean $\Lambda$ approximately 1 (\fig{fig:sim_dist}C). We find that the distribution clearly transitions from an exponential-like to an Gaussian-like peak when $NR\fstar^2$ crosses 1 (\fig{fig:sim_dist}A). We next measure the typical sizes of non-zero $\Lambda$ by fitting the tail of the exponential-like distributions. We find that the typical size scales as $NR\fstar^2$ (\fig{fig:sim_dist}B, D), agreeing with the heuristic argument. Our result demonstrates that the distribution of $\Lambda$ is a robust way to further resolve the approach to LE in the strong recombination regime.
+\end{itemize}
+
+\newpage
+\subsection*{Applications to polymorphism data of gut commensal bacteria}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figs/LE_data.png} 
+\hfill
+\caption{\textbf{Scaling of $\Lambda$ in human gut microbiome data.} Placeholder. \label{fig:data_LE}}
+\end{figure*}
+
+\begin{itemize}
+    \item In this section, we will explore the approach to linkage equilibrium in natural populations of human gut commensal bacteria. Recent work has shown that many of these gut bacterial species engage in extensive recombination, making them suitable for applying out theoretical analysis of recombination dynamics. We leverage the extensive sampling of the gut microbiome by analyzing the UHGG dataset, which curates thousands of non-redundant metagenomic assembled genomes (MAGs) for a large number of prevalent gut bacterial species. This dataset allows us to access single nucleotide variants (SNVs) at frequencies as low as $10^{-3}$, thus providing three orders of magnitudes of frequency range study the scaling of our statistics.
+    
+    \item One consideration of applying our analysis to empirical data is that we do not have site pairs with a constant recombination rate. However, under the assumption that the per site recombination rate is uniform along the genome, we can group together site pairs with similar distances. Averaging over these site pairs should approximate the ideal ensemble mean in the analysis. 
+    
+    \item A second consideration is that we cannot directly observe the underlying haplotype frequencies. Instead, we need to estimate the averages from the discrete counts we can observe. For rare variants, we need to account for the sampling noise. we developed two classes of unbiased estimators for $\Lambda$. Following the approach in \parencite{}, we modeled the sampling noise as Poissonian and derived the expressions for estimators for any moments of $\fAb,\fAb, \fAB$ (Appendix TODO) Using these method, we computed the frequency resolved statistics for 10 gut bacterial species and find that both estimators give agreeing results (TODO).
+    
+    \item \fig{fig:data_LE} shows the results for E. rectale, a common species. Previously, we have found evidence that E. rectale has relatively high recombination rate among gut bacteria. However, the trends highlighted below \fig{fig:data_LE} are shared by other species we analyzed. We found that for high frequency scales (e.g. $\fstar=\infty$ or $TODO$), $\Lambda$ increases to near one as the distance between sites increases (\fig{fig:data_LE}A). This is consistent with our theory prediction that higher recombination rate has high $\Lambda$, which signifies a closer approach to linkage equilibrium.
+    
+    \item Interestingly, this trend no longer holds for low frequency variants. We see that the scaling is reversed for $\fstar < TODO$, and the overall magnitude of $\Lambda$ increases above $1$. The departure from theoretical prediction is more apparent in the frequency scaling (\fig{fig:data_LE}B), where $\Lambda$ remains constant at high frequency but starts to increase to much larger than 1 at low frequencies.
+    
+    \item The constant scaling at high frequencies is reminiscent of the effect of strong selection. However, this trend holds even for synonymous variants and we do not observe qualitative difference between synonymous variants and nonsense variants (TODO). Another potential mechanism for constant frequency scaling is recurrent mutations (\secref{TODO}), but our theory predict that the constant value should be roughly the level of $\theta$ and independent of the distance between sites. Both are not observed in the empirical scaling relationship. Most importantly, our analysis predicts that $\Lambda$ should decrease for low frequencies in all parameter regimes, reflecting less time for recombination to happen. In sharp contrast, $\Lambda$ increases dramatically for $\fstar < TODO$. These disagreements suggest additional population genetic processes are shaping the empirical trend of $\Lambda$.
+    
+    \item Nevertheless, we can gain more understanding of the observed scaling by examining the full distribution of $\Lambda$. In \secref{}, we demonstrate that the distribution of $\Lambda$ offers a robust way to distinguish QLE and clonal recombinant regimes. To see if this predicted transition can be observed in data, we computed the distribution of a discrete proxy of $\Lambda$, 
+    \begin{align}
+    \frac{\nab \nAb \naB \nAB}{\nA^2 \nB^2(n-\nA)^2(n-\nB)^2}
+    \end{align}
+    for variants at three frequencies. We choose pairs of sites sampled randomly across the genome, which should corresponds to the largest $NR$ for this species (Appendix ? ). This choice will make it easier to observe the transition at $NR\fstar^2\sim1$ in our frequency range. In addition to the distribution of $\Lambda$, we also computed the distribution of raw haplotype counts ($\nAb, \naB, \nAB$) for reference.
+    
+    \item In \fig{}, we show the empirical distributions along with analogous distributions in simulated data. Surprisingly, although we previously found various inconsistencies with theory predictions in the scaling of the mean, the distributions of nonzero $\Lambda$ share many qualitative features with theory. In particular, when frequency is high ($\fstar=TODO$), we observe a peak around $1$ in the distribution $\Lambda$. Similarly, $\fAB$ peaks around $\fstar^2$. This matches what we expect for the QLE regime, where $\fAB$ follows closely the LE frequency. Further, for lower frequency ranges, we observe the distribution to transition to roughly an exponential distribution. This is consistent with the predicted transition between QLE and clonal recombinant regimes.
+    
+    \item What causes the scaling of mean lambda to be dramatically different from theory and simulation of the simple model? At the three shown frequencies, the empirical distribution of non-zero lambda is very similar to the corresponding simulated distribution. However, in simulation, there is a large number of pairs with zero lambda, i.e. do not have all four gametes. These zero values brings the mean to the predicted value of $min(NRf0, 1)$. In contrast, the empirical distribution features more non-zero pairs, therefore leading to a greater than $1$ mean.
+    
+    \item To sum, although the scaling of the mean of lambda shows new behavior in departure from the simple neutral model we analyzed, the distribution of nonzero lambda reproduces several aspects of theory (most clearly the transition between clonal recombinant and QLE). Understanding how additional pop gen processes might explain these dueling observations is an interesting avenue for future work.
+
+\end{itemize}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{figs/data_dist.png} 
+\hfill
+\caption{\textbf{Comparison of distribution of $\Lambda$ between simulation and data.} Placeholder. \label{fig:data_dist}}
+\end{figure*}
+
+\section*{Discussion}
+\section*{Acknowledgements}
+
+% bibliography
+\clearpage
+\pagestyle{plain}
+\printbibliography
+
+% appendices
+\clearpage
+\newpage
+\onecolumngrid
+\appendix
+
+% CHANGING THE CHARACTERISTIC FOR Z BACK TO PSI
+\section{The moment generating function of the joint haplotype frequency distribution in the limit of small $f_0$} \label{appendix:H}
+
+\setcounter{equation}{0}
+
+Good has previously obtained a perturbative solution for the moment generating function \autocite{good_2022}. He showed that in the limit that $\theta = 2N\mu$ and $f_0$ are both small compared to one, 
+\begin{align}\label{eq:h_expansion}
+    H(x, y, z, \tau) &\approx 1 -\theta (H_A + H_B)
+    + \frac{\theta^2}{2}\left(H_A + H_B\right)^2 \\\nonumber
+    &\quad + \theta^2f_0\Upsilon + \theta^2f_0\int_0^{\tau}d \tau' \psi(\tau') \left[\Phi_x(\tau')+\Phi_y(\tau')-\rho\Phi_x(\tau')\Phi_y(\tau')\right] \\\nonumber
+    &\quad + \mathcal{O}(f_0^2) +\mathcal{O}(\theta^3),
+\end{align}
+where $\tau = \nicefrac{t}{(2Nf_0)}$, $\gamma_A = 2Ns_Af_0$, $\gamma_B = 2Ns_Bf_0$, $\rho = 2NRf_0$, and
+\begin{subequations}\begin{align}
+    H_A(x, \tau) &\equiv \ln \left[1 + \frac{x(1-e^{-\gamma_A\tau})}{\gamma_A}\right], \\
+    H_B(y, \tau) &\equiv \ln \left[1 + \frac{y(1-e^{-\gamma_B\tau})}{\gamma_B}\right],
+\end{align}\end{subequations}
+\begin{subequations}\begin{align}
+    \Phi_x(\tau') &\equiv -\frac{[ 1-e^{-\gamma_A (\tau-\tau')} ][\gamma_A+x(1-e^{-\gamma_A \tau'})]}{\gamma_A \left[ \gamma_A+x(1-e^{-\gamma_A \tau}) \right]}, \\
+    \Phi_y(\tau') &\equiv -\frac{[1-e^{-\gamma_B (\tau-\tau')}][\gamma_B+y(1-e^{-\gamma_B \tau'})]}{\gamma_A \left[ \gamma_B+y(1-e^{-\gamma_B \tau}) \right]},
+\end{align}\end{subequations}
+\begin{align}
+    \Upsilon(x, y, \tau) &= \int_0^{\tau} d\tau' \rho \left[x(\tau') + y(\tau')\right]\Phi_x(\tau')\Phi_y(\tau')
+\end{align}
+in a function independent of $z$, and $\psi(\tau')$ is a solution to the characteristic curve given by
+\begin{align}\label{eq:psi_general_eq}
+    \partial_{\tau'} \psi(\tau') = -(\gamma_{AB} + \rho) \psi(\tau') - \psi^2(\tau') + \rho \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \rho \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}
+\end{align}
+with the initial condition $\psi(0)=z$, where $\gamma_{AB}=2Ns_
+{AB}f_0$ is the rescaled fitness of the double mutant.
+
+\section{Solution for neutral loci and weak recombination}
+\label{appendix:neutral-loci}
+
+In the absence of recombination, the characteristic curve in Eq.~(\ref{eq:psi_general_eq}) reduces to a logistic equation, which solution for neutral loci ($\gamma_A, \gamma_B, \gamma_{AB} = 0$) is given by
+\begin{align}
+    %\psi_0(\tau') = \frac{\gamma_{AB}ze^{-\gamma_{AB}\tau'}}{\gamma_{AB}+z(1-e^{-\gamma_{AB}\tau'})}.
+    \psi_0(\tau') = \frac{z}{1+z\tau'}.
+\end{align}
+In the limit that $\rho \ll 1$, corrections to this zeroth-order solution can be found by perturbatively expanding $\psi(\tau')$ in $\rho$ as
+\begin{align}\label{eq:z_series}
+    \psi(\tau') \approx \psi_0(\tau') + \sum_{i=1}^{\infty} \rho^{i}\psi_i(\tau').
+\end{align}
+Substituting the above series expansion into Eq.~(\ref{eq:psi_general_eq}) and matching the coefficients in front powers of $\rho$, we obtain for the first-order correction
+%\begin{align}
+%        \partial_{\tau'}\psi_1(\tau') \approx -\gamma_{AB}\psi_1(\tau') -2\psi_0(\tau')\psi_1(\tau') - \psi_0(\tau') + \frac{\gamma_Axe^{-\gamma_A\tau'}}{\gamma_A+x(1-e^{-\gamma_A\tau'})} + \frac{\gamma_Bye^{-\gamma_B\tau'}}{\gamma_B+y(1-e^{-\gamma_B\tau'})}.
+%\end{align}
+
+%In the neutral limit, the equation above reduces to
+\begin{align}\label{eq:z_neutral_eq}
+    \partial_{\tau'}\psi_1(\tau') &\approx - \frac{z}{1+z\tau'}\left[1+2\psi_1(\tau')\right] + \frac{x}{1+x\tau'} + \frac{y}{1+y\tau'}
+\end{align}
+with the initial condition $\psi_1(0)=0$. We can solve this equation with the method of variation of constants, which yields
+%This inhomogeneous linear ordinary differential equation can be solved by the method of variation of constants. The corresponding homogeneous equation 
+%\begin{align}
+%    \partial_{\tau'}\psi_1(\tau') &\approx - \frac{2z}{1+z\tau'}\psi_1(\tau')
+%\end{align}
+%has solution in the form
+%\begin{align}\label{eq:\psi_1_homogeneous_u}
+%    \psi_1(\tau') \approx \frac{\phi(\tau')}{(1+z\tau')^2},
+%\end{align}
+%where $\phi(\tau')$ is some function of $\tau'$. Plugging Eq. (\ref{eq:\psi_1_homogeneous_u}) into Eq. (\ref{eq:z_neutral_eq}), we obtain
+%\begin{align}
+%    \partial_{\tau'} \phi(\tau') \approx - z(1+z\tau') + \frac{x(1+z\tau')^2}{1+x\tau'} + \frac{y(1+z\tau')^2}{1+y\tau'},
+%\end{align}
+%from where
+%\begin{align}
+%    \phi(\tau') &\approx - \int z(1+z\tau') \,d\tau'\
+%    + \int \frac{x(1+z\tau')^2}{1+x\tau'} \,d\tau'\
+%    + \int \frac{y(1+z\tau')^2}{1+y\tau'} \,d\tau'\, \\\nonumber
+%    &= \frac{1}{2} (1+z\tau')^2 + z\tau'\left(1 - \frac{z}{x}\right) + z\tau'\left(1 - \frac{z}{y}\right)
+%     \\\nonumber
+%    &\quad + \left(1-\frac{z}{x}\right)^2\ln(1+x\tau')
+%    + \left(1-\frac{z}{y}\right)^2\ln(1+y\tau') + C,
+%\end{align}
+%where $C = \frac{1}{2}$ is a constant determined by the initial condition $\phi(0)=0$. Then, 
+\begin{align}\label{eq:\psi_1}
+    \psi_1(\tau') &\approx \frac{1}{2} 
+    + \frac{1}{2}\frac{1}{(1+z\tau')^2} + \left(1-\frac{z}{x}\right)\frac{z\tau'}{(1+z\tau')^2} + \left(1-\frac{z}{y}\right)\frac{z\tau'}{(1+z\tau')^2}
+         \\\nonumber
+    &\quad + \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2}
+    + \left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2}.
+\end{align}
+%Substituting Eq. (\ref{eq:\psi_1}) into Eq. (\ref{eq:z_series}), we find
+%\begin{align}
+%    \psi(\tau') &\approx \frac{z}{1+z\tau'} 
+%    + \frac{\rho}{2}
+%    + \frac{\rho}{2}\frac{1}{(1+z\tau')^2} 
+%    \\\nonumber
+%    &\quad + \rho\left(1-\frac{z}{x}\right)\frac{z\tau'}{(1+z\tau')^2} + \rho\left(1-\frac{z}{y}\right)\frac{z\tau'}{(1+z\tau')^2}
+%    \\\nonumber
+%    &\quad + \rho\left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2}
+%    + \rho\left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2}.
+%\end{align}
+
+Thus, to the lowest order in $\rho$, from Eq. (\ref{eq:lambda_moments}) the numerator of $\Lambda$ follows as
+\begin{align}\label{eq:lambda_num_contribution}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} 
+    -\theta^2 f_0^4 \int_0^{\tau} d\tau'\, \partial_x\partial_y\partial_z \left[-\rho \psi_0\Phi_x\Phi_y + \rho \psi_1\Phi_x + \rho \psi_1\Phi_y\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
+    &\approx \rho \theta^2 f_0^4 \left[
+    \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'} \right. \\\nonumber
+    &+ \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
+    &+ \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_x \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \right. \\\nonumber
+    &- \left. \int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \left(1-\frac{z}{y}\right)^2 \frac{\ln(1+y\tau')}{(1+z\tau')^2} \right. \\\nonumber
+    &- \left. \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2} 
+    \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
+    % &= -\rho \theta^2 f_0^4 \left[
+    % -\int_0^{\infty} \frac{1}{(1+2\tau')^2}\,d\tau 
+    % + 2 \int_0^{\infty} \frac{4\tau'}{(1+2\tau')^3} \,d\tau' \right. \\ \nonumber
+    % &+ \left. 2 \int_0^{\tau} \frac{2\tau'-2(3+2\tau')\ln(1+\tau')}{(1+2\tau')^3} \,d\tau' \right] \\ \nonumber
+    &= \rho \theta^2 f_0^4 \left[\frac{1}{2} -\frac{1}{2} -\frac{1}{2} +\frac{3}{4} +\frac{3}{4}\right] = \rho \theta^2 f_0^4.
+\end{align}
+where have used 
+\begin{align}
+    %\Phi_x(\tau') &= -\frac{(\tau-\tau')(1+x\tau')}{1+x\tau}
+    \partial_x \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = 
+    %-(\tau-\tau') \partial_x \frac{1+x\tau'}{1+x\tau} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} =
+    \frac{(\tau-\tau')^2}{(1+x\tau)^2} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = 1, \quad
+    %\Phi_y(\tau') &= -\frac{(\tau-\tau')(1+y\tau')}{1+y\tau}.
+    \partial_y \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} =
+    %-(\tau-\tau') \partial_x \frac{1+x\tau'}{1+x\tau} \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} =
+    \frac{(\tau-\tau')^2}{(1+y\tau)^2} \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = 1.
+\end{align}
+
+%Taking  in Eq. (\ref{eq:lambda_num_contribution}), we obtain 
+%\begin{align}\label{eq:lambda_num_contribution_solved}
+%    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx& -\rho \theta^2 f_0^4 \left[
+%    -\int_0^{\infty} \frac{1}{(1+2\tau')^2}\,d\tau  \right. \\ \nonumber
+%    &+ \left. 2 \int_0^{\infty} \frac{4\tau'}{(1+2\tau')^3} \,d\tau' \right. \\ \nonumber
+%    &+ \left. 2 \int_0^{\tau} \frac{2\tau'-2(3+2\tau')\ln(1+\tau')}{(1+2\tau')^3} \,d\tau' \right] \\ \nonumber
+%    &= -\rho \theta^2 f_0^4 \left[-\frac{1}{2} + 1 - \frac{3}{2}\right] = \rho \theta^2 f_0^4.
+%\end{align}
+
+%The first integral in Eq. (\ref{eq:lambda_num_contribution}) evaluates to
+%\begin{align}\label{eq:small_rho_num_1}
+%    -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z \frac{z}{1+z\tau'}\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} & = -\int_0^{\infty} \frac{1}{(1+2\tau')^2}\,d\tau = -\frac{1}{2}.
+%\end{align}
+
+%The second (and third) integral in Eq. (\ref{eq:lambda_num_contribution}) can be evaluated as \begin{align}\label{eq:small_rho_num_2}
+%    & -\int_0^{\tau} d\tau'\, \partial_x \Phi_x \, \partial_y \partial_z \frac{z}{y} \frac{z\tau'}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} 
+    %= -\int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \frac{z}{x} \frac{z\tau'}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} 
+    %= \int_0^{\infty} \frac{2z\tau'}{(1+z\tau')^3} \,d\tau'
+%    = \int_0^{\infty} \frac{4\tau'}{(1+2\tau')^3} \,d\tau' = \frac{1}{2}.
+%\end{align}
+
+%Finally, we find the last (and the second to last) integral in Eq. (\ref{eq:lambda_num_contribution}) as
+%\begin{align}\label{eq:small_rho_num_3}
+%    \int_0^{\tau} d\tau'\, \partial_y \Phi_y \, \partial_x \partial_z \left(1-\frac{z}{x}\right)^2 \frac{\ln(1+x\tau')}{(1+z\tau')^2} \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} &= %\int_0^{\tau} \left[-\frac{2\tau'(x-z)}{x^2(1+z\tau')^3}-\frac{2\ln(1+x\tau')}{x^3(1+z\tau')^3}\left[z(1+x\tau')-(x-z)\right]\right]d\tau'\,  \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}}
+%    \int_0^{\tau} \frac{2\tau'-2(3+2\tau')\ln(1+\tau')}{(1+2\tau')^3} d\tau'\, = -\frac{3}{4}.
+%\end{align}
+
+%Substituting Eq. (\ref{eq:small_rho_num_1}), Eq. (\ref{eq:small_rho_num_2}), and Eq. (\ref{eq:small_rho_num_3}) into Eq. (\ref{eq:lambda_num_contribution}), we obtain
+%\begin{align}\label{eq:lambda_num_contribution_solved}
+%    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} -\rho \theta^2 f_0^4 \left[-\frac{1}{2} + \frac{1}{2} + \frac{1}{2} - \frac{3}{4} - \frac{3}{4}\right] = \rho \theta^2 f_0^4.
+%\end{align}
+
+
+% If all loci are neutral and recombination is rare, this will always be the dominant contribution
+The dominant contribution to the denominator of $\Lambda$ follows from Eq. (\ref{eq:lambda_moments}) as 
+\begin{align}\label{eq:lambda_denom_neutral}
+    %\left\langle f_A^2(1-f_A)^2f_B^2(1-f_B)^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx 
+    \left\langle f_{Ab}^2f_{aB}^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} 
+    %= \theta^2 f_0^4 \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} 
+    = \theta^2 f_0^4
+\end{align}
+to the lowest order in $\theta$, $f_0$, and $\rho$.
+
+Thus, in the neutral limit for small $\rho$, $\Lambda \approx \rho$.
+
+
+\section{Solution for strong selection or recombination}
+\label{appendix:strong-selection-recombination}
+
+In the limit that $\gamma_{AB}$ or $\rho$ are large compared to one, we can rescale time in Eq. (\ref{eq:psi_general_eq}) so that
+\begin{align}\label{eq:z_strong_s}
+    \partial_{u} \psi(u) = -\psi(u) - \epsilon \psi^2(u) + \alpha \xi(u), \quad \psi(0) = z,
+\end{align}
+where $u= \nicefrac{\tau'}{\epsilon}$ is the rescaled time, $\epsilon = \nicefrac{1}{(\gamma_{AB}+\rho)}$, $\alpha = \epsilon \rho$, $\beta_A = \epsilon \gamma_A$, $\beta_B = \epsilon \gamma_B$, and 
+\begin{align}
+    \xi(u) = \frac{\beta_Axe^{-\beta_A u}}{\beta_A + \epsilon x(1-e^{-\beta_A u})} + \frac{\beta_B ye^{-\beta_B u}}{\beta_B + \epsilon y(1-e^{-\beta_B u})}
+\end{align}
+is a function independent of $z$.
+
+We can solve Eq. (\ref{eq:z_strong_s}) using a perturbation expansion in $\epsilon$, defining 
+\begin{align}
+    \psi(u) &\approx \sum_{i=0}^\infty \epsilon^i \psi_i (u) \label{eq:psi(u)_series}
+\end{align}
+and, if $\gamma_A,\gamma_B \gg 1$,
+\begin{align}
+    \xi (u) &\approx \sum_{i=0}^\infty \epsilon^i \xi_i (u) = xe^{-\beta_A u} \sum_{i=0}^\infty \left(-\nicefrac{\epsilon}{\beta_A}x(1-e^{-\beta_A u})\right)^i
+    + ye^{-\beta_B u} \sum_{i=0}^\infty \left(-\nicefrac{\epsilon}{\beta_B}y(1-e^{-\beta_B u})\right)^i
+    .\label{eq:f(u)_series}
+\end{align}
+In order to find $\Lambda$ to the lowers order in $\epsilon$, we need to calculate the first three terms in each series above.
+At zeroth order in $\epsilon$,
+\begin{align}
+    \partial_u \psi_0(u) = -\psi_0(u) + \alpha \xi_0(u), \quad \psi_0(0) = z,
+\end{align}
+and hence 
+% can be solved w/ the method of variation of constants
+\begin{align}
+    \psi_0(u) = ze^{-u} + \alpha e^{-u} \int_0^u e^{u'} \xi_0(u') du'.
+\end{align}
+At the first order in $\epsilon$,
+\begin{align}
+    \partial_u \psi_1(u) = -\psi_1(u) -\psi_0^2(u) + \alpha \xi_1(u), \quad \psi_1(0) = 0,
+\end{align}
+and hence 
+\begin{align}
+    \psi_1(u) = \alpha e^{-u} \int_0^u e^{u'} \xi_1(u') du' - e^{-u} \int_0^u e^{u'} \psi_0^2 (u') du'.
+\end{align}
+At the second order in $\epsilon$,
+\begin{align}
+    \partial_u \psi_2(u) = -\psi_2(u) -2\psi_0(u)\psi_1(u) + \alpha \xi_2(u), \quad \psi_2(0) = 0,
+\end{align}
+and hence 
+\begin{align}
+    \psi_2(u) = \alpha e^{-u} \int_0^u e^{u'} \xi_2(u') du' - 2e^{-u} \int_0^u e^{u'} \psi_0(u')\psi_1(u') du'.
+\end{align}
+
+
+%If $\gamma_A, \gamma_B \ll 1$, then
+%to the second order in $\epsilon$ \begin{align}
+%    f(u) \approx \frac{x}{1+\epsilon u x} + \frac{y}{1 + \epsilon u y}
+%    % I am not sure about this??
+%    \approx x + y - \epsilon u (x^2 + y^2) + \epsilon^2 u^2 (x^3 + y^3).
+%\end{align}
+%If $\gamma_A, \gamma_B \gg 1$, the first two terms of Eq. (\ref{eq:f(u)_series}) can be found as
+% by Taylor expanding the denominators of $\xi(u)$
+%\begin{align}
+%    \xi_0(u) &= x e^{-\beta_A u} + y e^{-\beta_B u}
+%\end{align}
+%and
+%\begin{align}
+%    \xi_1(u) &= -x^2 \frac{1}{\beta_A}e^{-\beta_A u} \left(1-e^{-\beta_Au}\right)
+%    -y^2 \frac{1}{\beta_B}e^{-\beta_B u} \left(1-e^{-\beta_Bu}\right).
+%\end{align}
+%and
+%\begin{align}
+%    \xi_2(u) &= x^3 \frac{1}{\beta_A^2}e^{-\beta_A u} \left(1-e^{-\beta_Au}\right)^2
+%    +y^3 \frac{1}{\beta_B^2}e^{-\beta_B u} \left(1-e^{-\beta_Bu}\right)^2.
+%\end{align}
+%Hence
+%\begin{align}
+%    \psi_0(u) &= z e^{-u} - \frac{\alpha x}{1-\beta_A}\left(e^{-u}-e^{-\beta_A u}\right) - \frac{\alpha y}{1-\beta_B}\left(e^{-u}-e^{-\beta_B u}\right)
+%\end{align}
+%and
+% REWRITE THIS IN POWERS OF Z and introduce g_A, g_B here
+%\begin{align}
+%    \psi_1(u) &= 
+    %\frac{\alpha x^2}{\beta_A (1-\beta_A)}\left(e^{-u}-e^{-\beta_A u}\right)
+    %- \frac{\alpha x^2}{\beta_A (1-2\beta_A)}\left(e^{-u}-e^{-2\beta_A u}\right) \\ \nonumber
+    %&+ \frac{\alpha y^2}{\beta_B (1-\beta_B)}\left(e^{-u}-e^{-\beta_B u}\right)
+    %- \frac{\alpha y^2}{\beta_B (1-2\beta_B)}\left(e^{-u}-e^{-2\beta_B u}\right) \\ \nonumber
+    %&+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]^2\left(e^{-2u}-e^{-u}\right) \\ \nonumber
+    %&+ \left[z-\frac{\alpha x}{1-\beta_A}-\frac{\alpha y}{1 - \beta_B}\right]\left[\frac{2\alpha x}{\beta_A(1-\beta_A)}\left(e^{-u(1+\beta_A)}-e^{-u}\right) + \frac{2\alpha y}{\beta_B(1-\beta_B)}\left(e^{-u(1+\beta_B)}-e^{-u}\right)\right] \\ \nonumber
+    %&- \frac{\alpha^2x^2}{(1-\beta_A)^2(1-2\beta_A)}\left(e^{-2\beta_A u} -e^{-u}\right) - \frac{\alpha^2y^2}{(1-\beta_B)^2(1-2\beta_B)}\left(e^{-2\beta_B u} -e^{-u}\right) \\ \nonumber
+    %& -\frac{2\alpha^2 xy}{(1-\beta_A)(1-\beta_B)(1-\beta_A-\beta_B)}\left(e^{-(\beta_A+\beta_B)u}-e^{-u}\right).
+%    z^2\left[e^{-2u}-e^{-u}\right] \\ \nonumber
+%    &- \frac{2 \alpha xz}{1-\beta_A}\left[e^{-2u} - \left(1-\frac{1}{\beta_A}\right)e^{-u}-\frac{1}{\beta_A}e^{-u(1+\beta_A)}\right] \\ \nonumber
+%    &- \frac{2 \alpha yz}{1-\beta_B}\left[e^{-2u} - \left(1-\frac{1}{\beta_B}\right)e^{-u}-\frac{1}{\beta_B}e^{-u(1+\beta_B)}\right] \\ \nonumber
+%    &+ \frac{2\alpha^2 xy}{(1-\beta_A)(1-\beta_B)}\left[e^{-2u} - \left(1-\frac{1}{\beta_A} -\frac{1}{\beta_B} - \frac{1}{1-\beta_A-\beta_B}\right)e^{-u} \right. \\ \nonumber &-\left.\frac{1}{\beta_A}e^{-u(1+\beta_A)}-\frac{1}{\beta_B}e^{-u(1+\beta_B)}
+%    -\frac{1}{1-\beta_A-\beta_B}e^{-u(\beta_A+\beta_B)}\right] \\ \nonumber
+%    & + \alpha x^2 \left[\frac{1}{1-2\beta_A}\left(\frac{2\alpha}{\beta_A}-\frac{1}{1-\beta_A}\right)e^{-u} +\frac{\alpha}{(1-\beta_A)^2}e^{-2u} - \frac{2\alpha}{\beta_A(1-\beta_A)^2}e^{-u(1-\beta_A)} \right. \\ \nonumber
+%    &- \left. \frac{1}{\beta_A(1-\beta_A)}e^{-\beta_A u} - \frac{1}{1-2\beta_A}\left(\frac{1}{\beta_A}+\frac{1}{(1-\beta_A)^2}\right)e^{-2\beta_A u}\right] \\ \nonumber
+%    & + \alpha y^2 \left[\frac{1}{1-2\beta_B}\left(\frac{2\alpha}{\beta_B}-\frac{1}{1-\beta_B}\right)e^{-u} +\frac{\alpha}{(1-\beta_B)^2}e^{-2u} - \frac{2\alpha}{\beta_B(1-\beta_B)^2}e^{-u(1-\beta_B)} \right. \\ \nonumber
+%    &- \left. \frac{1}{\beta_B(1-\beta_B)}e^{-\beta_B u} - \frac{1}{1-2\beta_B}\left(\frac{1}{\beta_B}+\frac{1}{(1-\beta_B)^2}\right)e^{-2\beta_B u}\right].
+%\end{align}
+
+%To the lowest order in $\epsilon$, the the numerator of $\Lambda$ then follows as
+%\begin{align}\label{eq:lambda_num_large_rho}
+%    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx -\epsilon \theta^2 f_0^4
+%    \int_0^{\nicefrac{\tau}{\epsilon}} du\, \partial_x \partial_y \partial_z (\psi_0 + \epsilon \psi_1) \left(\Phi_x + \Phi_y - \nicefrac{\alpha}{\epsilon}\Phi_x\Phi_y\right)\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\\nonumber
+%    &=\alpha \theta^2 f_0^4\left[
+%    \int_0^{\nicefrac{\tau}{\epsilon}} e^{-u} du \, \partial_x \Phi_x \, \partial_y \Phi_y \, \partial_z z \right. \\\nonumber
+%    &+\left.\frac{2\epsilon^2}{1-\beta_A}
+%    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_A} du\, \partial_y \Phi_y \, \partial_x \partial_z xz \right. \\\nonumber
+%    &+\left.\frac{2\epsilon^2}{1-\beta_B}
+%    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_B} du\, \partial_x \Phi_x \, \partial_y \partial_z yz \right. \\\nonumber
+%    &- \left.\epsilon 
+%    \int_0^{\nicefrac{\tau}{\epsilon}} (e^{-2u} - e^{-u}) du\, \partial_x \Phi_x \partial_y \Phi_y \partial_z z^2 \right. \\\nonumber
+%    &- \left.\frac{2\epsilon\alpha}{1-\beta_A} 
+%    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_A} du\, \partial_y \Phi_y \partial_x \partial_z z\Phi_x\right. \\\nonumber
+%    &- \left.\frac{2\epsilon\alpha}{1-\beta_A} 
+%    \int_0^{\nicefrac{\tau}{\epsilon}} \xi_{\beta_B} du\, \partial_x \Phi_x \partial_y \partial_z z\Phi_y\right] \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}},
+%\end{align}
+
+We can now calculate $\Lambda$. To the lowest order in $\epsilon$, the numerator of $\Lambda$ follows from Eq. (\ref{eq:lambda_moments}) as
+\begin{align}\label{eq:lambda_num_large_rho}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+ &\approx -\theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} du\, \partial_x\partial_y\partial_z \left[-\alpha \psi_0\Phi_x\Phi_y -\alpha \epsilon \psi_1 \Phi_x\Phi_y -\alpha \epsilon^2 \psi_2 \Phi_x\Phi_y \right. \\ \nonumber
+ &+ \left. \epsilon^2 \psi_1\Phi_x + \epsilon^2 \psi_1\Phi_y + \epsilon^3 \psi_2\Phi_x + \epsilon^3 \psi_2\Phi_y \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
+ %&\approx \alpha \epsilon^4 \theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} du\,\Bigg[ e^{-u}\partial_x \Phi_x \partial_y \Phi_y \partial_z z 
+ %+ \epsilon(e^{-2u} - e^{-u})\partial_x \Phi_x \partial_y \Phi_y \partial_z z^2 
+ %\Bigg. \\ \nonumber
+ %& - \epsilon \frac{2\alpha}{1-\beta_A} g_A \partial_x x\Phi_x \partial_y \Phi_y \partial_z z - \epsilon \frac{2\alpha}{1-\beta_B} g_B \partial \Phi_x \partial_y y \Phi_y \partial_z z\Bigg. \\ \nonumber
+ %&+ \Bigg. \epsilon^2 \frac{2}{1-\beta_B}g_B \partial_x \Phi_x \partial_y y \partial_z z 
+ %+ \epsilon^2 \frac{2}{1-\beta_A}g_A \partial_x x \partial_y \Phi_y \partial_z z \Bigg]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
+ &\approx \frac{\alpha \epsilon^4 \theta^2 f_0^4}{\beta_A^2 \beta_B^2 (1+\beta_A+\beta_B)} \left[1 + \frac{\beta_A(\alpha+\beta_A)}{(1+\beta_B)(1+\nicefrac{\beta_B}{2}) } +  \frac{\beta_B(\alpha+\beta_B)}{(1+\beta_A)(1+\nicefrac{\beta_A}{2})} \right. \\ \nonumber
+ &+\left. \frac{2 \alpha \beta_A \beta_B (\alpha+\beta_A+\beta_B)(2+\beta_A+\beta_B)}{(1+\beta_A)(1+\beta_B)} \right]
+ %+ \mathcal{O}(\epsilon^5)
+ ,
+%    &= \frac{\epsilon^2\alpha\theta^2f_0^4}{\beta_A^2\beta_B^2(1+\beta_A+\beta_B)},
+\end{align}
+%where we have defined
+%\begin{subequations}\begin{align}
+%    \xi_{\beta_A} &\equiv e^{-2u} - \left(1-\frac{1}{\beta_A}\right)e^{-u}-\frac{1}{\beta_A}e^{-u(1+\beta_A)}, \\
+%    \xi_{\beta_B} &\equiv e^{-2u} - \left(1-\frac{1}{\beta_B}\right)e^{-u}-\frac{1}{\beta_B}e^{-u(1+\beta_B)}.    
+%\end{align}\end{subequations}
+%where we have defined
+%\begin{subequations}\begin{align}
+%    g_A(u) & = e^{-2u} - \left(1-\frac{1}{\beta_A}\right)e^{-u}-\frac{1}{\beta_A}e^{-u(1+\beta_A)}, \\
+%    g_B(u) & = e^{-2u} - \left(1-\frac{1}{\beta_B}\right)e^{-u}-\frac{1}{\beta_B}e^{-u(1+\beta_B)}
+%\end{align}\end{subequations}
+where we have used used
+\begin{subequations}
+    \begin{gather}
+        \Phi_x \Big\vert_{\substack{\tau=\infty}} \approx - \frac{\epsilon}{\beta_A} 
+        %+ \mathcal{O}(\epsilon^2)
+        %\frac{\epsilon^2}{\beta_A^2}xe^{-\beta_Au} +\mathcal{O}(\epsilon^3)
+        , \quad
+        \Phi_y \Big\vert_{\substack{\tau=\infty}} \approx - \frac{\epsilon}{\beta_B} 
+        %+ \mathcal{O}(\epsilon^2)
+        %\frac{\epsilon^2}{\beta_B^2}ye^{-\beta_Bu} +\mathcal{O}(\epsilon^3)
+         , \\
+        \partial_x \Phi_x \Big\vert_{\substack{\tau=\infty}} \approx \frac{\epsilon^2}{\beta_A^2}e^{-\beta_Au} %+\mathcal{O}(\epsilon^3)
+        , \quad
+        \partial_y \Phi_y \Big\vert_{\substack{\tau=\infty}} \approx \frac{\epsilon^2}{\beta_B^2}e^{-\beta_Bu} %+\mathcal{O}(\epsilon^3)
+        .
+    \end{gather}
+\end{subequations}
+%\begin{subequations}\begin{align}
+%    \partial_x \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} &= e^{-\beta_A u} \left[\frac{1-e^{-\beta_A(\nicefrac{\tau}{\epsilon}-u)}}{x(1-e^{-\beta_A \nicefrac{\tau}{\epsilon}}) + \nicefrac{\beta_A}{\epsilon}}\right]^2\Bigg\vert_{\substack{x=1 \\ \tau=\infty}} = \frac{\epsilon^2}{\beta_A^2}e^{-\beta_A u}, \\
+%    \partial_y \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} &= e^{-\beta_B u} \left[\frac{1-e^{-\beta_B(\nicefrac{\tau}{\epsilon}-u)}}{y(1-e^{-\beta_B \nicefrac{\tau}{\epsilon}}) + \nicefrac{\beta_B}{\epsilon}}\right]^2\Bigg\vert_{\substack{y=1 \\ \tau=\infty}} = \frac{\epsilon^2}{\beta_B^2}e^{-\beta_B u},\\
+%    \Phi_x \Bigg\vert_{\substack{x=1 \\ \tau=\infty}} &= -\frac{\nicefrac{\beta_A}{\epsilon}+(1-e^{-\beta_A u})}{\left(\nicefrac{\beta_A}{\epsilon}\right)^2}, \\
+%    \Phi_y \Bigg\vert_{\substack{y=1 \\ \tau=\infty}} &= -\frac{\nicefrac{\beta_B}{\epsilon}+(1-e^{-\beta_B u})}{\left(\nicefrac{\beta_B}{\epsilon}\right)^2}.
+%\end{align}\end{subequations}
+
+The two separate single mutants will usually provide the dominant contribution to the denominator, and thus it follows from Eq. (\ref{eq:lambda_moments}) as
+\begin{align}\label{eq:lambda_denom_large_rho}
+    \left\langle f_{Ab}^2f_{aB}^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx 
+    \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} 
+    %= \frac{\epsilon^4 \theta^2 f_0^4}{\beta_A^2 \beta_B^2} \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} 
+    = \frac{\epsilon^4 \theta^2 f_0^4}{\beta_A^2 \beta_B^2}.
+\end{align}
+
+Thus, from Eqs.~(\ref{eq:lambda_num_large_rho}, \ref{eq:lambda_denom_large_rho}) $\Lambda$ follows as
+\begin{align}\label{eq:lambda_strong_s}
+    \Lambda &\approx \frac{\alpha}{1+\beta_A + \beta_B} \\ \nonumber
+    &\times \left[1 +  \frac{2\beta_A(\alpha+\beta_A)}{(1+\beta_B)(2+\beta_B)}
+    +\frac{2\beta_B(\alpha+\beta_B)}{(1+\beta_A)(2+\beta_A)} + \frac{2 \alpha \beta_A \beta_B (\alpha+\beta_A+\beta_B)(2+\beta_A+\beta_B)}{(1+\beta_A)(1+\beta_B)}\right] \\ \nonumber
+    &= \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}} \\\nonumber
+    &\times \left[1 +\frac{\gamma_A(\rho + \gamma_{A})}{(\rho + \gamma_B + \gamma_{AB})(\rho + \nicefrac{1}{2}\gamma_B + \gamma_{AB})} 
+    +\frac{\gamma_B(\rho + \gamma_{B})}{(\rho + \gamma_A + \gamma_{AB})(\rho + \nicefrac{1}{2}\gamma_A + \gamma_{AB})} \right. \\ \nonumber
+    &+\left. \frac{4 \rho \gamma_A \gamma_B (\rho+\gamma_A+\gamma_B)(\rho+\nicefrac{1}{2}\gamma_A+\nicefrac{1}{2}\gamma_B+\gamma_{AB})}{(\rho+\gamma_A+\gamma_{AB})(\rho+\gamma_B+\gamma_{AB})(\rho+\gamma_{AB})^3}\right].
+%\Lambda &\approx \frac{\alpha}{1+\beta_A + \beta_B} = \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}}.
+\end{align}
+
+The approximation above holds for any $\rho$ as long as $\gamma_{A}, \gamma_{B}, \gamma_{AB} \gg 1$. For the case of no epistasis, considering $\gamma_A=\gamma_B=\gamma$ and $\gamma_{AB}=2\gamma$, we obtain 
+\begin{align}
+    \Lambda \approx
+    \begin{cases}
+        \frac{19}{60}\frac{\rho}{\gamma}, \quad \text{if $\rho \ll \gamma$}, \\
+        1, \quad \text{if $\rho \gg \gamma.$}
+    \end{cases}
+\end{align}
+
+
+In the extreme case of strong positive epistasis, where the double mutant is neutral ($\gamma_{AB} = 0 $), but both single mutants are strongly deleterious ($\gamma_A = \gamma_B = \gamma \gg 1$ ), the denominator of $\Lambda$ will not be dominated by the two single mutants anymore, as in this case, the double mutant is likely to reach much higher frequencies. However, we can consider a different normalizing factor for the numerator of $\Lambda$ and obtain 
+\begin{align}
+    \frac{\left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle}{\left\langle f_{Ab}^2f_{aB}^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle} \approx
+    \begin{cases}
+        4 \frac{\gamma}{\rho}, \quad \text{if $\gamma \gg \rho \gg1$}, \\
+        1, \quad \text{if $\rho \gg \gamma \gg 1$}.
+    \end{cases}
+\end{align}
+
+
+In the limit that only one of the single mutants is deleterious ($\gamma_A \gg 1,\gamma_B =0$), we can solve Eq. (\ref{eq:z_strong_s}) by considering a different series expansion for $\xi(u)$,
+\begin{align}
+    \xi (u) &\approx \sum_{i=0}^\infty \epsilon^i \xi_i (u) = xe^{-\beta_A u} \sum_{i=0}^\infty \left(-\nicefrac{\epsilon}{\beta_A}x(1-e^{-\beta_A u})\right)^i
+    + y \sum_{i=0}^\infty \left(-\epsilon u\right)^i
+    .\label{eq:f(u)_series}
+\end{align}
+
+In this case, the numerator of $\Lambda$ follows from Eq. (\ref{eq:lambda_moments}) to the lowest order in $\epsilon$ as
+\begin{align}\label{eq:lambda_num_large_rho}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+ &\approx -\theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} du\, \partial_x\partial_y\partial_z \left[-\alpha \psi_0\Phi_x\Phi_y -\alpha \epsilon \psi_1 \Phi_x\Phi_y + \epsilon^2 \psi_1\Phi_y \right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \\ \nonumber
+ &\approx \frac{\alpha \epsilon^2 \theta^2 f_0^4}{\beta_A^2 (1+\beta_A)} \left[1 - \beta_A(\alpha+\beta_A) \right]
+ %+ \mathcal{O}(\epsilon^3)
+ ,
+\end{align}
+where we have used used
+\begin{subequations}\begin{align}
+    %\Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{\epsilon}{\beta_A} + \mathcal{O}(\epsilon^2)
+    %\frac{\epsilon^2}{\beta_A^2}xe^{-\beta_Au} +\mathcal{O}(\epsilon^3)
+    %, \\
+    \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx - \frac{1}{y} 
+    %+ \mathcal{O}(\epsilon)
+    %\frac{\epsilon^2}{\beta_B^2}ye^{-\beta_Bu} +\mathcal{O}(\epsilon^3)
+    , \\
+    %\partial_x \Phi_x \Big\vert_{\substack{\tau=\infty}} &\approx \frac{\epsilon^2}{\beta_A^2}e^{-\beta_Au} +\mathcal{O}(\epsilon^3), \\
+    \partial_y \Phi_y \Big\vert_{\substack{\tau=\infty}} &\approx \frac{1}{y^2} 
+    %+\mathcal{O}(\epsilon)
+    .
+\end{align}\end{subequations}
+
+The denominator of $\Lambda$ follows from Eq. (\ref{eq:lambda_moments}) as 
+\begin{align}
+    \left\langle f_{Ab}^2f_{aB}^2\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle &\approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} 
+    %= \frac{\epsilon^2 \theta^2 f_0^4}{\beta_A^2} \frac{1}{x^2y^2}\Bigg\vert_{\substack{x=1 \\ y=1}} 
+    = \frac{\epsilon^2 \theta^2 f_0^4}{\beta_A^2}.
+\end{align}
+
+$\Lambda$ then follows as
+\begin{align}\label{eq:lambda_strong_s_neutral}
+    \Lambda &\approx \frac{\alpha}{1+\beta_A} 
+     \left[1 -  \beta_A(\alpha+\beta_A)\right] = \frac{\rho}{\rho + \gamma_A + \gamma_{AB}} \left[1 -\frac{\rho\gamma_A(\rho + \gamma_{A})}{(\rho+\gamma_{AB})^3}\right],
+%\Lambda &\approx \frac{\alpha}{1+\beta_A + \beta_B} = \frac{\rho}{\rho + \gamma_A + \gamma_B + \gamma_{AB}}.
+\end{align}
+and for $\gamma_{AB} = \gamma_A = \gamma$,
+\begin{align}
+    \Lambda \approx
+    \begin{cases}
+        \frac{1}{2}\frac{\rho}{\gamma}, \quad \text{if $\rho \ll \gamma$}, \\
+        1, \quad \text{if $\rho \gg \gamma.$}
+    \end{cases}
+\end{align}
+
+Finally, in the limit that both loci are neutral, but either recombination is strong or epistasis is strong, considering
+\begin{align}
+    \xi (u) &\approx \sum_{i=0}^\infty \epsilon^i \xi_i (u) = (x+y) \sum_{i=0}^\infty \left(-\epsilon u\right)^i,
+    \label{eq:f(u)_series}
+\end{align}
+we obtain the numerator of $\Lambda$ from Eq. (\ref{eq:lambda_moments}) to the lowest order in $\epsilon$ as 
+\begin{align}\label{eq:lambda_num_large_rho}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle
+ &\approx \alpha \theta^2 f_0^4 \int_0^{\nicefrac{\tau}{\epsilon}} du\, \partial_x\partial_y\partial_z \psi_0\Phi_x\Phi_y \Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}} \approx \alpha \theta^2 f_0^4. 
+ %\mathcal{O}(\epsilon) 
+\end{align}
+
+Approximating the denominator of $\Lambda$ by Eq.~(\ref{eq:lambda_denom_neutral}), we find 
+\begin{align}\label{eq:lambda_strong_s_neutral}
+    \Lambda &\approx \alpha = \frac{\rho}{\rho + \gamma_{AB}},
+\end{align}
+and for $\gamma_{AB} = \gamma$,
+\begin{align}
+    \Lambda \approx
+    \begin{cases}
+        \frac{\rho}{\gamma}, \quad \text{if $\rho \ll \gamma$}, \\
+        1, \quad \text{if $\rho \gg \gamma.$}
+    \end{cases}
+\end{align}
+
+\section{Numerical solution for $\Lambda$}\label{appendix:numerics}
+Eq.~(\ref{eq:psi_general_eq}) is difficult to solve in the general case because of the inhomogeneous terms that vary over different timescales set by $x$ and $y$. However, the moments in $\Lambda$ depend on the special case that $x=1, y=1$, suggesting a perturbative expansion around $x=1+\delta x$, $y=1+\delta y$, $z=2+\delta z$. Substituting
+\begin{align}\label{eq:psi_xyz_expansion}
+    \psi(\tau', x, y, z) 
+    % \approx \psi(\tau', 1+\delta x, 1+ \delta y, 2+\delta z) 
+    = \sum_{i, j, k=0}^{\infty} \delta_x^i \delta_y^j \delta_z^k \psi_{i + j + k}^{x^i y^j z^k}(\tau')
+\end{align}
+into Eq.~(\ref{eq:psi_general_eq}), expanding the inhomogeneous terms, and matching coefficients in front of $\delta x$, $\delta y$, $\delta z$, we obtain a system of ordinary differential equations, 
+\begin{equation}\label{eq:psi_odes}
+    \begin{cases}
+    \partial_{\tau'} \psi_0 = -(\rho+\gamma_{AB})\psi_0 - \psi_0^2 + \frac{\rho \gamma_A e^{-\gamma_A \tau'}}{1 + \gamma_A - e^{-\gamma_A \tau'}} + \frac{\rho \gamma_B e^{-\gamma_B \tau'}}{1 + \gamma_B - e^{-\gamma_B \tau'}}, \quad \psi_0(0) = 2; \\
+    
+    \partial_{\tau'} \psi_1^x = -(\rho+\gamma_{AB}) \psi_1^x -2 \psi_0 \psi_1^x + \frac{\rho \gamma_A^2 e^{-\gamma_A \tau'}}{(1 + \gamma_A - e^{-\gamma_A \tau'})^2}, \quad \psi_1^x(0) = 0; \\
+    
+    \partial_{\tau'} \psi_1^y = -(\rho+\gamma_{AB}) \psi_1^y -2 \psi_0 \psi_1^y + \frac{\rho \gamma_B^2 e^{-\gamma_B \tau'}}{(1 + \gamma_B - e^{-\gamma_B \tau'})^2}, \quad \psi_1^y(0) = 0; \\
+    
+    \partial_{\tau'} \psi_1^z = -(\rho+\gamma_{AB}) \psi_1^z - 2 \psi_0 \psi_1^z, \quad \psi_1^z(0) = 1; \\
+    
+    \partial_{\tau'} \psi_2^{xy} = -(\rho+\gamma_{AB}) \psi_2^{xy} - 2 \psi_0 \psi_2^{xy} - 4 \psi_1^x \psi_1^y, \quad \psi_2^{xy}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_2^{xz} = -(\rho+\gamma_{AB}) \psi_2^{xz} - 2 \psi_0 \psi_2^{xz} - 4 \psi_1^x \psi_1^z, \quad \psi_2^{xz}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_2^{yz} = -(\rho+\gamma_{AB}) \psi_2^{yz} - 2 \psi_0 \psi_2^{yz} - 4 \psi_1^y \psi_1^z, \quad \psi_2^{yz}(0) = 0; \\
+    
+    \partial_{\tau'} \psi_3^{xyz} = -(\rho+\gamma_{AB}) \psi_3^{xyz} - 2 \psi_0 \psi_3^{xyz} - 6 \psi_1^x \psi_2^{yz} - 6 \psi_1^y \psi_2^{xz} - 6 \psi_1^z \psi_2^{xy}, \quad \psi_3^{xyz}(0) = 0. 
+    \end{cases}
+\end{equation}
+This system can be solved numerically with Runge–Kutta methods \parencite{dormand_prince_1980}.
+
+We can see that solving the system above is enough to compute $\Lambda$. To find the numerator, we need to evaluate 
+\begin{align}\label{eq:num_lambda_unperturbed}
+    \left\langle f_{Ab}f_{aB}f_{AB}\cdot e^{-\frac{f_{A}+f_{B}}{f_0}}\right\rangle \approx&{} 
+    -\theta^2 f_0^4 \int_0^{\tau} d\tau'\, \partial_x\partial_y\partial_z \psi \left[\Phi_x + \Phi_y -\rho \Phi_x\Phi_y\right]\Bigg\vert_{\substack{x=1 \\ y=1 \\ z=2 \\ \tau=\infty}},
+\end{align}
+where    \begin{align}\label{eq:phi_x_y_expansion_full_neutral}
+        \Phi_x(\tau') = \sum_{i=0}^{\infty} \delta^i_x \Phi^x_i (\tau'), \quad 
+        \Phi_y(\tau') = \sum_{j=0}^{\infty} \delta^j_y \Phi^y_j (\tau').
+    \end{align}
+The denominator will usually be dominated by 
+\begin{align}\label{eq:lambda_num_neutral}
+    \left\langle f_{Ab}^2 f_{aB}^2 \cdot e^{-\frac{f_A + f_B}{f_0}}\right\rangle \approx \theta^2 f_0^4 \partial_x^2 \partial_y^2 H_A H_B \Bigg\vert_{\substack{x=1 \\ y=1 \\ \tau=\infty}} =  \frac{\theta^2 f_0^4}{(1+\gamma_A)^2(1+\gamma_B)^2}.
+\end{align}
+Thus, to the lowest order in $\delta x$, $\delta y$, and $\delta z$, $\Lambda$ follows as
+\begin{align}\label{eq:num_lambda_perturbed}
+    \Lambda & \approx{} 
+     =(1+\gamma_A)^2(1+\gamma_B)^2\left[ \rho \int_0^{\tau} d\tau'\, \psi_1^z \Phi_1^x \Phi_1^y - \frac{1}{2} \int_0^{\tau} d\tau'\, \psi_2^{xz} \Phi_1^y \left(1-\rho \Phi_0^x\right) \right. \\ \nonumber
+    & - \frac{1}{2} \left. \int_0^{\tau} d\tau'\, \psi_2^{yz} \Phi_1^x \left(1-\rho \Phi_0^y\right) + \frac{1}{6} \int_0^{\tau} d\tau'\,  \psi_3^{xyz} (\Phi_0^x + \Phi_0^y -\rho \Phi_0^x\Phi_0^y)
+    \right]\Bigg\vert_{\tau=\infty},
+\end{align}
+where 
+\begin{subequations}
+    \begin{gather}
+        \Phi_0^x(\tau') \Bigg\vert_{\tau=\infty} = -\frac{1+\gamma_A-e^{-\gamma_A\tau'}}{\gamma_A(1+\gamma_A)}, \quad \Phi_0^y(\tau') \Bigg\vert_{\tau=\infty} = -\frac{1+\gamma_B-e^{-\gamma_B\tau'}}{\gamma_B(1+\gamma_B)}, \\
+        \Phi_1^x(\tau') \Bigg\vert_{\tau=\infty} = \frac{e^{-\gamma_A\tau'}}{(1+\gamma_A)^2}, \quad \Phi_1^y(\tau') \Bigg\vert_{\tau=\infty} = \frac{e^{-\gamma_B\tau'}}{(1+\gamma_B)^2},
+    \end{gather}
+\end{subequations}
+and $\psi_1^z$, $\psi_2^{xz}$, $\psi_2^{yz}$, $\psi_3^{xyz}$ are given by Eq.~(\ref{eq:psi_odes}).
+
+In the neutral limit, Eq.~(\ref{eq:num_lambda_perturbed}) reduces to 
+\begin{align}\label{eq:num_lambda_unperturbed}
+    \Lambda & \approx  \int_0^{\infty} d\tau'\, \left[ \rho \psi_1^z - \frac{1}{2}\left[1+\rho(1+\tau')\right]\left[\psi_2^{xz} + \psi_2^{yz}\right] + \frac{1}{6} (1+\tau') \left[2-\rho(1+\tau')\right] \psi_3^{xyz} \right].
+\end{align}
+
+\section{Solution for weak recombination and strong selection}
+\label{appendix:weak-recombination-strong-selection}
+% TODO: ZRL: modify notations to be consistent with the other appendix!!!
+The perturbation scheme in \app{appendix:neutral-loci} works as long as $\rho\ll 1$, and thus is not limited to neutral loci. Here, we 
+
+This time we solve the characteristic equation by perturbing $\rho$: $\psi = \sum_{n=0}^\infty \rho^n \psi_n$
+\begin{align}
+    \partial_t \psi &= -\gammaAB \psi - \psi^2 + \rho \xi(t; x, y)
+\end{align}
+where
+\begin{align}
+    \xi(t;x,y) = \frac{x e^{-\gammaA t}}{1 + \frac{x}{\gammaA} (1-e^{-\gammaA t})}
+    + \frac{y e^{-\gammaB t}}{1 + \frac{y}{\gammaB} (1-e^{-\gammaB t})}
+\end{align}
+For simplicity, we consider no epistasis, $\gammaAB=2\gammaA=2\gammaB=2\gamma$. Zeroth order is easy:
+\begin{align}
+    \psi_0 = \frac{z e^{-2\gamma t}}{1 + \frac{z}{2\gamma}(1-e^{-2\gamma t})}
+\end{align}
+First order equation:
+\begin{align}
+    \partial_t \psi_1(t) = -2(\gamma + \psi_0(t))\psi_1(t) + \xi(t) - \psi_0(t)
+\end{align}
+We can solve using integration factor:
+\begin{align}
+    \psi_1 = e^{-I(t)}\int_0^t e^{I(t')}(\xi(t')-\psi_0(t'))dt'
+\end{align}
+where 
+\begin{align}
+    I(t) = 2 \int^t (\gamma + \psi_0(t'))dt'
+\end{align}
+It turned out that the integration factor can be integrated exactly:
+\begin{align}
+    I(t) = 2\left(\gamma t + \log\left(1+\frac{z}{2\gamma}(1-e^{-2\gamma t})\right)\right)
+\end{align}
+
+As always, we don't need all the terms in $\psi_1$. In the end, we only care about $\partial_x \partial_y \partial_z H$:
+\begin{align}
+    \partial_{xyz} H &= \partial_{xyz}\int_0^\infty dt \psi(t) (\Phi_x + \Phi_y + \rho \Phi_x \Phi_y) \\
+    &= \rho \int_0^\infty dt (\partial_z \psi_0 \partial_x \Phi_x \partial_y \Phi_y
+    + \partial_{xz} \psi_1 \partial_y \Phi_y + \partial_{yz} \psi_1 \partial_y \Phi_x)
+    \label{eq:triple_derivative}
+\end{align}
+
+Thinking carefully, we see that the relevant terms of $\psi_1$ for $\partial_{xz}\psi_1$ are:
+\begin{align}
+    \psi_{1, xz} &= e^{-I(t; z)} \int_0^t e^{I(t';,z)}\xi(t'; x,y)dt' \\
+    &= e^{-I(t; z)} \int_0^t e^{2\gamma t} (1+\frac{z}{2\gamma}(1-e^{-2\gamma t}))^2 
+    \frac{x e^{-\gamma t}}{1 + \frac{x}{\gamma} (1-e^{-\gamma t})} + \ldots
+\end{align}
+In the limit $\gamma \ll 1$,
+\begin{align}
+    \psi_{1, xz} &= \frac{1}{(1+zt)^2} \int_0^t \frac{x(1+zt')^2}{1+xt'} dt'
+\end{align}
+back to our previous neutral calculation.
+In the limit $\gamma\gg 1$, we can expand to lowest order in $\epsilon \equiv 1/\gamma$. Let $u=\gamma t$
+\begin{align}
+    \psi_{1, xz} &= \epsilon \frac{e^{-2u}}{(1+\frac{\epsilon z}{2}(1-e^{-2u}))^2}
+    \int_0^u du' e^{2u'} (1+\frac{\epsilon z}{2}(1-e^{-2u'}))^2 \frac{x e^{-u'}}{1 + \epsilon x (1-e^{-u'})} + \ldots\\
+    &=\epsilon e^{-2u}(1-\epsilon z(1-e^{-2u}))
+    \int_0^u du' xe^{u'}(1+\epsilon z(1-e^{-2u'}) - \epsilon x(1-e^{-u'})) + \ldots\\
+    &= \epsilon^2 xz e^{-2u}(e^u + e^{-u} - 2 - (e^u-1)(1-e^{-2u})) + \ldots
+\end{align}
+In the last line, we ignored all terms of $O(\epsilon^2)$ and terms that do not depend on both $xz$.
+
+Recalling that $\Phi_y = \epsilon - \epsilon^2 ye^{-u} + O(\epsilon^2)$, and that $\psi_0=ze^{-2u}$, we can compute Eq.\ref{eq:triple_derivative} now.
+\begin{align}
+    \partial_{xyz}H &= \rho \epsilon \int_0^\infty du (\partial_z \psi_0 \partial_x \Phi_x \partial_y \Phi_y
+    + \partial_{xz} \psi_1 \partial_y \Phi_y + \partial_{yz} \psi_1 \partial_y \Phi_x) \\
+    &= \rho \epsilon \int_0^\infty du(e^{-2u} \epsilon^2 e^{-u} \epsilon^2 e^{-u} + 
+    2 \times \epsilon^2 e^{-2u}(e^u + e^{-u} - 2 - (e^u-1)(1-e^{-2u})) (- \epsilon^2 ye^{-u})\\
+    &= \rho \epsilon^5 (\frac{1}{4} + \frac{2}{30}) = \frac{19}{60} \rho \epsilon^5
+\end{align}
+Finally,
+\begin{align}
+    \Lambda = \frac{\frac{19}{60} \theta^2f_0^4 \rho \epsilon^5}{\epsilon^4 \theta^2 f_0^4}
+    = \frac{19}{60} \frac{\rho}{\gamma}
+\end{align}
+
+\end{document}
