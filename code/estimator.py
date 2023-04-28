@@ -119,6 +119,9 @@ def calculate_LE_numer_alternative(n_obs, f0, num_reps=1):
     :return: A single number for the numerator at this frequency scale
     """
     subsample_size = int(1 / f0)
+    if subsample_size <= 1:
+        return 0
+    n_obs = n_obs.astype(int)
     ntots = n_obs.sum(axis=1)
     numers = []
     for i in range(num_reps):
@@ -147,12 +150,16 @@ def calculate_LE_denom_single_site_moment(nAs, ntots, f0):
     return np.mean(res) ** 2  # both A and B sites
 
 
-def calculate_LE_denom_single_site_indicator(nAs, ntots, f0, num_reps):
+def calculate_LE_denom_single_site_indicator(nAs, ntots, f0, num_reps=1):
     """
     Similar to calculate_LE_denom_single_site_moment, but using the indicator method
     """
     subsample_size = int(1 / f0)
+    if subsample_size <= 1:
+        return 0
     Mtmp = []
+    nAs = nAs.astype(int)
+    ntots = ntots.astype(int)
     for k in range(num_reps):
         subsamples = np.random.hypergeometric(nAs, ntots - nAs, subsample_size)
         M = np.mean(subsamples==2) * 2 / (subsample_size**2)
