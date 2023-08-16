@@ -31,6 +31,25 @@ def M(i,j,k,l,n_obs,n,f0):
     # n_obs = [n10, n01, n11, n00]  Make sure the order is correct!
     return _M(i,j,k,l,n_obs[:,0],n_obs[:,1],n_obs[:,2],n_obs[:,3],n,f0)
 
+
+def _M_half(i,j,k,l,n10,n01,n11,n00, n, f0):
+    # The half rare version of M
+    # assuming that n11+n01 is fixed to be nB, and all counts add to n
+    # working with logs to avoid overflow
+    nB = n01 + n11
+    res = np.log(1 - 1./n/f0) * (n11 - k) + np.log(1 - 1./n/f0) * (n10 - i)
+    res += np.log(perm(n10, i))
+    res += np.log(perm(n01, j))
+    res += np.log(perm(n11, k))
+    res += np.log(perm(n00, l))
+    res += sterling_factorial(nB - k - j) + sterling_factorial(n - nB - i - l) - sterling_factorial(n)
+    return np.exp(res)
+
+def M_half(i,j,k,l,n_obs,n,f0):
+    # n_obs.shape = (# observations, 4)
+    # n_obs = [n10, n01, n11, n00]  Make sure the order is correct!
+    return _M_half(i,j,k,l,n_obs[:,0],n_obs[:,1],n_obs[:,2],n_obs[:,3],n,f0)
+
 def D(n00, n10, n01, n11, n, f0):
     n_obs = np.hstack([n10,n01,n11,n00])
     return M(0,0,1,1,n_obs,n,f0) - M(0,0,1,1,n_obs,n,f0)
@@ -112,6 +131,15 @@ def calculate_LD(n_obs, f0):
     denom = any_poly(denom_monos, n_obs, n_tots, f0)  # not yet averaged over pairs
     return numer, denom
 
+
+def calculate_LE_half(n_obs, f0):
+    n_tots = np.sum(n_obs, axis=1)
+    nB = n_obs[:, 1] + n_obs[:, 2]
+    nb = n_tots - nB
+    numer = M_half(1, 1, 1, 1, n_obs, n_tots, f0)
+    denom = M_half(2, 2, 0, 2, n_obs, n_tots, f0) * nb / nB + 2 * M_half(1, 2, 1, 2, n_obs, n_tots, f0) + \
+            M_half(0, 2, 2, 2, n_obs, n_tots, f0) * nB / nb
+    return numer, denom
 
 def calculate_LE_numer_alternative(n_obs, f0, num_reps=1):
     """
