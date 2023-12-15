@@ -10,6 +10,8 @@ temp.*
 # ignoring some notes and Ben's code
 /notes/Ben's project ideas 11.07.21.pdf
 /uhgg/Ben's code/*
+# all other notes too, for now
+/notes/*
 
 # ignoring all subfolders (w/ output) but not files in code
 /simulations/*/
@@ -27,3 +29,7 @@ temp.*
 # ignoring posters and slides
 /posters/*
 /slides/*
+/talks/*
+
+# ignoring figures, for now
+/figures/*

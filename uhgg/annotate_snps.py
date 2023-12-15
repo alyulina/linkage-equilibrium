@@ -4,30 +4,30 @@ from typing import List
 import genome_utils
 from optparse import OptionParser
 
-#ref_genome_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02506.fna"
-#genome_annotation_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02506.gff"
-#snps_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test"
+ref_genome_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02478.fna"
+genome_annotation_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02478.gff"
+snps_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test"
 
-#ann_snps_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test"
-#err_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02506_snp_annotation.err"
+ann_snps_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test"
+err_path = "/Users/alyulina/Projects/Linkage equilibrium/uhgg/test/MGYG-HGUT-02478_snp_annotation.err"
 
-parser = OptionParser()
+#parser = OptionParser()
 
-parser.add_option("-s",
-                  "--species",
-                  type="string",
-                  help="species uhgg accession, e. g. MGYG-HGUT-00001",
-                  dest="species_accession")
+#parser.add_option("-s",
+#                  "--species",
+#                  type="string",
+#                  help="species uhgg accession, e. g. MGYG-HGUT-00001",
+#                  dest="species_accession")
 
-(options, args) = parser.parse_args()
-species_accession = options.species_accession
+#(options, args) = parser.parse_args()
+#species_accession = options.species_accession
 
-ref_genome_path = '/home/groups/bhgood/uhgg/reference_genomes/' + species_accession + '.fna'
-genome_annotation_path = '/home/groups/bhgood/uhgg/genes/' + species_accession + '.gff'
-snps_path = '/scratch/groups/bhgood/uhgg/snv_tables/' + species_accession # path to folder
+#ref_genome_path = '/home/groups/bhgood/uhgg/reference_genomes/' + species_accession + '.fna'
+#genome_annotation_path = '/home/groups/bhgood/uhgg/genes/' + species_accession + '.gff'
+#snps_path = '/scratch/groups/bhgood/uhgg/snv_tables/' + species_accession # path to folder
 
-ann_snps_path = '/scratch/groups/bhgood/uhgg/snv_tables_annotated/' + species_accession # path to folder
-err_path = '/home/users/alyulina/recombination/uhgg/' + species_accession + '_snp_annotation.err'
+#ann_snps_path = '/scratch/groups/bhgood/uhgg/snv_tables_annotated/' + species_accession # path to folder
+#err_path = '/home/users/alyulina/recombination/uhgg/' + species_accession + '_snp_annotation.err'
 
 err_out = open(err_path, 'a')
 
