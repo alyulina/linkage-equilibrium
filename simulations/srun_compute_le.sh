@@ -38,6 +38,6 @@ ml py-scipystack/1.0_py27
 #
 #
 type=$1
-srun --cpu_bind=verbose python2 compute_simulated_LE_stats.py -p ${type} --path /scratch/groups/bhgood/LE_data/
+srun --cpu_bind=verbose python2 compute_simulated_le_stats.py -p ${type} --path /scratch/groups/bhgood/LE_data/
 #srun --cpu_bind=verbose python2 plot_recombination_figure.py
 #srun --cpu_bind=verbose python2 plot_le_recombination.py -p ${type} --path $SCRATCH

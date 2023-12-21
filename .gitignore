@@ -19,7 +19,7 @@ temp.*
 
 # ignoring output plots
 /simulations/*.png
-/simulations/plots_for_quals.ipynb
+/simulations/*plot*
 
 # ignoring intermediate numerics files
 /numerics/*
