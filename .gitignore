@@ -7,19 +7,24 @@ temp.*
 /uhgg/sandbox.ipynb
 /uhgg/test/*
 
-# ignoring some notes and Ben's code
-/notes/Ben's project ideas 11.07.21.pdf
+# ignoring old Ben's code
 /uhgg/Ben's code/*
-# all other notes too, for now
+
+# ignoring all notes, for now
 /notes/*
 
-# ignoring all subfolders (w/ output) but not files in code
+# ignoring all subfolders w/ output but not code
 /simulations/*/
-
-# ignoring modifications of plot_le.py for different regimes
+/simulations/*.txt
 
 # ignoring output plots
 /simulations/*.png
+/simulations/plots_for_quals.ipynb
+
+# ignoring intermediate numerics files
+/numerics/*
+!/numerics/lambda_numerics.ipynb
+!/neutral_lambda_numerics.ipynb
 
 # ignoring large data files
 /simulations/*.out
@@ -36,3 +41,6 @@ temp.*
 
 # except for the cleaned-up versions
 !/figures/fig*.ipynb
+
+# ignoring the paper folder
+/paper/*
