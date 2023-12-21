@@ -33,3 +33,6 @@ temp.*
 
 # ignoring figures, for now
 /figures/*
+
+# except for the cleaned-up versions
+!/figures/fig*.ipynb
