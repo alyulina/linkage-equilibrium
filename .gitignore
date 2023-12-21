@@ -24,7 +24,6 @@ temp.*
 # ignoring intermediate numerics files
 /numerics/*
 !/numerics/lambda_numerics.ipynb
-!/neutral_lambda_numerics.ipynb
 
 # ignoring large data files
 /simulations/*.out
