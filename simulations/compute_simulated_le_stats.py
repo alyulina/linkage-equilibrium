@@ -32,20 +32,10 @@ normalization = np.empty((len(rs), len(fstars)))
 LDs = np.empty((len(rs), len(fstars)))
 
 for i in range(len(rs)):
-    # LEs = {fstar: [] for fstar in fstars}
-    # denominatorsquareds = {fstar: [] for fstar in fstars}
-    # bare_numeratorsquareds = {fstar: [] for fstar in fstars}
 
-    # gammas = []
-
-    # N = params[type][param_idx][2]
-    # r = params[type][param_idx][6]
-    # gamma = 2 * N * r
     r = rs[i]
 
     filename = os.path.join(dat_path, 'output_%s_%d.txt.gz' % (regime, i))
-    #filename = os.path.join(dat_path, 'output_%s_%d_large.txt.gz' % (regime, i))
-    #filename = os.path.join(dat_path, 'output_%s_%d_mega.txt.gz' % (regime, i))
     print("Processing %s" % filename)
     file = gzip.GzipFile(filename, "r")
     f11s = []
