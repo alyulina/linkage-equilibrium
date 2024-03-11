@@ -1,3 +1,9 @@
+"""
+Util for annotating mutation types for the reference genome
+
+For the linkage equilibrium project, however, we used scripts in uhgg_annotation/ instead for historical reasons.
+"""
+
 import numpy as np
 import os
 import pandas as pd
