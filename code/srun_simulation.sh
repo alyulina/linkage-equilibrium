@@ -15,11 +15,7 @@
 #SBATCH --mem=4G
 #
 #Specify account and partition
-#SBATCH --partition normal
-#
-#Would you like to be notified when the job starts or is completed?
-#SBATCH --mail-user=zhiru@stanford.edu
-#SBATCH --mail-type=ALL
+#SBATCH --partition normal,hns
 #
 #Would you like to be notified when the job starts or is completed?
 ##SBATCH --mail-user=zhiru@stanford.edu
@@ -48,4 +44,4 @@ module load py-scipy/1.1.0_py27
 #Read type from parameters.py and print out parameters, then run simulation
 type=$1
 echo $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID)
-srun --cpu_bind=verbose ./simulate_twolocus $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID) | gzip -c > /scratch/groups/bhgood/LE_data/with_mutation/N106/output_${type}_${SLURM_ARRAY_TASK_ID}.txt.gz
+srun --cpu_bind=verbose ./simulate_twolocus $(python2 parameters.py get_params ${type} $SLURM_ARRAY_TASK_ID) | gzip -c > /scratch/groups/bhgood/LE_simulations/output/output_${type}_${SLURM_ARRAY_TASK_ID}.txt.gz

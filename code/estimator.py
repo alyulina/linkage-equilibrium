@@ -10,9 +10,17 @@ def factorial_fraction(n, i):
         res *= n - i
     return res
 
+
 def sterling_factorial(n):
     # return log(n!) using sterling's approximation
-    return n * np.log(n) - n + np.log(2*np.pi*n) / 2
+    # if n=0, return 0 (because 0! = 1)
+    n = np.array(n)
+    res = np.zeros(n.shape)
+    res[n<=0] = 0
+    n_mask = n[n>0]
+    res[n>0] = n_mask * np.log(n_mask) - n_mask + np.log(2*np.pi*n_mask) / 2. + np.log(1 + 1. / 12 / n_mask)
+    return res
+
 
 def _M(i,j,k,l,n10,n01,n11,n00, n, f0):
     res = np.power(1 - 1./n/f0, n10 - i) * np.power(1 - 1./n/f0, n01 - j) * np.power(1 - 2./n/f0, n11 - k)
@@ -36,14 +44,23 @@ def _M_half(i,j,k,l,n10,n01,n11,n00, n, f0):
     # The half rare version of M
     # assuming that n11+n01 is fixed to be nB, and all counts add to n
     # working with logs to avoid overflow
+
     nB = n01 + n11
     res = np.log(1 - 1./n/f0) * (n11 - k) + np.log(1 - 1./n/f0) * (n10 - i)
-    res += np.log(perm(n10, i))
+    res += np.log(perm(n10, i))  # this will give -np.inf if n10 < i; but that's okay
     res += np.log(perm(n01, j))
     res += np.log(perm(n11, k))
     res += np.log(perm(n00, l))
     res += sterling_factorial(nB - k - j) + sterling_factorial(n - nB - i - l) - sterling_factorial(n)
-    return np.exp(res)
+    # get rid of the small factor due to fB**nB
+    fB_star = nB / n
+    res -= np.log(fB_star) * nB + np.log(1-fB_star)*(n-nB)
+    res = np.exp(res)
+
+    # remove the entries where counts are smaller than i,j,k,l
+    mask = (n10 < i) | (n01 < j) | (n11 < k) | (n00 < l)
+    res[mask] = 0
+    return res
 
 def M_half(i,j,k,l,n_obs,n,f0):
     # n_obs.shape = (# observations, 4)
@@ -136,9 +153,11 @@ def calculate_LE_half(n_obs, f0):
     n_tots = np.sum(n_obs, axis=1)
     nB = n_obs[:, 1] + n_obs[:, 2]
     nb = n_tots - nB
-    numer = M_half(1, 1, 1, 1, n_obs, n_tots, f0)
-    denom = M_half(2, 2, 0, 2, n_obs, n_tots, f0) * nb / nB + 2 * M_half(1, 2, 1, 2, n_obs, n_tots, f0) + \
-            M_half(0, 2, 2, 2, n_obs, n_tots, f0) * nB / nb
+    fB = np.mean(nB / n_tots.astype(float))
+    numer = M_half(1, 0, 1, 0, n_obs, n_tots, f0)
+    denom = M_half(2, 0, 0, 0, n_obs, n_tots, f0) * nb / nB + 2 * M_half(1, 0, 1, 0, n_obs, n_tots, f0) + \
+            M_half(0, 0, 2, 0, n_obs, n_tots, f0) * nB / nb
+    denom = denom * fB * (1-fB)
     return numer, denom
 
 def calculate_LE_numer_alternative(n_obs, f0, num_reps=1):

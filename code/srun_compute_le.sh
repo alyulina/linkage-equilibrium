@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 #Give your job a name
-#SBATCH --job-name=redo_2022_figs
+#SBATCH --job-name=compute_LE
 #SBATCH --output=/home/users/zhiru/linkage-equillibrium/code/batch_out/slurm-%j.out
 #SBATCH --error=/home/users/zhiru/linkage-equillibrium/code/batch_out/slurm-%j.err
 #
 #Specify time limit; days-hours:minutes:seconds or hours:minutes:seconds
-#SBATCH --time=0-12:00:00
+#SBATCH --time=0-1:00:00
 #
 #Specify memory in gigabytes
 #SBATCH --mem=64G
@@ -38,6 +38,7 @@ ml py-scipystack/1.0_py27
 #
 #
 type=$1
-srun --cpu_bind=verbose python2 compute_simulated_LE_stats.py -p ${type} --path /scratch/groups/bhgood/LE_data/
+#srun --cpu_bind=verbose python2 compute_simulated_LE_stats.py -p ${type} --path /scratch/groups/bhgood/LE_simulations/output/
+srun --cpu_bind=verbose python2 compute_simulated_half_LE.py -p ${type} --path /scratch/groups/bhgood/LE_simulations/cached/simulated/
 #srun --cpu_bind=verbose python2 plot_recombination_figure.py
 #srun --cpu_bind=verbose python2 plot_le_recombination.py -p ${type} --path $SCRATCH
