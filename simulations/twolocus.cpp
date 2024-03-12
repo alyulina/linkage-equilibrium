@@ -37,18 +37,24 @@ int main(int argc, char * argv[]){
 
     // Make sure there are enough command line arguments
     if(argc < 8){
-        std::cout << "usage: " << argv[0] << " num_runs dt N s1 s2 eps r" << std::endl;
+        std::cout << "usage: " << argv[0] << " num_runs dt N s1 s2 eps r [mu]" << std::endl;
         return 1;
     }
 
     // Read in parameters 
-    const int num_runs = (int) atof(argv[1]); // number of replicate populations to evolve
+    const long long num_runs = (long long) atof(argv[1]); // number of replicate populations to evolve
     const int dt = (int) atof(argv[2]);
     const int N = (int) atof(argv[3]);
     const double s1 = -1*atof(argv[4]); // record negative value
     const double s2 = -1*atof(argv[5]); // negative
     const double eps = -1*atof(argv[6]); // negative
     const double r = atof(argv[7]);
+
+    double mu = 0; // for compatibility with other parameter combinations
+    if (argc == 9){
+        // specify the mutation rate
+        mu = atof(argv[8]);
+    }
     
     //std::cerr << num_runs << std::endl;
     
@@ -97,7 +103,7 @@ int main(int argc, char * argv[]){
     std::discrete_distribution<int> draw_sfs1 (pn1s.begin(), pn1s.end());
     std::discrete_distribution<int> draw_sfs2 (pn2s.begin(), pn2s.end());
     std::cout << "// " << N*s1 << " " << N*s2 << " " << N*eps << " " << N*r << std::endl;
-    for(int run_idx=0;run_idx<num_runs;++run_idx){
+    for(long long run_idx=0;run_idx<num_runs;++run_idx){
         // Evolve a replicate population
         
         // haplotype counts in population
@@ -171,10 +177,11 @@ int main(int argc, char * argv[]){
             
             // calculate expected values at next generation
             // (deterministic 2 locus dynamics)
-            double expected_f11 = (W11/Wavg)*f11 - r*D;
-            double expected_f10 = (W10/Wavg)*f10 + r*D;
-            double expected_f01 = (W01/Wavg)*f01 + r*D;
-            double expected_f00 = (W00/Wavg)*f00 - r*D;
+            // also incorporating forward mutations
+            double expected_f11 = (W11/Wavg)*f11 - r*D + mu*(f10+f01) - 2*mu*f11;
+            double expected_f10 = (W10/Wavg)*f10 + r*D + mu*(f00+f11) - 2*mu*f10;
+            double expected_f01 = (W01/Wavg)*f01 + r*D + mu*(f00+f11) - 2*mu*f01;
+            double expected_f00 = (W00/Wavg)*f00 - r*D + mu*(f01+f10) - 2*mu*f00;
             
             // sample next generation
             n11 = sample_poisson(random, N*expected_f11);

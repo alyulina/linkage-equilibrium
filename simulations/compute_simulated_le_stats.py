@@ -1,3 +1,11 @@
+"""
+Compute the simulated LD and LE statistics for simulation results of a given
+parameter regime (specified in parameters.py)
+
+For large simulations (e.g. num_runs=1e9), this script can taken ~1 day to run
+and might require upto 32GB of memory.
+"""
+
 import parameters
 import config
 import ld_theory
