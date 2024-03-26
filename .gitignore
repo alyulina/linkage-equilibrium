@@ -11,6 +11,9 @@ temp.*
 # ignoring old Ben's code
 /uhgg/Ben's code/*
 
+# ignoring a local uhgg dir
+/uhgg/uhgg_local/*
+
 # ignoring all notes, for now
 /notes/*
 
