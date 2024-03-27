@@ -7,8 +7,6 @@ and might require upto 32GB of memory.
 """
 
 import parameters
-import config
-import ld_theory
 
 import gzip
 import numpy as np
@@ -97,7 +95,9 @@ for i in range(len(rs)):
         LDs[i, j] = LD_numerator / LD_denominator
 
 # saving all the intermediate files
-savepath = os.path.join(config.CACHED_DIR, 'simulated')
+# unfortunately, hard coding the cached directory for now
+CACHED_DIR = '/scratch/groups/bhgood/LE_simulations/cached/'
+savepath = os.path.join(CACHED_DIR, 'simulated')
 np.save(os.path.join(savepath, '%s_rs' % regime), rs)
 np.save(os.path.join(savepath, '%s_fstars' % regime), fstars)
 np.save(os.path.join(savepath, '%s_numers' % regime), numers)

@@ -8,8 +8,6 @@ for faster processing.
 """
 
 import parameters
-import config
-import ld_theory
 
 import gzip
 import numpy as np
@@ -108,7 +106,9 @@ for i in range(len(rs)):
             denoms[i, j, k] = LE_denominator
 
 # saving all the intermediate files
-savepath = os.path.join(config.CACHED_DIR, 'half_LE')
+# unfortunately, hard coding the cached directory for now
+CACHED_DIR = '/scratch/groups/bhgood/LE_simulations/cached/'
+savepath = os.path.join(CACHED_DIR, 'half_LE')
 np.save(os.path.join(savepath, '%s_rs' % regime), rs)
 np.save(os.path.join(savepath, '%s_fstars' % regime), f0s)
 np.save(os.path.join(savepath, '%s_fB_stars' % regime), fB_stars)
