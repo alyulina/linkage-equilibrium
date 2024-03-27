@@ -75,9 +75,9 @@ The necessary data are:
 - Note: this script only compute pairs in the same genes & 1000 pairs of randomly sampled genes.
 
 ### Filter SNVs according to population frequency
-- The haplotype count table does not contain all possible pairs of sites since it will be too large, however, by focusing on SNVs in a small frequency window, we can compute the haplotype counts between all pairs of sites in the filtered SNV table;
-- To do so, first use script `./scripts/compute_sfs.py` to compute the alternative allele frequency for all SNVs in the full table;
-- Then use script `./scripts/filter_snv_table_by_freq.py` to filter the SNVs according to the frequency threshold `fmin` and `fmax`;
+- The haplotype count table does not contain all possible pairs of sites since it would be too large; however, by focusing on SNVs in a small frequency window, we can compute the haplotype counts between all pairs of sites in the filtered SNV table;
+- To do so, first use the script `./scripts/compute_sfs.py` to compute the alternative allele frequency for all SNVs in the full table;
+- Then use the script `./scripts/filter_snv_table_by_freq.py` to filter the SNVs according to the frequency threshold `fmin` and `fmax`;
 - Outputs were used to generate data figure panel C (the distribution of $\Lambda$). See `../figures` for more details.
 
 <!-- ### Resulting folder structure
