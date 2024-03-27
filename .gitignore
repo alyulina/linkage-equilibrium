@@ -25,7 +25,7 @@ temp.*
 
 # ignoring intermediate numerics files
 /numerics/*
-!/numerics/lambda_numerics.ipynb
+!/numerics/lambda2_numerics.ipynb
 !/numerics/README.md
 
 # ignoring large data files
