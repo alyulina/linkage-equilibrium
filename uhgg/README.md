@@ -20,7 +20,7 @@ For this project, the goal is to take a given species, specified by the MGNIFY a
 3. Download the SNV catalog of the desired species.
 4. Split the whole table into tables of individuals genes (to save memory).
 5. Compute core genes for the species.
-6. (Optional) Filter strains to keep only the major clade
+6. (Optional) Filter strains to keep only the major clade.
 7. Process gene tables into haplotype count table (see below): 
     1. Filter strains to keep only “non-redundant” ones;
     2. Filter genes to keep only CDS (coding sequence) and “core genes”.
