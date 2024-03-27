@@ -10,14 +10,12 @@ temp.*
 
 # ignoring old Ben's code
 /uhgg/Ben's code/*
-
-# ignoring a local uhgg dir
-/uhgg/uhgg_local/*
+/uhgg/__pycache__
 
 # ignoring all notes, for now
 /notes/*
 
-# ignoring all subfolders w/ output but not code
+# ignoring all subfolders w/ simulation output but not code
 /simulations/*/
 /simulations/*.txt
 
