@@ -10,6 +10,7 @@ This module provides helper codes for dealing with UHGG SNV catalogs.
     - [Split SNV catalog](#splitting-snv-catalog)
     - [Compute core genes](#computing-core-genes)
     - [Compute haplotype count table for pairs of sites](#compute-haplotype-count-table-for-pairs-of-sites)
+    - [Filter SNVs according to population frequency](#filter-snvs-according-to-population-frequency)
 
 
 ## Overall workflow
@@ -71,6 +72,13 @@ The necessary data are:
 - Use script `./scripts/compute_site_pairs.py`;
 - Need all information from the previous steps;
 - Output to `config.SITEPAIR_DIR`.
+- Note: this script only compute pairs in the same genes & 1000 pairs of randomly sampled genes
+
+### Filter SNVs according to population frequency
+- The haplotype count table does not contain all possible pairs of sites since it will be too large. However, by focusing on SNVs in a small frequency window, we can compute the haplotype counts between all pairs of sites in the filtered SNV table.
+- To do so, first use script `./scripts/compute_sfs.py` to compute the alternative allele frequency for all SNVs in the full table
+- Then use script `./scripts/filter_snv_table_by_freq.py` to filter the SNVs according to the frequency threshold `fmin` and `fmax`
+- Outputs were used to generate data figure panel C (the distribution of $\Lambda$). See `../figures` for more details
 
 <!-- ### Resulting folder structure
 ```
