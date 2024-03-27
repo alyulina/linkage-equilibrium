@@ -16,7 +16,7 @@ This module provides helper codes for dealing with UHGG SNV catalogs.
 For this project, the goal is to take a given species, specified by the MGNIFY accession id (e.g. `MGYG-HGUT-02492`), and generate a [haplotype count table](#haplotype-count-table) for pairwise linkage analysis. This is done in the following steps:
 
 1. Identify the accession of the desired species & reference genome in species metadata.
-2. Download the reference genome & prepare annotation (gene locations & SNV type)
+2. Download the reference genome & prepare annotation (gene locations & SNV type).
 3. Download the SNV catalog of the desired species.
 4. Split the whole table into tables of individuals genes (to save memory).
 5. Compute core genes for the species.
@@ -41,7 +41,7 @@ Each row is computed for a pair of sites. For simplicity, only biallelic sites a
 - `n10`: number of haplotypes with SNV at the first site but not the second (i.e. $n_{Ab}$);
 - `n01` and `n00`: similarly defined. Notably `n00` is the number of haplotypes of with the reference allele at both sites, thus showing the largest number of counts;
 - `ell`: distance between two sites (minimum 1 for neighboring sites);
-- `type`: 0: syn & syn pair; 1: non-syn & syn pair; 2: non-syn & non-syn pair;
+- `type`: 0: syn & syn pair; 1: non-syn & syn pair; 2: non-syn & non-syn pair.
 
 Site pairs with similar distances can then be grouped together for linkage analysis. See `../estimator` for more details.
 
@@ -58,7 +58,7 @@ The necessary data are:
 
 ### Split SNV catalog
 - Use script `./scripts/split_snvs.py`;
-- Need the gff file of the species, and the full snv table in `config.SNV_DIR`
+- Need the gff file of the species, and the full snv table in `config.SNV_DIR`;
 - Output to `config.SNV_TABLE_DIR`;
 - Can annotate the snv table and add two extra columns `snv type` and `degeneracy` using functions in `annotation_utils.py`. The result is stored in `config.ANNOTATED_SNV_DIR`. 
 
