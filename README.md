@@ -1,6 +1,6 @@
 This repository provides associated computer code for the preprint  
 
-Lyulina A.S.<sup>*</sup>, Liu Z.<sup>*</sup>, Good B.H. _Linkage equilibrium between rare alleles_.  
+Lyulina A.S.<sup>&ast;</sup>, Liu Z.<sup>&ast;</sup>, Good B.H. _Linkage equilibrium between rare alleles_.  
   
   
-* denotes equal contributions; corresponding author: bhgood@stanford.edu
+<sup>&ast;</sup> denotes equal contributions; corresponding author: bhgood@stanford.edu
