@@ -43,7 +43,8 @@ temp.*
 /figures/*
 
 # except for the cleaned-up versions
-!/figures/fig*.ipynb
+!/figures/fig[123456789].ipynb
+!/figures/fig_*_preprocess_data.ipynb
 
 # ignoring the paper folder
 /paper/*
