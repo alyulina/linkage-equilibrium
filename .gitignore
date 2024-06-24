@@ -44,6 +44,7 @@ temp.*
 
 # except for the cleaned-up versions
 !/figures/fig[123456789].ipynb
+!/figures/fig10.ipynb
 !/figures/fig*data.ipynb
 
 # ignoring the paper folder
