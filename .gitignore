@@ -43,6 +43,7 @@ temp.*
 /figures/*
 
 # except for the cleaned-up versions
+!/figures/fig[123456789].key
 !/figures/fig[123456789].ipynb
 !/figures/fig10.ipynb
 !/figures/fig*data.ipynb
