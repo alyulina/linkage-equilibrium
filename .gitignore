@@ -43,9 +43,10 @@ temp.*
 /figures/*
 
 # except for the cleaned-up versions
-!/figures/fig[123456789].key
-!/figures/fig[123456789].ipynb
+!/figures/fig[345679].ipynb
+!/figures/fig[28].key
 !/figures/fig10.ipynb
+!/figures/fig1c.ipynb
 !/figures/fig*data.ipynb
 
 # ignoring the paper folder
